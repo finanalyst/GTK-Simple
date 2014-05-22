@@ -99,6 +99,20 @@ class GTK::Simple::App does GTK::Simple::Widget
         $!gtk_widget = gtk_window_new(0);
     }
 
+    has $!deleted_supply;
+    #| Tap this supply to react to the window being closed
+    method deleted() {
+        $!deleted_supply //= do {
+            my $s = Supply.new;
+            g_signal_connect_wd($!gtk_widget, "delete-event",
+                -> $, $ {
+                    $s.more(self);
+                    CATCH { default { note $_; } }
+                },
+                OpaquePointer, 0);
+            $s
+        }
+    }
 
     method run() {
         gtk_widget_show($!gtk_widget);
