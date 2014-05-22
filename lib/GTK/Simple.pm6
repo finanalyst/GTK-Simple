@@ -1,8 +1,20 @@
 use NativeCall;
 
-my class GtkWidget is repr('CPointer') { };
+my class GtkWidget is repr('CPointer') { }
 
 sub gtk_widget_show(GtkWidget $widgetw)
+    is native('libgtk-3.so.0')
+    {*}
+
+sub gtk_widget_destroy(GtkWidget $widget)
+    is native('libgtk-3.so.0')
+    {*}
+
+sub gtk_widget_set_sensitive(GtkWidget $widget, int $sensitive)
+    is native('libgtk-3.so.0')
+    {*}
+
+sub gtk_widget_get_sensitive(GtkWidget $widget) returns int
     is native('libgtk-3.so.0')
     {*}
 
@@ -30,6 +42,18 @@ role GTK::Simple::Widget {
 
     method WIDGET() {
         $!gtk_widget
+    }
+
+    method sensitive() {
+        Proxy.new:
+            FETCH => { gtk_widget_get_sensitive($!gtk_widget) ?? True !! False },
+            STORE => -> \c, \value {
+                gtk_widget_set_sensitive($!gtk_widget, value.Int)
+            }
+    }
+
+    method destroy() {
+        gtk_widget_destroy($!gtk_widget);
     }
 }
 
@@ -322,8 +346,11 @@ class GTK::Simple::Button does GTK::Simple::Widget {
 
     has $!clicked_supply;
     method clicked() {
+        say "tapping the clicked of {self.WHICH}";
         $!clicked_supply //= do {
             my $s = Supply.new;
+            say "built a new supply: $s.WHICH()";
+            say "in here, the value of self is: {self.WHICH}";
             g_signal_connect_wd($!gtk_widget, "clicked",
                 -> $, $ {
                     $s.more(self);
