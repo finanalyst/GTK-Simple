@@ -346,11 +346,8 @@ class GTK::Simple::Button does GTK::Simple::Widget {
 
     has $!clicked_supply;
     method clicked() {
-        say "tapping the clicked of {self.WHICH}";
         $!clicked_supply //= do {
             my $s = Supply.new;
-            say "built a new supply: $s.WHICH()";
-            say "in here, the value of self is: {self.WHICH}";
             g_signal_connect_wd($!gtk_widget, "clicked",
                 -> $, $ {
                     $s.more(self);
