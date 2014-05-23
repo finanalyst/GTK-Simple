@@ -2,6 +2,8 @@ use NativeCall;
 
 my class GtkWidget is repr('CPointer') { }
 
+# gtk_widget_... {{{
+
 sub gtk_widget_show(GtkWidget $widgetw)
     is native('libgtk-3.so.0')
     {*}
@@ -18,9 +20,16 @@ sub gtk_widget_get_sensitive(GtkWidget $widget) returns int
     is native('libgtk-3.so.0')
     {*}
 
+# gtk_widget_ ... }}}
+
+# gtk_container_... {{{
 sub gtk_container_add(GtkWidget $container, GtkWidget $widgen)
     is native('libgtk-3.so.0')
     {*}
+
+# gtk_container_... }}}
+
+# g_signal... {{{
 
 sub g_signal_connect_wd(GtkWidget $widget, Str $signal,
     &Handler (GtkWidget $h_widget, OpaquePointer $h_data),
@@ -29,6 +38,8 @@ sub g_signal_connect_wd(GtkWidget $widget, Str $signal,
     is native('libgobject-2.0.so')
     is symbol('g_signal_connect_object')
     { * }
+
+# g_signal... }}}
 
 sub g_idle_add(
         &Handler(OpaquePointer $h_data),
@@ -375,4 +386,4 @@ class GTK::Simple::Button does GTK::Simple::Widget {
 }
 
 
-
+# vi: foldmethod=marker
