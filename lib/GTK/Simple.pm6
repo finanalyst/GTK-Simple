@@ -111,7 +111,11 @@ class GTK::Simple::App does GTK::Simple::Widget
         is native('libgtk-3.so.0')
         {*}
 
-    submethod BUILD(:$title = 'Application') {
+    sub gtk_main_quit()
+        is native('libgtk-3.so.0')
+        {*}
+
+    submethod BUILD(:$title = 'Application', Bool :$exit_on_close = True) {
         my $arg_arr = CArray[Str].new;
         $arg_arr[0] = $title.Str;
         my $argc = CArray[int32].new;
@@ -121,6 +125,17 @@ class GTK::Simple::App does GTK::Simple::Widget
         gtk_init($argc, $argv);
 
         $!gtk_widget = gtk_window_new(0);
+
+        if $exit_on_close {
+            g_signal_connect_wd($!gtk_widget, "delete-event",
+              -> $, $ {
+                  self.exit
+              }, OpaquePointer, 0);
+        }
+    }
+
+    method exit() {
+        gtk_main_quit();
     }
 
     has $!deleted_supply;
