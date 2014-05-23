@@ -11,10 +11,8 @@ $app.set_content(
 
 $second.sensitive = 0;
 
-$button.clicked.tap({ .WHICH.say });
 $button.clicked.tap({ .sensitive = 0; $second.sensitive = 1 });
 
-$second.clicked.tap({ $app.destroy; start { sleep 1; exit } });
-$second.clicked.tap({ .WHICH.say });
+$second.clicked.tap({ $app.exit; });
 
 $app.run;
