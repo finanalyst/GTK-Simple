@@ -73,7 +73,7 @@ class GTK::Simple::Scheduler does Scheduler {
         die "GTK::Simple::Scheduler does not support in" if $in;
         die "GTK::Simple::Scheduler does not support every" if $every;
         die "GTK::Simple::Scheduler does not support times" if $times;
-        my &run := &catch 
+        my &run := &catch
             ?? -> { code(); CATCH { default { catch($_) } } }
             !! &code;
         nqp::push($queue, &run);
@@ -144,7 +144,7 @@ class GTK::Simple::App does GTK::Simple::Widget
             { GTK::Simple::Scheduler.process_queue },
             OpaquePointer);
         gtk_main();
-    } 
+    }
 }
 
 role GTK::Simple::Box {
@@ -200,7 +200,7 @@ class GTK::Simple::Label does GTK::Simple::Widget {
     sub gtk_label_set_text(GtkWidget $label, Str $text)
         is native('libgtk-3.so.0')
         {*}
-    
+
     submethod BUILD(:$text = '') {
         $!gtk_widget = gtk_label_new($text);
     }
@@ -228,7 +228,7 @@ class GTK::Simple::Entry does GTK::Simple::Widget {
     sub gtk_entry_set_text(GtkWidget $entry, Str $text)
         is native('libgtk-3.so.0')
         {*}
-    
+
     submethod BUILD() {
         $!gtk_widget = gtk_entry_new();
     }
@@ -284,7 +284,7 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
     sub gtk_text_buffer_set_text(OpaquePointer $buffer, Str $text, int32 $len)
         is native('libgtk-3.so.0')
         {*}
-    
+
     has $!buffer;
 
     submethod BUILD() {
@@ -292,7 +292,7 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
         $!buffer = gtk_text_view_get_buffer($!gtk_widget);
     }
 
-   
+
     method text() {
         Proxy.new:
             FETCH => {
