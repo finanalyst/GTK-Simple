@@ -9,6 +9,8 @@ $app.set_content(
     )
 );
 
+$app.border_width = 20;
+
 $second.sensitive = 0;
 
 $button.clicked.tap({ .sensitive = 0; $second.sensitive = 1 });

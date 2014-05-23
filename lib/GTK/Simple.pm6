@@ -27,6 +27,15 @@ sub gtk_container_add(GtkWidget $container, GtkWidget $widgen)
     is native('libgtk-3.so.0')
     {*}
 
+sub gtk_container_get_border_width(GtkWidget $container)
+    returns int
+    is native('libgtk-3.so.0')
+    {*}
+
+sub gtk_container_set_border_width(GtkWidget $container, int $border_width)
+    is native('libgtk-3.so.0')
+    {*}
+
 # gtk_container_... }}}
 
 # g_signal... {{{
@@ -72,6 +81,12 @@ role GTK::Simple::Container {
     method set_content($widget) {
         gtk_container_add(self.WIDGET, $widget.WIDGET);
         gtk_widget_show($widget.WIDGET);
+    }
+
+    method border_width {
+        Proxy.new:
+            FETCH => { gtk_container_get_border_width(self.WIDGET) },
+            STORE => -> \c, Cool $w { gtk_container_set_border_width(self.WIDGET, $w.Int) }
     }
 }
 
