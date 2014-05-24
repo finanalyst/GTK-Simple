@@ -6,6 +6,7 @@ use GTK::Simple;
 
 my GTK::Simple::App $app .= new(title => "Toggle buttons");
 
+
 =comment
     This time, we create a C<GTK::Simple::Label> to display a bit of
     info to the user and above and below that we create one
@@ -19,6 +20,7 @@ $app.set_content(
     )
 );
 
+
 =comment
     Since the window would end up terribly tiny otherwise, we set a
     quite generous inner border for the window
@@ -26,17 +28,13 @@ $app.set_content(
 $app.border_width = 50;
 
 =comment
-    This eases stringification of the toggle status a bit.
-
-enum ToggleState <off on>;
-
-=comment
     This sub will be called whenever we toggle either of the two Buttons.
 
 sub update_label($b) {
     $status_label.text = "the toggles are " ~
-        ($check_button, $toggle_button)>>.status.map({ ToggleState $_ }).join(" and ");
+        ($check_button, $toggle_button)>>.status.map({ <off on>[$_] }).join(" and ");
 }
+
 
 =comment
     Now all we need to do is to connect the C<update_label> sub to the
@@ -44,6 +42,7 @@ sub update_label($b) {
 
 $check_button\.toggled.tap: &update_label;
 $toggle_button.toggled.tap: &update_label;
+
 
 =comment
     Finally, we let the event loop run.
