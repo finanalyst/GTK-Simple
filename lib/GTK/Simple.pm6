@@ -401,4 +401,59 @@ class GTK::Simple::Button does GTK::Simple::Widget {
 }
 
 
+class GTK::Simple::ToggleButton does GTK::Simple::Widget {
+    sub gtk_toggle_button_new_with_label(Str $label)
+        is native('libgtk-3.so.0')
+        returns GtkWidget
+        {*}
+
+    sub gtk_toggle_button_get_active(GtkWidget $w)
+        is native('libgtk-3.so.0')
+        returns int
+        {*}
+
+    sub gtk_toggle_button_set_active(GtkWidget $w, int $active)
+        is native('libgtk-3.so.0')
+        returns int
+        {*}
+
+    method creation_sub {
+        &gtk_toggle_button_new_with_label
+    }
+
+    submethod BUILD(:$label!) {
+        $!gtk_widget = self.creation_sub.($label);
+    }
+
+    has $!toggled_supply;
+    method toggled() {
+        $!toggled_supply //= do {
+            my $s = Supply.new;
+            g_signal_connect_wd($!gtk_widget, "toggled",
+                -> $, $ {
+                    $s.more(self);
+                    CATCH { default { note $_; } }
+                }, OpaquePointer, 0);
+            $s
+        }
+    }
+
+    method status() {
+        Proxy.new:
+            FETCH =>          { gtk_toggle_button_get_active($!gtk_widget) ?? True !! False },
+            STORE => -> $, $v { gtk_toggle_button_set_active($!gtk_widget, (so $v).Int) };
+    }
+}
+
+class GTK::Simple::CheckButton is GTK::Simple::ToggleButton {
+    sub gtk_check_button_new_with_label(Str $label)
+        is native('libgtk-3.so.0')
+        returns GtkWidget
+        {*}
+
+    method creation_sub {
+        &gtk_check_button_new_with_label
+    }
+}
+
 # vi: foldmethod=marker
