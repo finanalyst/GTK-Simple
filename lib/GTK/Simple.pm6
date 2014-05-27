@@ -227,6 +227,31 @@ class GTK::Simple::VBox does GTK::Simple::Widget does GTK::Simple::Box {
     }
 }
 
+class GTK::Simple::Grid does GTK::Simple::Widget {
+    sub gtk_grid_new()
+        is native('libgtk-3.so.0')
+        returns GtkWidget
+        {*}
+
+    sub gtk_grid_attach(GtkWidget $grid, GtkWidget $child, int $x, int $y, int $w, int $h)
+        is native('libgtk-3.so.0')
+        {*}
+
+    method new(*@pieces) {
+        my $grid = self.bless();
+        for @pieces -> $pair {
+            die "please provide pairs with a 4-tuple of coordinates => the widget" unless +@($pair.key) == 4;
+            gtk_grid_attach($grid.WIDGET, $pair.value.WIDGET, |@($pair.key));
+            gtk_widget_show($pair.value.WIDGET);
+        }
+        $grid;
+    }
+
+    submethod BUILD() {
+        $!gtk_widget = gtk_grid_new();
+    }
+}
+
 class GTK::Simple::Label does GTK::Simple::Widget {
     sub gtk_label_new(Str $text)
         is native('libgtk-3.so.0')
