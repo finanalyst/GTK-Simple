@@ -481,4 +481,30 @@ class GTK::Simple::CheckButton is GTK::Simple::ToggleButton {
     }
 }
 
+class GTK::Simple::Switch is GTK::Simple::ToggleButton {
+    sub gtk_switch_new()
+        is native('libgtk-3.so.0')
+        returns GtkWidget
+        {*}
+
+    sub gtk_switch_get_active(GtkWidget $w)
+        returns int
+        is native('libgtk-3.so.0')
+        {*}
+
+    sub gtk_switch_set_active(GtkWidget $w, int $a)
+        is native('libgtk-3.so.0')
+        {*}
+
+    method creation_sub {
+        &gtk_switch_new
+    }
+
+    method status() {
+        Proxy.new:
+            FETCH =>          { gtk_switch_get_active($!gtk_widget) ?? True !! False },
+            STORE => -> $, $v { gtk_switch_set_active($!gtk_widget, (so $v).Int) };
+    }
+}
+
 # vi: foldmethod=marker
