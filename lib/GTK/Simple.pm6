@@ -527,8 +527,8 @@ class GTK::Simple::Switch is GTK::Simple::ToggleButton {
 
     method status() {
         Proxy.new:
-            FETCH =>          { gtk_switch_get_active($!gtk_widget) ?? True !! False },
-            STORE => -> $, $v { gtk_switch_set_active($!gtk_widget, (so $v).Int) };
+            FETCH =>          { gtk_switch_get_active(self.WIDGET) ?? True !! False },
+            STORE => -> $, $v { gtk_switch_set_active(self.WIDGET, (so $v).Int) };
     }
 }
 
