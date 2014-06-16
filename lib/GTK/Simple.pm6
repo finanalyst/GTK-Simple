@@ -20,6 +20,20 @@ sub gtk_widget_get_sensitive(GtkWidget $widget) returns int
     is native('libgtk-3.so.0')
     {*}
 
+sub gtk_widget_set_size_request(GtkWidget $widget, int $w, int $h)
+    is native('libgtk-3.so.0')
+    {*}
+
+sub gtk_widget_get_allocated_height(GtkWidget $widget)
+    returns int
+    is native('libgtk-3.so.0')
+    {*}
+
+sub gtk_widget_get_allocated_width(GtkWidget $widget)
+    returns int
+    is native('libgtk-3.so.0')
+    {*}
+
 # gtk_widget_ ... }}}
 
 # gtk_container_... {{{
@@ -70,6 +84,17 @@ role GTK::Simple::Widget {
             STORE => -> \c, \value {
                 gtk_widget_set_sensitive($!gtk_widget, value.Int)
             }
+    }
+
+    method size_request(Cool $width, Cool $height) {
+        gtk_widget_set_size_request($!gtk_widget, $width.Int, $height.Int);
+    }
+
+    method width() {
+        gtk_widget_get_allocated_width($!gtk_widget);
+    }
+    method height() {
+        gtk_widget_get_allocated_height($!gtk_widget);
     }
 
     method destroy() {
