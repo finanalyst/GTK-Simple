@@ -532,4 +532,15 @@ class GTK::Simple::Switch is GTK::Simple::ToggleButton {
     }
 }
 
+class GTK::Simple::DrawingArea does GTK::Simple::Widget {
+    sub gtk_drawing_area_new()
+        is native('libgtk-3.so.0')
+        returns GtkWidget
+        {*}
+
+    submethod BUILD() {
+        $!gtk_widget = gtk_drawing_area_new();
+    }
+}
+
 # vi: foldmethod=marker
