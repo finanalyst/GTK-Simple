@@ -89,6 +89,11 @@ sub g_idle_add(
     returns int32
     {*}
 
+sub g_timeout_add(int32 interval, &Handler(OpaquePointer $h_data), OpaquePointer $data)
+    is native('libgtk-3')
+    returns int32
+    {*}
+
 role GTK::Simple::Widget {
     has $!gtk_widget;
 
@@ -271,6 +276,16 @@ class GTK::Simple::App does GTK::Simple::Widget
             { GTK::Simple::Scheduler.process_queue },
             OpaquePointer);
         gtk_main();
+    }
+
+    method g_timeout(Int $usecs) {
+        my $s = Supply.new;
+        my $starttime = nqp::time_n();
+        g_timeout_add($interval,
+            -> {
+                $s.more(nqp::time_n() - $starttime);
+            });
+        return $s;
     }
 }
 
