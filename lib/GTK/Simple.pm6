@@ -2,6 +2,17 @@ use NativeCall;
 
 class GtkWidget is repr('CPointer') { }
 
+my Mu $cairo_t;
+my Mu $Cairo_Context;
+
+sub gtk_simple_use_cairo() is export {
+    try {
+        require Cairo;
+        $cairo_t := ::('cairo_t');
+        $Cairo_Context := ::('Cairo')::('Context');
+    }
+}
+
 # gtk_widget_... {{{
 
 sub gtk_widget_show(GtkWidget $widgetw)
@@ -32,6 +43,10 @@ sub gtk_widget_get_allocated_height(GtkWidget $widget)
 
 sub gtk_widget_get_allocated_width(GtkWidget $widget)
     returns int
+    is native('libgtk-3')
+    {*}
+
+sub gtk_widget_queue_draw(GtkWidget $widget)
     is native('libgtk-3')
     {*}
 
@@ -96,6 +111,10 @@ role GTK::Simple::Widget {
     }
     method height() {
         gtk_widget_get_allocated_height($!gtk_widget);
+    }
+
+    method queue_draw() {
+        gtk_widget_queue_draw($!gtk_widget);
     }
 
     method destroy() {
@@ -541,6 +560,15 @@ class GTK::Simple::DrawingArea does GTK::Simple::Widget {
 
     submethod BUILD() {
         $!gtk_widget = gtk_drawing_area_new();
+    }
+
+    method add_draw_handler(&handler) {
+        my sub handler_wrapper($widget, $cairop) {
+            my $cairo  = nqp::box_i($cairop.Int, $cairo_t);
+            my $ctx    = $Cairo_Context.new($cairo);
+            handler(self, $ctx);
+        }
+        g_signal_connect_wd($!gtk_widget, "draw", &handler_wrapper, OpaquePointer, 0);
     }
 }
 
