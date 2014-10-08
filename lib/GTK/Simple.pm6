@@ -98,7 +98,6 @@ role GTK::Simple::Widget {
 
     method WINDOW() {
         my $result = gtk_widget_get_window($!gtk_widget);
-        say $result;
         $result;
     }
 
@@ -137,7 +136,6 @@ role GTK::Simple::Widget {
         my $s = Supply.new;
         g_signal_connect_wd($!gtk_widget, $name,
             -> $widget, $event {
-                say "$widget, $event callback from the signal";
                 $s.more(($widget, $event));
                 CATCH { default { note "in signal supply for $name:"; note $_; } }
             },
