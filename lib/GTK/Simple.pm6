@@ -1,5 +1,7 @@
 use NativeCall;
 
+use GTK::GDK;
+
 class GtkWidget is repr('CPointer') { }
 
 my Mu $cairo_t;
@@ -94,12 +96,53 @@ role GTK::Simple::Widget {
         $!gtk_widget
     }
 
+    method WINDOW() {
+        my $result = gtk_widget_get_window($!gtk_widget);
+        say $result;
+        $result;
+    }
+
     method sensitive() {
         Proxy.new:
             FETCH => { gtk_widget_get_sensitive($!gtk_widget) ?? True !! False },
             STORE => -> \c, \value {
                 gtk_widget_set_sensitive($!gtk_widget, value.Int)
             }
+    }
+
+    method events {
+        my $window = self.WINDOW;
+        class GdkEventMaskWrapper {
+            method set(*@events) {
+                my $mask = gdk_window_get_events($window);
+                $mask +|= [+|] @events;
+                gdk_window_set_events($window, $mask)
+            }
+            method get {
+                my int $mask = gdk_window_get_events($window);
+                return do for EVENT_MASK::.values {
+                    if $mask +& +$_ {
+                        $_
+                    }
+                }
+            }
+            method clear {
+                gdk_window_set_events($window, 0);
+            }
+        }
+        GdkEventMaskWrapper.new
+    }
+
+    method signal_supply(Str $name) {
+        my $s = Supply.new;
+        g_signal_connect_wd($!gtk_widget, $name,
+            -> $widget, $event {
+                say "$widget, $event callback from the signal";
+                $s.more(($widget, $event));
+                CATCH { default { note "in signal supply for $name:"; note $_; } }
+            },
+            OpaquePointer, 0);
+        $s
     }
 
     method size_request(Cool $width, Cool $height) {
