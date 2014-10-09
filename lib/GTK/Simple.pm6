@@ -89,7 +89,7 @@ sub g_idle_add(
     returns int32
     {*}
 
-sub g_timeout_add(int32 interval, &Handler(OpaquePointer $h_data), OpaquePointer $data)
+sub g_timeout_add(int32 $interval, &Handler(OpaquePointer $h_data, --> int), OpaquePointer $data)
     is native('libgtk-3')
     returns int32
     {*}
@@ -278,13 +278,18 @@ class GTK::Simple::App does GTK::Simple::Widget
         gtk_main();
     }
 
-    method g_timeout(Int $usecs) {
+    method g_timeout(Cool $usecs) {
         my $s = Supply.new;
         my $starttime = nqp::time_n();
-        g_timeout_add($interval,
-            -> {
-                $s.more(nqp::time_n() - $starttime);
-            });
+        my $lasttime  = nqp::time_n();
+        g_timeout_add($usecs.Int,
+            sub (*@) {
+                my $dt = nqp::time_n() - $lasttime;
+                $lasttime = nqp::time_n();
+                $s.more((nqp::time_n() - $starttime, $dt));
+
+                return 1;
+            }, OpaquePointer);
         return $s;
     }
 }
