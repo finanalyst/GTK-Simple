@@ -76,12 +76,12 @@ sub g_signal_connect_wd(GtkWidget $widget, Str $signal,
     &Handler (GtkWidget $h_widget, OpaquePointer $h_data),
     OpaquePointer $data, int32 $connect_flags)
     returns int
-    is native('libgobject-2.0.so')
+    is native('libgobject-2.0')
     is symbol('g_signal_connect_object')
     { * }
 
 sub g_signal_handler_disconnect(GtkWidget $widget, int $handler_id)
-    is native('libgobject-2.0.so')
+    is native('libgobject-2.0')
     { * }
 
 # g_signal... }}}
