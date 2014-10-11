@@ -80,6 +80,10 @@ sub g_signal_connect_wd(GtkWidget $widget, Str $signal,
     is symbol('g_signal_connect_object')
     { * }
 
+sub g_signal_handler_disconnect(GtkWidget $widget, int $handler_id)
+    is native('libgobject-2.0.so')
+    { * }
+
 # g_signal... }}}
 
 sub g_idle_add(
@@ -93,6 +97,19 @@ sub g_timeout_add(int32 $interval, &Handler(OpaquePointer $h_data, --> int), Opa
     is native('libgtk-3')
     returns int32
     {*}
+
+class GTK::Simple::ConnectionHandler {
+    has $.instance;
+    has $.handler;
+    has $.connected = True;
+
+    method disconnect {
+        if $.connected {
+            g_signal_handler_disconnect($.instance, $.handler);
+            $!connected = False;
+        }
+    }
+}
 
 role GTK::Simple::Widget {
     has $!gtk_widget;
@@ -273,7 +290,7 @@ class GTK::Simple::App does GTK::Simple::Widget
     method run() {
         gtk_widget_show($!gtk_widget);
         g_idle_add(
-            { GTK::Simple::Scheduler.process_queue },
+            sub ($a) { say "stop idling!"; GTK::Simple::Scheduler.process_queue; return 1 },
             OpaquePointer);
         gtk_main();
     }
@@ -629,7 +646,9 @@ class GTK::Simple::DrawingArea does GTK::Simple::Widget {
             my $ctx    = $Cairo_Context.new($cairo);
             handler(self, $ctx);
         }
-        g_signal_connect_wd($!gtk_widget, "draw", &handler_wrapper, OpaquePointer, 0);
+        GTK::Simple::ConnectionHandler.new(
+            :instance($!gtk_widget),
+            :handler(g_signal_connect_wd($!gtk_widget, "draw", &handler_wrapper, OpaquePointer, 0)));
     }
 }
 
