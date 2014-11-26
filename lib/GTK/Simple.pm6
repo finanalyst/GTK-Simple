@@ -158,7 +158,7 @@ role GTK::Simple::Widget {
         my $s = Supply.new;
         g_signal_connect_wd($!gtk_widget, $name,
             -> $widget, $event {
-                $s.more(($widget, $event));
+                $s.emit(($widget, $event));
                 CATCH { default { note "in signal supply for $name:"; note $_; } }
             },
             OpaquePointer, 0);
@@ -279,7 +279,7 @@ class GTK::Simple::App does GTK::Simple::Widget
             my $s = Supply.new;
             g_signal_connect_wd($!gtk_widget, "delete-event",
                 -> $, $ {
-                    $s.more(self);
+                    $s.emit(self);
                     CATCH { default { note $_; } }
                 },
                 OpaquePointer, 0);
@@ -303,7 +303,7 @@ class GTK::Simple::App does GTK::Simple::Widget
             sub (*@) {
                 my $dt = nqp::time_n() - $lasttime;
                 $lasttime = nqp::time_n();
-                $s.more((nqp::time_n() - $starttime, $dt));
+                $s.emit((nqp::time_n() - $starttime, $dt));
 
                 return 1;
             }, OpaquePointer);
@@ -436,7 +436,7 @@ class GTK::Simple::Entry does GTK::Simple::Widget {
             my $s = Supply.new;
             g_signal_connect_wd($!gtk_widget, "changed",
                 -> $, $ {
-                    $s.more(self);
+                    $s.emit(self);
                     CATCH { default { note $_; } }
                 },
                 OpaquePointer, 0);
@@ -514,7 +514,7 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
             g_signal_connect_wd(
                 $!buffer, "changed",
                 -> $, $ {
-                    $s.more(self);
+                    $s.emit(self);
                     CATCH { default { note $_; } }
                 },
                 OpaquePointer, 0);
@@ -539,7 +539,7 @@ class GTK::Simple::Button does GTK::Simple::Widget {
             my $s = Supply.new;
             g_signal_connect_wd($!gtk_widget, "clicked",
                 -> $, $ {
-                    $s.more(self);
+                    $s.emit(self);
                     CATCH { default { note $_; } }
                 },
                 OpaquePointer, 0);
@@ -579,7 +579,7 @@ class GTK::Simple::ToggleButton does GTK::Simple::Widget {
             my $s = Supply.new;
             g_signal_connect_wd($!gtk_widget, "toggled",
                 -> $, $ {
-                    $s.more(self);
+                    $s.emit(self);
                     CATCH { default { note $_; } }
                 }, OpaquePointer, 0);
             $s
