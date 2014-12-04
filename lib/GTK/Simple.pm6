@@ -230,6 +230,43 @@ class GTK::Simple::Scheduler does Scheduler {
     method loads() { nqp::elems($queue) }
 }
 
+class GTK::Simple::Window does GTK::Simple::Widget
+                       does GTK::Simple::Container {
+    sub gtk_window_new(int32 $window_type)
+        is native('libgtk-3.so')
+        returns GtkWidget
+        {*}
+
+    sub gtk_window_set_title(GtkWidget $w, Str $title)
+        is native('libgtk-3.so')
+        returns GtkWidget
+        {*}
+
+    submethod BUILD(Cool :$title = "Gtk Window") {
+        $!gtk_widget = gtk_window_new(0);
+        gtk_window_set_title($!gtk_widget, $title.Str);
+    }
+
+    has $!deleted_supply;
+    #| Tap this supply to react to the window being closed
+    method deleted() {
+        $!deleted_supply //= do {
+            my $s = Supply.new;
+            g_signal_connect_wd($!gtk_widget, "delete-event",
+                -> $, $ {
+                    $s.emit(self);
+                    CATCH { default { note $_; } }
+                },
+                OpaquePointer, 0);
+            $s
+        }
+    }
+
+    method show() {
+        gtk_widget_show($!gtk_widget);
+    }
+}
+
 class GTK::Simple::App does GTK::Simple::Widget
                        does GTK::Simple::Container {
     sub gtk_init(CArray[int32] $argc, CArray[CArray[Str]] $argv)
