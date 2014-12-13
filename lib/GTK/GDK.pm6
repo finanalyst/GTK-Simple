@@ -1,3 +1,14 @@
+my Str $gtklib;
+my Str $gdklib;
+BEGIN {
+    if $*VM.config<dll> ~~ /dll/ {
+        $gtklib = 'libgtk-3-0';
+        $gdklib = 'libgdk-3-0';
+    } else {
+        $gtklib = 'libgtk-3';
+        $gdklib = 'libgdk-3';
+    }
+}
 use NativeCall;
 
 class GdkWindow is repr('CPointer') { }
@@ -31,18 +42,18 @@ constant carrayuint16 := CArray[uint16];
 
 sub gtk_widget_get_window(OpaquePointer $window)
     returns GdkWindow
-    is native('libgtk-3')
+    is native($gtklib)
     is export
     {*}
 
 sub gdk_window_get_events(GdkWindow $window)
     returns int
-    is native('libgdk-3')
+    is native($gdklib)
     is export
     {*}
 
 sub gdk_window_set_events(GdkWindow $window, int $eventmask)
-    is native('libgdk-3')
+    is native($gdklib)
     is export
     {*}
 
@@ -51,11 +62,11 @@ sub gdk_window_set_events(GdkWindow $window, int $eventmask)
 class GdkEvent is repr('CPointer') { ... }
 
 sub gdk_event_get_keycode(GdkEvent $event, carrayuint16 $keycode)
-    is native('libgdk-3')
+    is native($gdklib)
     {*}
 
 sub gdk_event_get_keyval(GdkEvent $event, carrayuint16 $keycode)
-    is native('libgdk-3')
+    is native($gdklib)
     {*}
 
 class GdkEvent is repr('CPointer') {
