@@ -7,7 +7,7 @@ BEGIN {
         $gobjectlib = 'libgobject-2.0-0';
         $gliblib = 'libglib-2.0-0';
     } else {
-        $gtklib = 'libgtk-3.so';
+        $gtklib = 'libgtk-3';
         $gobjectlib = 'libgobject-2.0';
         $gliblib = 'libglib-2.0';
     }
