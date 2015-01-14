@@ -101,13 +101,13 @@ sub g_signal_handler_disconnect(GtkWidget $widget, int $handler_id)
 # g_signal... }}}
 
 sub g_idle_add(
-        &Handler(OpaquePointer $h_data),
+        &Handler (OpaquePointer $h_data),
         OpaquePointer $data)
     is native($gliblib)
     returns int32
     {*}
 
-sub g_timeout_add(int32 $interval, &Handler(OpaquePointer $h_data, --> int), OpaquePointer $data)
+sub g_timeout_add(int32 $interval, &Handler (OpaquePointer $h_data, --> int), OpaquePointer $data)
     is native($gtklib)
     returns int32
     {*}
@@ -341,7 +341,7 @@ class GTK::Simple::App does GTK::Simple::Widget
     method run() {
         gtk_widget_show($!gtk_widget);
         g_idle_add(
-            sub ($a) { say "stop idling!"; GTK::Simple::Scheduler.process_queue; return 1 },
+            sub ($a) { GTK::Simple::Scheduler.process_queue; return 1 },
             OpaquePointer);
         gtk_main();
     }
