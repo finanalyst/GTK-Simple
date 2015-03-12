@@ -216,6 +216,8 @@ class GTK::Simple::Scheduler does Scheduler {
     my class Queue is repr('ConcBlockingQueue') { }
     my $queue := nqp::create(Queue);
 
+    my &idle_cb = sub ($a) { GTK::Simple::Scheduler.process_queue; return 0 };
+
     method cue(&code, :$at, :$in, :$every, :$times, :&catch ) {
         die "GTK::Simple::Scheduler does not support at" if $at;
         die "GTK::Simple::Scheduler does not support in" if $in;
@@ -225,6 +227,7 @@ class GTK::Simple::Scheduler does Scheduler {
             ?? -> { code(); CATCH { default { catch($_) } } }
             !! &code;
         nqp::push($queue, &run);
+        g_idle_add(&idle_cb, OpaquePointer);
         return Nil;
     }
 
@@ -340,9 +343,6 @@ class GTK::Simple::App does GTK::Simple::Widget
 
     method run() {
         gtk_widget_show($!gtk_widget);
-        g_idle_add(
-            sub ($a) { GTK::Simple::Scheduler.process_queue; return 1 },
-            OpaquePointer);
         gtk_main();
     }
 
