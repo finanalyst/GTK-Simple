@@ -1,17 +1,4 @@
-my Str $gtklib;
-my Str $gobjectlib;
-my Str $gliblib;
-BEGIN {
-    if $*VM.config<dll> ~~ /dll/ {
-        $gtklib = 'libgtk-3-0';
-        $gobjectlib = 'libgobject-2.0-0';
-        $gliblib = 'libglib-2.0-0';
-    } else {
-        $gtklib = 'libgtk-3';
-        $gobjectlib = 'libgobject-2.0';
-        $gliblib = 'libglib-2.0';
-    }
-}
+use GTK::NativeLib;
 use NativeCall;
 
 use GTK::GDK;
@@ -32,54 +19,54 @@ sub gtk_simple_use_cairo() is export {
 # gtk_widget_... {{{
 
 sub gtk_widget_show(GtkWidget $widgetw)
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 sub gtk_widget_destroy(GtkWidget $widget)
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 sub gtk_widget_set_sensitive(GtkWidget $widget, int $sensitive)
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 sub gtk_widget_get_sensitive(GtkWidget $widget)
     returns int
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 sub gtk_widget_set_size_request(GtkWidget $widget, int $w, int $h)
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 sub gtk_widget_get_allocated_height(GtkWidget $widget)
     returns int
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 sub gtk_widget_get_allocated_width(GtkWidget $widget)
     returns int
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 sub gtk_widget_queue_draw(GtkWidget $widget)
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 # gtk_widget_ ... }}}
 
 # gtk_container_... {{{
 sub gtk_container_add(GtkWidget $container, GtkWidget $widgen)
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 sub gtk_container_get_border_width(GtkWidget $container)
     returns int
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 sub gtk_container_set_border_width(GtkWidget $container, int $border_width)
-    is native($gtklib)
+    is native(&gtk-lib)
     {*}
 
 # gtk_container_... }}}
@@ -90,12 +77,12 @@ sub g_signal_connect_wd(GtkWidget $widget, Str $signal,
     &Handler (GtkWidget $h_widget, OpaquePointer $h_data),
     OpaquePointer $data, int32 $connect_flags)
     returns int
-    is native($gobjectlib)
+    is native(&gobject-lib)
     is symbol('g_signal_connect_object')
     { * }
 
 sub g_signal_handler_disconnect(GtkWidget $widget, int $handler_id)
-    is native($gobjectlib)
+    is native(&gobject-lib)
     { * }
 
 # g_signal... }}}
@@ -103,12 +90,12 @@ sub g_signal_handler_disconnect(GtkWidget $widget, int $handler_id)
 sub g_idle_add(
         &Handler (OpaquePointer $h_data),
         OpaquePointer $data)
-    is native($gliblib)
+    is native(&glib-lib)
     returns int32
     {*}
 
 sub g_timeout_add(int32 $interval, &Handler (OpaquePointer $h_data, --> int), OpaquePointer $data)
-    is native($gtklib)
+    is native(&gtk-lib)
     returns int32
     {*}
 
@@ -250,12 +237,12 @@ class GTK::Simple::Scheduler does Scheduler {
 class GTK::Simple::Window does GTK::Simple::Widget
                        does GTK::Simple::Container {
     sub gtk_window_new(int32 $window_type)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
     sub gtk_window_set_title(GtkWidget $w, Str $title)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
@@ -287,20 +274,20 @@ class GTK::Simple::Window does GTK::Simple::Widget
 class GTK::Simple::App does GTK::Simple::Widget
                        does GTK::Simple::Container {
     sub gtk_init(CArray[int32] $argc, CArray[CArray[Str]] $argv)
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     sub gtk_window_new(int32 $window_type)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
     sub gtk_main()
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     sub gtk_main_quit()
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     submethod BUILD(:$title = 'Application', Bool :$exit_on_close = True) {
@@ -364,7 +351,7 @@ class GTK::Simple::App does GTK::Simple::Widget
 
 role GTK::Simple::Box {
     sub gtk_box_pack_start(GtkWidget, GtkWidget, int32, int32, int32)
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     multi method new(*@packees) {
@@ -381,7 +368,7 @@ role GTK::Simple::Box {
 
 class GTK::Simple::HBox does GTK::Simple::Widget does GTK::Simple::Box {
     sub gtk_hbox_new(int32, int32)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
@@ -392,7 +379,7 @@ class GTK::Simple::HBox does GTK::Simple::Widget does GTK::Simple::Box {
 
 class GTK::Simple::VBox does GTK::Simple::Widget does GTK::Simple::Box {
     sub gtk_vbox_new(int32, int32)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
@@ -403,12 +390,12 @@ class GTK::Simple::VBox does GTK::Simple::Widget does GTK::Simple::Box {
 
 class GTK::Simple::Grid does GTK::Simple::Widget {
     sub gtk_grid_new()
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
     sub gtk_grid_attach(GtkWidget $grid, GtkWidget $child, int $x, int $y, int $w, int $h)
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     method new(*@pieces) {
@@ -428,17 +415,17 @@ class GTK::Simple::Grid does GTK::Simple::Widget {
 
 class GTK::Simple::Label does GTK::Simple::Widget {
     sub gtk_label_new(Str $text)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
     sub gtk_label_get_text(GtkWidget $label)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns Str
         {*}
 
     sub gtk_label_set_text(GtkWidget $label, Str $text)
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     submethod BUILD(:$text = '') {
@@ -456,17 +443,17 @@ class GTK::Simple::Label does GTK::Simple::Widget {
 
 class GTK::Simple::Entry does GTK::Simple::Widget {
     sub gtk_entry_new()
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
     sub gtk_entry_get_text(GtkWidget $entry)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns Str
         {*}
 
     sub gtk_entry_set_text(GtkWidget $entry, Str $text)
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     submethod BUILD() {
@@ -498,31 +485,31 @@ class GTK::Simple::Entry does GTK::Simple::Widget {
 
 class GTK::Simple::TextView does GTK::Simple::Widget {
     sub gtk_text_view_new()
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
     our sub gtk_text_view_get_buffer(GtkWidget $view)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns OpaquePointer
         {*}
 
     our sub gtk_text_buffer_get_text(OpaquePointer $buffer, CArray[int] $start,
             CArray[int] $end, int32 $show_hidden)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns Str
         {*}
 
     our sub gtk_text_buffer_get_start_iter(OpaquePointer $buffer, CArray[int] $i)
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     our sub gtk_text_buffer_get_end_iter(OpaquePointer $buffer, CArray[int] $i)
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     our sub gtk_text_buffer_set_text(OpaquePointer $buffer, Str $text, int32 $len)
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     has $!buffer;
@@ -576,7 +563,7 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
 
 class GTK::Simple::Button does GTK::Simple::Widget {
     sub gtk_button_new_with_label(Str $label)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
@@ -602,17 +589,17 @@ class GTK::Simple::Button does GTK::Simple::Widget {
 
 class GTK::Simple::ToggleButton does GTK::Simple::Widget {
     sub gtk_toggle_button_new_with_label(Str $label)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
     sub gtk_toggle_button_get_active(GtkWidget $w)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns int
         {*}
 
     sub gtk_toggle_button_set_active(GtkWidget $w, int $active)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns int
         {*}
 
@@ -646,7 +633,7 @@ class GTK::Simple::ToggleButton does GTK::Simple::Widget {
 
 class GTK::Simple::CheckButton is GTK::Simple::ToggleButton {
     sub gtk_check_button_new_with_label(Str $label)
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
@@ -657,17 +644,17 @@ class GTK::Simple::CheckButton is GTK::Simple::ToggleButton {
 
 class GTK::Simple::Switch is GTK::Simple::ToggleButton {
     sub gtk_switch_new()
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
     sub gtk_switch_get_active(GtkWidget $w)
         returns int
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     sub gtk_switch_set_active(GtkWidget $w, int $a)
-        is native($gtklib)
+        is native(&gtk-lib)
         {*}
 
     method creation_sub {
@@ -683,7 +670,7 @@ class GTK::Simple::Switch is GTK::Simple::ToggleButton {
 
 class GTK::Simple::DrawingArea does GTK::Simple::Widget {
     sub gtk_drawing_area_new()
-        is native($gtklib)
+        is native(&gtk-lib)
         returns GtkWidget
         {*}
 
