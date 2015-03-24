@@ -2,7 +2,7 @@
     "name" : "GTK::Simple",
     "version" : "*",
     "description" : "Simple GTK 3 binding using NativeCall",
-    "depends" : [ ],
+    "depends" : [ "LWP::Simple" ],
     "repo-type" : "git",
     "source-url" : "git://github.com/perl6/gtk-simple.git"
 }
