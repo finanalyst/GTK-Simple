@@ -2,7 +2,6 @@ use Panda::Builder;
 
 use Shell::Command;
 use LWP::Simple;
-use Digest::SHA;
 use NativeCall;
 
 # test sub for system library
