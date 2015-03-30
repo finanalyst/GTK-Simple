@@ -3,6 +3,11 @@
     "version" : "*",
     "description" : "Simple GTK 3 binding using NativeCall",
     "depends" : [ "LWP::Simple" ],
+    "provides" : {
+        "GTK::Simple"    : "lib/GTK/Simple.pm6",
+        "GTK::GDK"       : "lib/GTK/GDK.pm6",
+        "GTK::NativeLib" : "lib/GTK/NativeLib.pm6"
+    },
     "repo-type" : "git",
     "source-url" : "git://github.com/perl6/gtk-simple.git"
 }
