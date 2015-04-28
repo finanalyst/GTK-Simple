@@ -1,3 +1,4 @@
+use nqp;
 use GTK::NativeLib;
 use NativeCall;
 
