@@ -472,8 +472,9 @@ class GTK::Simple::Entry does GTK::Simple::Widget {
         is native(&gtk-lib)
         {*}
 
-    submethod BUILD() {
+    submethod BUILD(:$text) {
         $!gtk_widget = gtk_entry_new();
+        gtk_entry_set_text(self.WIDGET, $text.Str) if defined $text;
     }
 
     method text() {
