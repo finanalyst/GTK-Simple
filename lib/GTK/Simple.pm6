@@ -355,6 +355,15 @@ role GTK::Simple::Box {
         is native(&gtk-lib)
         {*}
 
+    sub gtk_box_get_spacing(GtkWidget $box)
+        returns int
+        is native(&gtk-lib)
+        {*}
+
+    sub gtk_box_set_spacing(GtkWidget $box, int $spacing)
+        is native(&gtk-lib)
+        {*}
+
     multi method new(*@packees) {
         my $box = self.bless();
         $box.pack_start($_) for @packees;
@@ -364,6 +373,12 @@ role GTK::Simple::Box {
     method pack_start($widget) {
         gtk_box_pack_start(self.WIDGET, $widget.WIDGET, 1, 1, 0);
         gtk_widget_show($widget.WIDGET);
+    }
+
+    method spacing {
+        Proxy.new:
+            FETCH => { gtk_box_get_spacing(self.WIDGET) },
+            STORE => -> \c, Cool $s { gtk_box_set_spacing(self.WIDGET, $s.Int) }
     }
 }
 
@@ -457,8 +472,9 @@ class GTK::Simple::Entry does GTK::Simple::Widget {
         is native(&gtk-lib)
         {*}
 
-    submethod BUILD() {
+    submethod BUILD(:$text) {
         $!gtk_widget = gtk_entry_new();
+        gtk_entry_set_text(self.WIDGET, $text.Str) if defined $text;
     }
 
     method text() {
