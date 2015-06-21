@@ -283,6 +283,11 @@ class GTK::Simple::App does GTK::Simple::Widget
         returns GtkWidget
         {*}
 
+    sub gtk_window_set_title(GtkWidget $w, Str $title)
+        is native(&gtk-lib)
+        returns GtkWidget
+        {*}
+
     sub gtk_main()
         is native(&gtk-lib)
         {*}
@@ -291,9 +296,9 @@ class GTK::Simple::App does GTK::Simple::Widget
         is native(&gtk-lib)
         {*}
 
-    submethod BUILD(:$title = 'Application', Bool :$exit_on_close = True) {
+    submethod BUILD(:$title, Bool :$exit_on_close = True) {
         my $arg_arr = CArray[Str].new;
-        $arg_arr[0] = $title.Str;
+        $arg_arr[0] = $*PROGRAM.Str;
         my $argc = CArray[int32].new;
         $argc[0] = 1;
         my $argv = CArray[CArray[Str]].new;
@@ -301,6 +306,7 @@ class GTK::Simple::App does GTK::Simple::Widget
         gtk_init($argc, $argv);
 
         $!gtk_widget = gtk_window_new(0);
+        gtk_window_set_title($!gtk_widget, $title.Str) if defined $title;
 
         if $exit_on_close {
             g_signal_connect_wd($!gtk_widget, "delete-event",
