@@ -135,7 +135,7 @@ role GTK::Simple::Widget {
 
     method events {
         my $window = self.WINDOW;
-        class GdkEventMaskWrapper {
+        my class GdkEventMaskWrapper {
             method set(*@events) {
                 my $mask = gdk_window_get_events($window);
                 $mask +|= [+|] @events;
