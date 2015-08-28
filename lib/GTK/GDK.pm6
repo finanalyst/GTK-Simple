@@ -59,7 +59,7 @@ sub gdk_event_get_keyval(GdkEvent $event, carrayuint16 $keycode)
     is native(&gdk-lib)
     {*}
 
-class GdkEvent is repr('CPointer') {
+class GdkEvent {
     method keycode {
         my carrayuint16 $tgt .= new;
         $tgt[0] = 0;
