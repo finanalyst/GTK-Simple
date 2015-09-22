@@ -224,7 +224,7 @@ class GTK::Simple::Scheduler does Scheduler {
         unless nqp::isnull($task) {
             if nqp::islist($task) {
                 my Mu $code := nqp::shift($task);
-                $code(|nqp::p6parcel($task, Any));
+                $code(|nqp::hllize($task, Any));
             }
             else {
                 $task();
