@@ -11,7 +11,7 @@ class Build is Panda::Builder {
     method build($workdir) {
         my $need-copy = False;
 
-        # we only have .dll files bundled. Non-windows is assumed to have openssl already
+        # we only have .dll files bundled. Non-windows is assumed to have gtk already
         if $*DISTRO.is-win {
             test();
             CATCH {
