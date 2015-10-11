@@ -1131,4 +1131,84 @@ class GTK::Simple::ComboBoxText does GTK::Simple::Widget {
     }
 }
 
+class GtkBuilder is repr('CPointer') { }
+class GObject is repr('CPointer') { }
+
+class GTK::Simple::GladeApp {
+    sub gtk_init(CArray[int32] $argc, CArray[CArray[Str]] $argv)
+        is native(&gtk-lib)
+        {*}
+
+    sub gtk_main()
+        is native(&gtk-lib)
+        {*}
+
+    sub gtk_main_quit()
+        is native(&gtk-lib)
+        {*}
+
+
+
+  # sub gtk_builder_new_from_string(Str $string, int $length) is native(&gtk-lib) returns GtkBuilder { ... }
+  sub gtk_builder_new_from_file(Str $string) is native(&gtk-lib) returns GtkBuilder { ... }
+  sub gtk_builder_get_object(GtkBuilder $builder, Str $name) is native(&gtk-lib) returns GObject { ... }
+  sub gtk_widget_show_all(GtkWidget $widget) is native(&gtk-lib) { ... }
+  sub gtk_builder_connect_signals_full(
+    GtkBuilder,
+    &GtkBuilderConnectFunc (
+      GtkBuilder $builder,
+      GObject $object,
+      Str $signal-name,
+      Str $handler-name,
+      GObject $connect-object,
+      int32 $connect-flags,
+      OpaquePointer $user-data
+    )
+  ) is native(&gtk-lib) { ... }
+
+  has $!builder;
+  has $!main-window;
+
+  submethod BUILD() {
+    _gtk_init();
+    self._load;
+  }
+
+  sub _gtk_init() {
+    my $arg_arr = CArray[Str].new;
+    $arg_arr[0] = $*PROGRAM.Str;
+    my $argc = CArray[int32].new;
+    $argc[0] = 1;
+    my $argv = CArray[CArray[Str]].new;
+    $argv[0] = $arg_arr;
+    gtk_init($argc, $argv);
+  }
+
+  method _load {
+    $!builder = gtk_builder_new_from_file($*PROGRAM.IO.absolute ~ '.glade');
+    $!main-window = gtk_builder_get_object($!builder, "mainWindow");
+    gtk_builder_connect_signals_full($!builder, sub (
+      GtkBuilder $builder,
+      GObject $object,
+      Str $signal-name,
+      Str $handler-name,
+      GObject $connect-object,
+      int32 $connect-flags,
+      OpaquePointer $user-data
+    ) {
+      note "Connecting Signals: $builder: $object $signal-name for $handler-name "; # <$connect-object> [$connect-flags] $user-data";
+      g_signal_connect_wd($object, $signal-name, -> $, $ {
+        self.handle-signal($handler-name);
+      }, OpaquePointer, 0); 
+    });
+
+    g_signal_connect_wd($!main-window, "delete-event", -> $, $ { gtk_main_quit(); }, OpaquePointer, 0);
+  }
+
+  method run() {
+    gtk_widget_show($!main-window);
+    gtk_main();
+  }
+}
+
 # vi: foldmethod=marker
