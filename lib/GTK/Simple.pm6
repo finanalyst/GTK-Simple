@@ -157,14 +157,14 @@ role GTK::Simple::Widget {
     }
 
     method signal_supply(Str $name) {
-        my $s = Supply.new;
+        my $s = Supplier.new;
         g_signal_connect_wd($!gtk_widget, $name,
             -> $widget, $event {
                 $s.emit(($widget, $event));
                 CATCH { default { note "in signal supply for $name:"; note $_; } }
             },
             OpaquePointer, 0);
-        $s
+        $s.Supply;
     }
 
     method size_request(Cool $width, Cool $height) {
@@ -256,14 +256,14 @@ class GTK::Simple::Window does GTK::Simple::Widget
     #| Tap this supply to react to the window being closed
     method deleted() {
         $!deleted_supply //= do {
-            my $s = Supply.new;
+            my $s = Supplier.new;
             g_signal_connect_wd($!gtk_widget, "delete-event",
                 -> $, $ {
                     $s.emit(self);
                     CATCH { default { note $_; } }
                 },
                 OpaquePointer, 0);
-            $s
+            $s.Supply
         }
     }
 
@@ -324,14 +324,14 @@ class GTK::Simple::App does GTK::Simple::Widget
     #| Tap this supply to react to the window being closed
     method deleted() {
         $!deleted_supply //= do {
-            my $s = Supply.new;
+            my $s = Supplier.new;
             g_signal_connect_wd($!gtk_widget, "delete-event",
                 -> $, $ {
                     $s.emit(self);
                     CATCH { default { note $_; } }
                 },
                 OpaquePointer, 0);
-            $s
+            $s.Supply;
         }
     }
 
@@ -341,7 +341,7 @@ class GTK::Simple::App does GTK::Simple::Widget
     }
 
     method g_timeout(Cool $usecs) {
-        my $s = Supply.new;
+        my $s = Supplier.new;
         my $starttime = nqp::time_n();
         my $lasttime  = nqp::time_n();
         g_timeout_add($usecs.Int,
@@ -352,7 +352,7 @@ class GTK::Simple::App does GTK::Simple::Widget
 
                 return 1;
             }, OpaquePointer);
-        return $s;
+        return $s.Supply;
     }
 }
 
@@ -494,14 +494,14 @@ class GTK::Simple::Entry does GTK::Simple::Widget {
     has $!changed_supply;
     method changed() {
         $!changed_supply //= do {
-            my $s = Supply.new;
+            my $s = Supplier.new;
             g_signal_connect_wd($!gtk_widget, "changed",
                 -> $, $ {
                     $s.emit(self);
                     CATCH { default { note $_; } }
                 },
                 OpaquePointer, 0);
-            $s
+            $s.Supply;
         }
     }
 }
@@ -571,7 +571,7 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
     has $!changed_supply;
     method changed() {
         $!changed_supply //= do {
-            my $s = Supply.new;
+            my $s = Supplier.new;
             g_signal_connect_wd(
                 $!buffer, "changed",
                 -> $, $ {
@@ -579,7 +579,7 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
                     CATCH { default { note $_; } }
                 },
                 OpaquePointer, 0);
-            $s
+            $s.Supply;
         }
     }
 }
@@ -597,14 +597,14 @@ class GTK::Simple::Button does GTK::Simple::Widget {
     has $!clicked_supply;
     method clicked() {
         $!clicked_supply //= do {
-            my $s = Supply.new;
+            my $s = Supplier.new;
             g_signal_connect_wd($!gtk_widget, "clicked",
                 -> $, $ {
                     $s.emit(self);
                     CATCH { default { note $_; } }
                 },
                 OpaquePointer, 0);
-            $s
+            $s.Supply;
         }
     }
 }
@@ -637,13 +637,13 @@ class GTK::Simple::ToggleButton does GTK::Simple::Widget {
     has $!toggled_supply;
     method toggled() {
         $!toggled_supply //= do {
-            my $s = Supply.new;
+            my $s = Supplier.new;
             g_signal_connect_wd($!gtk_widget, "toggled",
                 -> $, $ {
                     $s.emit(self);
                     CATCH { default { note $_; } }
                 }, OpaquePointer, 0);
-            $s
+            $s.Supply;
         }
     }
 
