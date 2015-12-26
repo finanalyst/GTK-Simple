@@ -32,7 +32,7 @@ sub gtk-lib is export {
             try load-pangowin32-lib;
             $lib = find-bundled('libgtk-3-0.dll');
         } else {
-            $lib = 'libgtk-3';
+            $lib = $*VM.platform-library-name('gtk-3'.IO).Str;
         }
     }
     $lib
@@ -53,7 +53,7 @@ sub gdk-lib is export {
             try load-pangocairo-lib;
             $lib = find-bundled('libgdk-3-0.dll');
         } else {
-            $lib = 'libgdk-3';
+            $lib = $*VM.platform-library-name('gdk-3'.IO).Str;
         }
     }
     $lib
@@ -66,7 +66,7 @@ sub glib-lib is export {
             try load-intl-lib;
             $lib = find-bundled('libglib-2.0-0.dll');
         } else {
-            $lib = 'libglib-2.0';
+            $lib = $*VM.platform-library-name('glib-2.0'.IO).Str;
         }
     }
     $lib
@@ -80,7 +80,7 @@ sub gobject-lib is export {
             try load-ffi-lib;
             $lib = find-bundled('libgobject-2.0-0.dll');
         } else {
-            $lib = 'libgobject-2.0';
+            $lib = $*VM.platform-library-name('gobject-2.0'.IO).Str;
         }
     }
     $lib
