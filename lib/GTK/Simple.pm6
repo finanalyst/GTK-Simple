@@ -27,26 +27,26 @@ sub gtk_widget_destroy(GtkWidget $widget)
     is native(&gtk-lib)
     {*}
 
-sub gtk_widget_set_sensitive(GtkWidget $widget, int $sensitive)
+sub gtk_widget_set_sensitive(GtkWidget $widget, int32 $sensitive)
     is native(&gtk-lib)
     {*}
 
 sub gtk_widget_get_sensitive(GtkWidget $widget)
-    returns int
+    returns int32
     is native(&gtk-lib)
     {*}
 
-sub gtk_widget_set_size_request(GtkWidget $widget, int $w, int $h)
+sub gtk_widget_set_size_request(GtkWidget $widget, int32 $w, int32 $h)
     is native(&gtk-lib)
     {*}
 
 sub gtk_widget_get_allocated_height(GtkWidget $widget)
-    returns int
+    returns int32
     is native(&gtk-lib)
     {*}
 
 sub gtk_widget_get_allocated_width(GtkWidget $widget)
-    returns int
+    returns int32
     is native(&gtk-lib)
     {*}
 
@@ -62,11 +62,11 @@ sub gtk_container_add(GtkWidget $container, GtkWidget $widgen)
     {*}
 
 sub gtk_container_get_border_width(GtkWidget $container)
-    returns int
+    returns int32
     is native(&gtk-lib)
     {*}
 
-sub gtk_container_set_border_width(GtkWidget $container, int $border_width)
+sub gtk_container_set_border_width(GtkWidget $container, int32 $border_width)
     is native(&gtk-lib)
     {*}
 
@@ -77,12 +77,12 @@ sub gtk_container_set_border_width(GtkWidget $container, int $border_width)
 sub g_signal_connect_wd(GtkWidget $widget, Str $signal,
     &Handler (GtkWidget $h_widget, OpaquePointer $h_data),
     OpaquePointer $data, int32 $connect_flags)
-    returns int
+    returns int32
     is native(&gobject-lib)
     is symbol('g_signal_connect_object')
     { * }
 
-sub g_signal_handler_disconnect(GtkWidget $widget, int $handler_id)
+sub g_signal_handler_disconnect(GtkWidget $widget, int32 $handler_id)
     is native(&gobject-lib)
     { * }
 
@@ -95,7 +95,7 @@ sub g_idle_add(
     returns int32
     {*}
 
-sub g_timeout_add(int32 $interval, &Handler (OpaquePointer $h_data, --> int), OpaquePointer $data)
+sub g_timeout_add(int32 $interval, &Handler (OpaquePointer $h_data, --> int32), OpaquePointer $data)
     is native(&gtk-lib)
     returns int32
     {*}
@@ -142,7 +142,7 @@ role GTK::Simple::Widget {
                 gdk_window_set_events($window, $mask)
             }
             method get {
-                my int $mask = gdk_window_get_events($window);
+                my int32 $mask = gdk_window_get_events($window);
                 return do for EVENT_MASK::.values {
                     if $mask +& +$_ {
                         $_
@@ -362,11 +362,11 @@ role GTK::Simple::Box {
         {*}
 
     sub gtk_box_get_spacing(GtkWidget $box)
-        returns int
+        returns int32
         is native(&gtk-lib)
         {*}
 
-    sub gtk_box_set_spacing(GtkWidget $box, int $spacing)
+    sub gtk_box_set_spacing(GtkWidget $box, int32 $spacing)
         is native(&gtk-lib)
         {*}
 
@@ -416,7 +416,7 @@ class GTK::Simple::Grid does GTK::Simple::Widget {
         returns GtkWidget
         {*}
 
-    sub gtk_grid_attach(GtkWidget $grid, GtkWidget $child, int $x, int $y, int $w, int $h)
+    sub gtk_grid_attach(GtkWidget $grid, GtkWidget $child, int32 $x, int32 $y, int32 $w, int32 $h)
         is native(&gtk-lib)
         {*}
 
@@ -517,17 +517,17 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
         returns OpaquePointer
         {*}
 
-    our sub gtk_text_buffer_get_text(OpaquePointer $buffer, CArray[int] $start,
-            CArray[int] $end, int32 $show_hidden)
+    our sub gtk_text_buffer_get_text(OpaquePointer $buffer, CArray[int32] $start,
+            CArray[int32] $end, int32 $show_hidden)
         is native(&gtk-lib)
         returns Str
         {*}
 
-    our sub gtk_text_buffer_get_start_iter(OpaquePointer $buffer, CArray[int] $i)
+    our sub gtk_text_buffer_get_start_iter(OpaquePointer $buffer, CArray[int32] $i)
         is native(&gtk-lib)
         {*}
 
-    our sub gtk_text_buffer_get_end_iter(OpaquePointer $buffer, CArray[int] $i)
+    our sub gtk_text_buffer_get_end_iter(OpaquePointer $buffer, CArray[int32] $i)
         is native(&gtk-lib)
         {*}
 
@@ -555,14 +555,14 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
     }
 
     method !start_iter() {
-        my $iter_mem = CArray[int].new;
+        my $iter_mem = CArray[int32].new;
         $iter_mem[31] = 0; # Just need a blob of memory.
         gtk_text_buffer_get_start_iter($!buffer, $iter_mem);
         $iter_mem
     }
 
     method !end_iter() {
-        my $iter_mem = CArray[int].new;
+        my $iter_mem = CArray[int32].new;
         $iter_mem[16] = 0;
         gtk_text_buffer_get_end_iter($!buffer, $iter_mem);
         $iter_mem
@@ -618,12 +618,12 @@ class GTK::Simple::ToggleButton does GTK::Simple::Widget {
 
     sub gtk_toggle_button_get_active(GtkWidget $w)
         is native(&gtk-lib)
-        returns int
+        returns int32
         {*}
 
-    sub gtk_toggle_button_set_active(GtkWidget $w, int $active)
+    sub gtk_toggle_button_set_active(GtkWidget $w, int32 $active)
         is native(&gtk-lib)
-        returns int
+        returns int32
         {*}
 
     method creation_sub {
@@ -672,11 +672,11 @@ class GTK::Simple::Switch is GTK::Simple::ToggleButton {
         {*}
 
     sub gtk_switch_get_active(GtkWidget $w)
-        returns int
+        returns int32
         is native(&gtk-lib)
         {*}
 
-    sub gtk_switch_set_active(GtkWidget $w, int $a)
+    sub gtk_switch_set_active(GtkWidget $w, int32 $a)
         is native(&gtk-lib)
         {*}
 
