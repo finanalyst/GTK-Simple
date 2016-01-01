@@ -37,7 +37,7 @@ sub gtk_widget_get_window(OpaquePointer $window)
     {*}
 
 sub gdk_window_get_events(GdkWindow $window)
-    returns int
+    returns int32
     is native(&gdk-lib)
     is export
     {*}
