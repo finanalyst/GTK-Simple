@@ -42,7 +42,7 @@ sub gdk_window_get_events(GdkWindow $window)
     is export
     {*}
 
-sub gdk_window_set_events(GdkWindow $window, int $eventmask)
+sub gdk_window_set_events(GdkWindow $window, int32 $eventmask)
     is native(&gdk-lib)
     is export
     {*}
