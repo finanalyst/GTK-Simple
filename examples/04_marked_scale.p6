@@ -1,14 +1,13 @@
 #!/usr/bin/env perl6
 
 use v6;
-use lib 'lib';
 use GTK::Simple;
 
 my GTK::Simple::App $app .=new( :title( 'More widgets') );
 =comment
     We introduce the MarkUpLabel and Scale widgets
 
-my %texts = <red blue> Z=>
+my %texts = <blue red> Z=>
     '<span foreground="blue" size="x-large">Blue text</span> is <i>cool</i>!',
     '<span foreground="red" size="x-large">Red text</span> is <b>hot</b>!'
 ;
