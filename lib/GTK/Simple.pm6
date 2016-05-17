@@ -23,6 +23,23 @@ sub gtk_widget_show(GtkWidget $widgetw)
     is native(&gtk-lib)
     {*}
 
+sub gtk_widget_hide(GtkWidget $widgetw)
+    is native(&gtk-lib)
+    { * }
+
+sub gtk_widget_show_all(GtkWidget $widgetw)
+    is native(&gtk-lib)
+    { * }
+
+sub gtk_widget_set_no_show_all(GtkWidget $widgetw, int32 $no_show_all)
+    is native(&gtk-lib)
+    { * }
+
+sub gtk_widget_get_no_show_all(GtkWidget $widgetw) 
+    returns int32
+    is native(&gtk-lib)
+    { * }
+
 sub gtk_widget_destroy(GtkWidget $widget)
     is native(&gtk-lib)
     {*}
@@ -52,6 +69,16 @@ sub gtk_widget_get_allocated_width(GtkWidget $widget)
 
 sub gtk_widget_queue_draw(GtkWidget $widget)
     is native(&gtk-lib)
+    {*}
+
+sub gtk_window_new(int32 $window_type)
+    is native(&gtk-lib)
+    returns GtkWidget
+    {*}
+
+sub gtk_window_set_title(GtkWidget $w, Str $title)
+    is native(&gtk-lib)
+    returns GtkWidget
     {*}
 
 # gtk_widget_ ... }}}
@@ -130,6 +157,14 @@ role GTK::Simple::Widget {
             FETCH => { gtk_widget_get_sensitive($!gtk_widget) ?? True !! False },
             STORE => -> \c, \value {
                 gtk_widget_set_sensitive($!gtk_widget, value.Int)
+            }
+    }
+
+    method no-show-all() {
+        Proxy.new:
+            FETCH => { gtk_widget_get_no_show_all($!gtk_widget) ?? True !! False },
+            STORE => -> \c, \value {
+                gtk_widget_set_no_show_all($!gtk_widget, value.Int)
             }
     }
 
@@ -237,16 +272,6 @@ class GTK::Simple::Scheduler does Scheduler {
 
 class GTK::Simple::Window does GTK::Simple::Widget
                        does GTK::Simple::Container {
-    sub gtk_window_new(int32 $window_type)
-        is native(&gtk-lib)
-        returns GtkWidget
-        {*}
-
-    sub gtk_window_set_title(GtkWidget $w, Str $title)
-        is native(&gtk-lib)
-        returns GtkWidget
-        {*}
-
     submethod BUILD(Cool :$title = "Gtk Window") {
         $!gtk_widget = gtk_window_new(0);
         gtk_window_set_title($!gtk_widget, $title.Str);
@@ -276,16 +301,6 @@ class GTK::Simple::App does GTK::Simple::Widget
                        does GTK::Simple::Container {
     sub gtk_init(CArray[int32] $argc, CArray[CArray[Str]] $argv)
         is native(&gtk-lib)
-        {*}
-
-    sub gtk_window_new(int32 $window_type)
-        is native(&gtk-lib)
-        returns GtkWidget
-        {*}
-
-    sub gtk_window_set_title(GtkWidget $w, Str $title)
-        is native(&gtk-lib)
-        returns GtkWidget
         {*}
 
     sub gtk_main()
