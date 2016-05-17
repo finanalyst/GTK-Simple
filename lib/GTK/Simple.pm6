@@ -779,7 +779,9 @@ class GTK::Simple::Switch is GTK::Simple::ToggleButton {
         {*}
 
     method creation_sub {
-        &gtk_switch_new
+        sub ($) {
+            gtk_switch_new()
+        }
     }
 
     method status() {
