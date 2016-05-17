@@ -220,6 +220,14 @@ role GTK::Simple::Widget {
     method destroy() {
         gtk_widget_destroy($!gtk_widget);
     }
+
+    method show() {
+        gtk_widget_show($!gtk_widget);
+    }
+
+    method hide() {
+        gtk_widget_show($!gtk_widget);
+    }
 }
 
 role GTK::Simple::Container {
@@ -292,9 +300,6 @@ class GTK::Simple::Window does GTK::Simple::Widget
         }
     }
 
-    method show() {
-        gtk_widget_show($!gtk_widget);
-    }
 }
 
 class GTK::Simple::App does GTK::Simple::Widget
