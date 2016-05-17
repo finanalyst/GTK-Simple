@@ -527,13 +527,13 @@ class GTK::Simple::Scale does GTK::Simple::Widget {
         is native(&gtk-lib)
         {*}
         
-    submethod BUILD(:$orientation = 'horizontal', :$value = 0.5, :$max = 1, :$min = 0, :$step = 0.01) {
+    submethod BUILD(:$orientation = 'horizontal', :$value = 0.5, :$max = 1, :$min = 0, :$step = 0.01, Int :$digits = 2) {
         my $d = $orientation eq 'vertical' ?? 1 !! 0;
         $!gtk_widget = gtk_scale_new_with_range(
             $d.Int, $min.Num, $max.Num, $step.Num
         );
         gtk_range_set_inverted(self.WIDGET , True ) if $d == 1;
-        gtk_scale_set_digits( self.WIDGET, 2 );
+        gtk_scale_set_digits( self.WIDGET, $digits );
         gtk_range_set_value(self.WIDGET, $value.Num);
     }
 
