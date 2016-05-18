@@ -362,7 +362,7 @@ class GTK::Simple::App does GTK::Simple::Widget
     }
 }
 
-role GTK::Simple::Box {
+role GTK::Simple::Box does GTK::Simple::Container {
     sub gtk_box_pack_start(GtkWidget, GtkWidget, int32, int32, int32)
         is native(&gtk-lib)
         {*}
@@ -698,6 +698,20 @@ class GTK::Simple::Button does GTK::Simple::Widget {
         $!gtk_widget = gtk_button_new_with_label($label);
     }
 
+    sub gtk_button_get_label(GtkWidget $widget)
+        is native(&gtk-lib)
+        returns Str
+        { * }
+
+    sub gtk_button_set_label(GtkWidget $widget, Str $label)
+        is native(&gtk-lib)
+        { * }
+
+    method label() returns Str {
+        Proxy.new: FETCH => { gtk_button_get_label($!gtk_widget) },
+                   STORE => -> $, Str $label { gtk_button_set_label($!gtk_widget, $label) }
+    }
+
     has $!clicked_supply;
     method clicked() {
         $!clicked_supply //= do {
@@ -816,6 +830,109 @@ class GTK::Simple::DrawingArea does GTK::Simple::Widget {
         GTK::Simple::ConnectionHandler.new(
             :instance($!gtk_widget),
             :handler(g_signal_connect_wd($!gtk_widget, "draw", &handler_wrapper, OpaquePointer, 0)));
+    }
+}
+
+class GTK::Simple::StatusBar does GTK::Simple::Widget does GTK::Simple::Box {
+    sub gtk_statusbar_new()
+        is native(&gtk-lib)
+        returns GtkWidget
+        { * }
+
+
+    submethod BUILD() {
+        $!gtk_widget = gtk_statusbar_new();
+    }
+
+    sub gtk_statusbar_get_context_id(GtkWidget $widget, Str $description)
+        is native(&gtk-lib)
+        returns uint32
+        { * }
+
+    method get-context-id(Str $description) returns Int {
+        gtk_statusbar_get_context_id($!gtk_widget, $description);
+    }
+
+    sub gtk_statusbar_push(GtkWidget $widget, uint32 $context_id, Str $text)
+        is native(&gtk-lib)
+        returns uint32
+        { * }
+
+    method push-status(Int $context_id, Str $text) returns Int {
+        gtk_statusbar_push($!gtk_widget, $context_id, $text);
+    }
+
+    sub gtk_statusbar_pop(GtkWidget $widget, uint32 $context_id)
+        is native(&gtk-lib)
+        { * }
+
+    method pop-status(Int $context_id) {
+        gtk_statusbar_pop($!gtk_widget, $context_id);
+    }
+
+    sub gtk_statusbar_remove(GtkWidget $widget, uint32 $context_id, uint32 $message_id)
+        is native(&gtk-lib)
+        { * }
+
+    method remove-status(Int $context_id, Int $message_id) {
+        gtk_statusbar_remove($!gtk_widget, $context_id, $message_id);
+    }
+
+    sub gtk_statusbar_remove_all(GtkWidget $widget, uint32 $context_id)
+        is native(&gtk-lib)
+        { * }
+
+    method remove-status-all(Int $context_id) {
+        gtk_statusbar_remove_all($!gtk_widget, $context_id);
+    }
+}
+
+class GTK::Simple::Separator does GTK::Simple::Widget {
+
+    sub gtk_separator_new(int32 $orientation)
+        is native(&gtk-lib)
+        returns GtkWidget
+        { * }
+
+    submethod BUILD(:$orientation = 'horizontal') {
+        my $d = $orientation eq 'vertical' ?? 1 !! 0;
+        $!gtk_widget = gtk_separator_new($d);
+    }
+}
+
+class GTK::Simple::ProgressBar does GTK::Simple::Widget {
+
+    sub gtk_progress_bar_new()
+        is native(&gtk-lib)
+        returns GtkWidget
+        { * }
+
+    submethod BUILD() {
+        $!gtk_widget = gtk_progress_bar_new();
+    }
+
+    sub gtk_progress_bar_pulse(GtkWidget $widget)
+        is native(&gtk-lib)
+        { * }
+
+    method pulse() {
+        gtk_progress_bar_pulse($!gtk_widget);
+    }
+
+    sub gtk_progress_bar_set_fraction(GtkWidget $widget, num64 $fractions)
+        is native(&gtk-lib)
+        { * }
+
+    sub gtk_progress_bar_get_fraction(GtkWidget $widget)
+        is native(&gtk-lib)
+        returns num64
+        { * }
+
+    subset Fraction of Rat where 1.0 >= * >= 0.0;
+
+    method fraction() returns Fraction {
+        Proxy.new: FETCH => { Rat(gtk_progress_bar_get_fraction($!gtk_widget)) },
+                   STORE => -> $, Fraction $fraction { gtk_progress_bar_set_fraction($!gtk_widget, Num($fraction)) }
     }
 }
 
