@@ -7,16 +7,21 @@ my GTK::Simple::App $app = GTK::Simple::App.new(title => 'Boxes');
 
 my GTK::Simple::StatusBar $status = GTK::Simple::StatusBar.new;
 
+$status.tooltip-text = "I am a status bar";
+
 my $root_ctx = $status.get-context-id("Root");
 $status.push-status($root_ctx, "Running");
 
 my $button1 = GTK::Simple::Button.new(label => "button one");
 my $button1_ctx = $status.get-context-id("Button One");
+$button1.tooltip-text = "I'm a button";
 
 my $button2 = GTK::Simple::Button.new(label => "button two");
 my $button2_ctx = $status.get-context-id("Button One");
+$button2.tooltip-text = "I'm another button";
 
 my $progress = GTK::Simple::ProgressBar.new;
+$progress.tooltip-text = "And this is a progress bar";
 
 $button1.clicked.tap({
     if $progress.fraction < 1.0 {
@@ -48,10 +53,13 @@ $button2.clicked.tap({
 
 my $hbox = GTK::Simple::HBox.new($button1, $button2);
 
+my $frame = GTK::Simple::Frame.new(label => "Status");
+$frame.set_content($status);
+
 
 my $sep1 = GTK::Simple::Separator.new;
 my $sep2 = GTK::Simple::Separator.new;
-my $vbox = GTK::Simple::VBox.new($hbox,$sep1, $progress, $sep2, $status);
+my $vbox = GTK::Simple::VBox.new($hbox,$sep1, $progress, $sep2, $frame);
 
 
 $vbox.spacing = 10;

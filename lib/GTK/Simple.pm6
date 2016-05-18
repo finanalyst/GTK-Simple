@@ -71,6 +71,15 @@ sub gtk_widget_queue_draw(GtkWidget $widget)
     is native(&gtk-lib)
     {*}
 
+sub gtk_widget_get_tooltip_text(GtkWidget $widget)
+    is native(&gtk-lib)
+    returns Str
+    { * }
+
+sub gtk_widget_set_tooltip_text(GtkWidget $widget, Str $text)
+    is native(&gtk-lib)
+    { * }
+
 sub gtk_window_new(int32 $window_type)
     is native(&gtk-lib)
     returns GtkWidget
@@ -158,6 +167,12 @@ role GTK::Simple::Widget {
             STORE => -> \c, \value {
                 gtk_widget_set_sensitive($!gtk_widget, value.Int)
             }
+    }
+
+    method tooltip-text() returns Str {
+        Proxy.new:
+            FETCH => { gtk_widget_get_tooltip_text($!gtk_widget) },
+            STORE => -> $, Str() $text { gtk_widget_set_tooltip_text($!gtk_widget, $text) };
     }
 
     method no-show-all() {
@@ -933,6 +948,119 @@ class GTK::Simple::ProgressBar does GTK::Simple::Widget {
     method fraction() returns Fraction {
         Proxy.new: FETCH => { Rat(gtk_progress_bar_get_fraction($!gtk_widget)) },
                    STORE => -> $, Fraction $fraction { gtk_progress_bar_set_fraction($!gtk_widget, Num($fraction)) }
+    }
+}
+
+class GTK::Simple::Frame does GTK::Simple::Widget does GTK::Simple::Container {
+    sub gtk_frame_new(Str $label)
+        is native(&gtk-lib)
+        returns GtkWidget
+        { * }
+
+    submethod BUILD(Str :$label) {
+        $!gtk_widget = gtk_frame_new($label);
+    }
+
+    sub gtk_frame_get_label(GtkWidget $widget)
+        is native(&gtk-lib)
+        returns Str
+        { * }
+
+    sub gtk_frame_set_label(GtkWidget $widget, Str $label)
+        is native(&gtk-lib)
+        { * }
+
+    method label() returns Str {
+        Proxy.new: FETCH => { gtk_frame_get_label($!gtk_widget) },
+                   STORE => -> $, Str $label { gtk_frame_set_label($!gtk_widget, $label) }
+    }
+}
+
+# This is actually a container but most of the interface
+# isn't necessary
+class GTK::Simple::ComboBoxText does GTK::Simple::Widget {
+    sub gtk_combo_box_text_new()
+        is native(&gtk-lib)
+        returns GtkWidget
+        { * }
+
+    sub gtk_combo_box_text_new_with_entry()
+        is native(&gtk-lib)
+        returns GtkWidget
+        { * }
+
+    submethod BUILD(Bool :$entry = False) {
+        $!gtk_widget = do {
+            if $entry {
+                gtk_combo_box_text_new_with_entry()
+            }
+            else {
+                gtk_combo_box_text_new()
+            }
+        }
+    }
+
+    sub gtk_combo_box_text_append_text(GtkWidget $widget, Str $text)
+        is native(&gtk-lib)
+        { * }
+
+    method append-text(Str $text) {
+        gtk_combo_box_text_append_text($!gtk_widget, $text);
+    }
+
+    sub gtk_combo_box_text_prepend_text(GtkWidget $widget, Str $text)
+        is native(&gtk-lib)
+        { * }
+
+    method prepend-text(Str $text) {
+        gtk_combo_box_text_prepend_text($!gtk_widget, $text);
+    }
+
+    sub gtk_combo_box_text_insert_text(GtkWidget $widget, int32 $position, Str $text)
+        is native(&gtk-lib)
+        { * }
+
+    method insert-text(Int $position, Str $text) {
+        gtk_combo_box_text_insert_text($!gtk_widget, $position, $text);
+    }
+
+    sub gtk_combo_box_text_remove(GtkWidget $widget, int32 $position)
+        is native(&gtk-lib)
+        { * }
+
+    method remove(Int $position) {
+        gtk_combo_box_text_remove($!gtk_widget, $position);
+    }
+
+    sub gtk_combo_box_text_remove_all(GtkWidget $widget)
+        is native(&gtk-lib)
+        { * }
+
+    method remove-all() {
+        gtk_combo_box_text_remove_all($!gtk_widget)
+    }
+
+    sub gtk_combo_box_text_get_active_text(GtkWidget $widget)
+        is native(&gtk-lib)
+        returns Str
+        { * }
+
+    method active-text() returns Str {
+        gtk_combo_box_text_get_active_text($!gtk_widget);
+    }
+
+    has $!changed_supply;
+    method changed() {
+        $!changed_supply //= do {
+            my $s = Supplier.new;
+            g_signal_connect_wd($!gtk_widget, "changed",
+                -> $, $ {
+                    $s.emit(self);
+                    CATCH { default { note $_; } }
+                },
+                OpaquePointer, 0);
+            $s.Supply;
+        }
     }
 }
 
