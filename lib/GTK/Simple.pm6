@@ -756,6 +756,21 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
         is gtk-property(&gtk_text_view_get_cursor_visible, &gtk_text_view_set_cursor_visible)
         { * }
 
+    
+    sub gtk_text_view_get_monospace(GtkWidget $widget)
+        is native(&gtk-lib)
+        returns int32
+        { * }
+
+    sub gtk_text_view_set_monospace(GtkWidget $widget, int32 $setting)
+        is native(&gtk-lib)
+        { * }
+
+    method monospace()
+        returns Bool
+        is gtk-property(&gtk_text_view_get_monospace, &gtk_text_view_set_monospace)
+        { * }
+
 }
 
 class GTK::Simple::Button does GTK::Simple::Widget {
