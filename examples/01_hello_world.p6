@@ -20,7 +20,7 @@ my GTK::Simple::App $app .= new(title => "Hello GTK!");
     all widgets as well as the window. set_content does all of that for us.
 =end comment
 
-$app.set_content(
+$app.set-content(
     GTK::Simple::VBox.new(
         my $button = GTK::Simple::Button.new(label => "Hello World!"),
         my $second = GTK::Simple::Button.new(label => "Goodbye!")
@@ -39,7 +39,7 @@ $app.set_content(
     C<border_width> on a window, however, is special-cased to put
     a border U<inside> the window instead.
 
-$app.border_width = 20;
+$app.border-width = 20;
 
 
 =comment

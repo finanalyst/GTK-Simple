@@ -9,7 +9,7 @@ my GTK::Simple::App $app .= new(title => "Grid layouts!");
 =comment
     The interesting bit of this example is the grid constructor.
 
-$app.set_content(
+$app.set-content(
     GTK::Simple::Grid.new(
 =comment
         As you can see, you pass pairs with a coordinate and size on the left
@@ -49,6 +49,6 @@ $app.set_content(
     You can also put grids inside HBox or VBox containers and vice versa.
     This allows for some pretty complex layouts to be created.
 
-$app.border_width = 20;
+$app.border-width = 20;
 
 $app.run;

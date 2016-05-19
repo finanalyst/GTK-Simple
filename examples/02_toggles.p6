@@ -16,7 +16,7 @@ my GTK::Simple::App $app .= new(title => "Toggle buttons");
     info to the user and above and below that we create one
     C<GTK::Simple::CheckButton> and a C<GTK::Simple::ToggleButton>.
 
-$app.set_content(
+$app.set-content(
     GTK::Simple::VBox.new(
         my $check_button  = GTK::Simple::CheckButton.new(label => "check me out!"),
         my $status_label  = GTK::Simple::Label.new(text => "the toggles are off and off"),
@@ -29,7 +29,7 @@ $app.set_content(
     Since the window would end up terribly tiny otherwise, we set a
     quite generous inner border for the window
 
-$app.border_width = 50;
+$app.border-width = 50;
 
 =comment
     This sub will be called whenever we toggle either of the two Buttons.

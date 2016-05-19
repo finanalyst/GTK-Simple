@@ -12,7 +12,7 @@ my %texts = <blue red> Z=>
     '<span foreground="red" size="x-large">Red text</span> is <b>hot</b>!'
 ;
 
-$app.set_content(
+$app.set-content(
     GTK::Simple::VBox.new( 
         GTK::Simple::HBox.new(
             GTK::Simple::VBox.new( 

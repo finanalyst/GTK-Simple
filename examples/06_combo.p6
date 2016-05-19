@@ -3,7 +3,7 @@
 use GTK::Simple;
 
 my $app = GTK::Simple::App.new(title => "Combo Box");
-$app.size_request(300,100);
+$app.size-request(300,100);
 
 my $combo = GTK::Simple::ComboBoxText.new;
 
@@ -18,7 +18,7 @@ $combo.changed.tap({
     $label.text = $combo.active-text();
 });
 
-$app.set_content(GTK::Simple::VBox.new($label, $combo));
+$app.set-content(GTK::Simple::VBox.new($label, $combo));
 
 $app.run;
 

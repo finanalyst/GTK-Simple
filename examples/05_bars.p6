@@ -54,7 +54,7 @@ $button2.clicked.tap({
 my $hbox = GTK::Simple::HBox.new($button1, $button2);
 
 my $frame = GTK::Simple::Frame.new(label => "Status");
-$frame.set_content($status);
+$frame.set-content($status);
 
 
 my $sep1 = GTK::Simple::Separator.new;
@@ -64,8 +64,8 @@ my $vbox = GTK::Simple::VBox.new($hbox,$sep1, $progress, $sep2, $frame);
 
 $vbox.spacing = 10;
 
-$app.set_content($vbox);
+$app.set-content($vbox);
 
-$app.border_width = 20;
+$app.border-width = 20;
 
 $app.run;

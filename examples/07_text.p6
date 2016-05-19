@@ -20,7 +20,7 @@ $monospace.toggled.tap( -> $w { $text-view.monospace = $w.status });
 
 my $vbox = GTK::Simple::VBox.new($editable, $show-cursor, $monospace, $text-view);
 
-$app.set_content($vbox);
+$app.set-content($vbox);
 
 
 $app.run;

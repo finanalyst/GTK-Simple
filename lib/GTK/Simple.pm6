@@ -245,7 +245,7 @@ role GTK::Simple::Widget {
         GdkEventMaskWrapper.new
     }
 
-    method signal_supply(Str $name) {
+    method signal-supply(Str $name) {
         my $s = Supplier.new;
         g_signal_connect_wd($!gtk_widget, $name,
             -> $widget, $event {
@@ -256,8 +256,18 @@ role GTK::Simple::Widget {
         $s.Supply;
     }
 
-    method size_request(Cool $width, Cool $height) {
+    method signal_supply(Str $name) {
+        DEPRECATED('signal-supply');
+        self.signal-supply($name);
+    }
+
+    method size-request(Cool $width, Cool $height) {
         gtk_widget_set_size_request($!gtk_widget, $width.Int, $height.Int);
+    }
+
+    method size_request(Cool $width, Cool $height) {
+        DEPRECATED('size-request');
+        self.size-request($width, $height);
     }
 
     method width() {
@@ -267,8 +277,13 @@ role GTK::Simple::Widget {
         gtk_widget_get_allocated_height($!gtk_widget);
     }
 
-    method queue_draw() {
+    method queue-draw() {
         gtk_widget_queue_draw($!gtk_widget);
+    }
+
+    method queue_draw() { 
+        DEPRECATED('queue-draw');
+        self.queue-draw();
     }
 
     method destroy() {
@@ -301,22 +316,33 @@ role GTK::Simple::Widget {
 }
 
 role GTK::Simple::Container {
-    method set_content($widget) {
+
+    method set-content($widget) {
         gtk_container_add(self.WIDGET, $widget.WIDGET);
         gtk_widget_show($widget.WIDGET);
     }
 
-    method border_width 
+    method set_content($widget) {
+        DEPRECATED('set-content');
+        self.set-content($widget);
+    }
+
+    method border-width 
         returns Int
         is gtk-property(&gtk_container_get_border_width, &gtk_container_set_border_width)
         { * }
+
+    method border_width() { 
+        DEPRECATED('border-width');
+        self.border-width
+    }
 }
 
 class GTK::Simple::Scheduler does Scheduler {
     my class Queue is repr('ConcBlockingQueue') { }
     my $queue := nqp::create(Queue);
 
-    my &idle_cb = sub ($a) { GTK::Simple::Scheduler.process_queue; return 0 };
+    my &idle_cb = sub ($a) { GTK::Simple::Scheduler.process-queue; return 0 };
 
     method cue(&code, :$at, :$in, :$every, :$times, :&catch ) {
         die "GTK::Simple::Scheduler does not support at" if $at;
@@ -331,7 +357,7 @@ class GTK::Simple::Scheduler does Scheduler {
         return Nil;
     }
 
-    method process_queue() {
+    method process-queue() {
         my Mu $task := nqp::queuepoll($queue);
         unless nqp::isnull($task) {
             if nqp::islist($task) {
@@ -342,6 +368,11 @@ class GTK::Simple::Scheduler does Scheduler {
                 $task();
             }
         }
+    }
+
+    method process_queue() {
+        DEPRECATED('process-queue');
+        self.process-queue();
     }
 
     method loads() { nqp::elems($queue) }
@@ -369,7 +400,7 @@ class GTK::Simple::App does GTK::Simple::Widget
         is native(&gtk-lib)
         {*}
 
-    submethod BUILD(:$title, Bool :$exit_on_close = True) {
+    submethod BUILD(:$title, Bool :$exit-on-close = True) {
         my $arg_arr = CArray[Str].new;
         $arg_arr[0] = $*PROGRAM.Str;
         my $argc = CArray[int32].new;
@@ -381,7 +412,7 @@ class GTK::Simple::App does GTK::Simple::Widget
         $!gtk_widget = gtk_window_new(0);
         gtk_window_set_title($!gtk_widget, $title.Str) if defined $title;
 
-        if $exit_on_close {
+        if $exit-on-close {
             g_signal_connect_wd($!gtk_widget, "delete-event",
               -> $, $ {
                   self.exit
@@ -399,7 +430,7 @@ class GTK::Simple::App does GTK::Simple::Widget
         gtk_main();
     }
 
-    method g_timeout(Cool $usecs) {
+    method g-timeout(Cool $usecs) {
         my $s = Supplier.new;
         my $starttime = nqp::time_n();
         my $lasttime  = nqp::time_n();
@@ -413,6 +444,13 @@ class GTK::Simple::App does GTK::Simple::Widget
             }, OpaquePointer);
         return $s.Supply;
     }
+
+    method g_timeout(Cool $usecs) {
+        DEPRECATED('g-timeout');
+        self.g-timeout($usecs);
+    }
+
+
 }
 
 role GTK::Simple::Box does GTK::Simple::Container {
@@ -431,13 +469,18 @@ role GTK::Simple::Box does GTK::Simple::Container {
 
     multi method new(*@packees) {
         my $box = self.bless();
-        $box.pack_start($_) for @packees;
+        $box.pack-start($_) for @packees;
         $box
     }
 
-    method pack_start($widget) {
+    method pack-start($widget) {
         gtk_box_pack_start(self.WIDGET, $widget.WIDGET, 1, 1, 0);
         gtk_widget_show($widget.WIDGET);
+    }
+
+    method pack_start($widget) {
+        DEPRECATED('pack-start');
+        self.pack-start($widget);
     }
 
     method spacing 
@@ -691,22 +734,22 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
     method text() {
         Proxy.new:
             FETCH => {
-                gtk_text_buffer_get_text($!buffer, self!start_iter(),
-                    self!end_iter(), 1)
+                gtk_text_buffer_get_text($!buffer, self!start-iter(),
+                    self!end-iter(), 1)
             },
             STORE => -> \c, \text {
                 gtk_text_buffer_set_text($!buffer, text.Str, -1);
             }
     }
 
-    method !start_iter() {
+    method !start-iter() {
         my $iter_mem = CArray[int32].new;
         $iter_mem[31] = 0; # Just need a blob of memory.
         gtk_text_buffer_get_start_iter($!buffer, $iter_mem);
         $iter_mem
     }
 
-    method !end_iter() {
+    method !end-iter() {
         my $iter_mem = CArray[int32].new;
         $iter_mem[16] = 0;
         gtk_text_buffer_get_end_iter($!buffer, $iter_mem);
@@ -829,12 +872,12 @@ class GTK::Simple::ToggleButton does GTK::Simple::Widget {
         returns int32
         {*}
 
-    method creation_sub {
+    method creation-sub {
         &gtk_toggle_button_new_with_label
     }
 
     submethod BUILD(:$label!) {
-        $!gtk_widget = self.creation_sub.($label);
+        $!gtk_widget = self.creation-sub.($label);
     }
 
     has $!toggled_supply;
@@ -862,7 +905,7 @@ class GTK::Simple::CheckButton is GTK::Simple::ToggleButton {
         returns GtkWidget
         {*}
 
-    method creation_sub {
+    method creation-sub {
         &gtk_check_button_new_with_label
     }
 }
@@ -882,7 +925,7 @@ class GTK::Simple::Switch is GTK::Simple::ToggleButton {
         is native(&gtk-lib)
         {*}
 
-    method creation_sub {
+    method creation-sub {
         sub ($) {
             gtk_switch_new()
         }
@@ -904,7 +947,7 @@ class GTK::Simple::DrawingArea does GTK::Simple::Widget {
         $!gtk_widget = gtk_drawing_area_new();
     }
 
-    method add_draw_handler(&handler) {
+    method add-draw-handler(&handler) {
         my sub handler_wrapper($widget, $cairop) {
             my $cairo  = nqp::box_i($cairop.Int, $cairo_t);
             my $ctx    = $Cairo_Context.new($cairo);
@@ -913,6 +956,11 @@ class GTK::Simple::DrawingArea does GTK::Simple::Widget {
         GTK::Simple::ConnectionHandler.new(
             :instance($!gtk_widget),
             :handler(g_signal_connect_wd($!gtk_widget, "draw", &handler_wrapper, OpaquePointer, 0)));
+    }
+
+    method add_draw_handler(&handler) {
+        DEPRECATED('add-draw-handler');
+        self.add-draw-handler(&handler);
     }
 }
 
@@ -941,32 +989,32 @@ class GTK::Simple::StatusBar does GTK::Simple::Widget does GTK::Simple::Box {
         returns uint32
         { * }
 
-    method push-status(Int $context_id, Str $text) returns Int {
-        gtk_statusbar_push($!gtk_widget, $context_id, $text);
+    method push-status(Int $context-id, Str $text) returns Int {
+        gtk_statusbar_push($!gtk_widget, $context-id, $text);
     }
 
-    sub gtk_statusbar_pop(GtkWidget $widget, uint32 $context_id)
+    sub gtk_statusbar_pop(GtkWidget $widget, uint32 $context-id)
         is native(&gtk-lib)
         { * }
 
-    method pop-status(Int $context_id) {
-        gtk_statusbar_pop($!gtk_widget, $context_id);
+    method pop-status(Int $context-id) {
+        gtk_statusbar_pop($!gtk_widget, $context-id);
     }
 
-    sub gtk_statusbar_remove(GtkWidget $widget, uint32 $context_id, uint32 $message_id)
+    sub gtk_statusbar_remove(GtkWidget $widget, uint32 $context-id, uint32 $message-id)
         is native(&gtk-lib)
         { * }
 
-    method remove-status(Int $context_id, Int $message_id) {
-        gtk_statusbar_remove($!gtk_widget, $context_id, $message_id);
+    method remove-status(Int $context-id, Int $message-id) {
+        gtk_statusbar_remove($!gtk_widget, $context-id, $message-id);
     }
 
-    sub gtk_statusbar_remove_all(GtkWidget $widget, uint32 $context_id)
+    sub gtk_statusbar_remove_all(GtkWidget $widget, uint32 $context-id)
         is native(&gtk-lib)
         { * }
 
-    method remove-status-all(Int $context_id) {
-        gtk_statusbar_remove_all($!gtk_widget, $context_id);
+    method remove-status-all(Int $context-id) {
+        gtk_statusbar_remove_all($!gtk_widget, $context-id);
     }
 }
 
