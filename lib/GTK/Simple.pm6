@@ -136,6 +136,52 @@ sub g_timeout_add(int32 $interval, &Handler (OpaquePointer $h_data, --> int32), 
     returns int32
     {*}
 
+
+# This is almost a copy of that in AccessorFacade, adjusted to operate
+# on Widget objects.
+my role GTK::Simple::PropertyFacade[&get, &set, &before?, &after?] {
+    method CALL-ME(*@args) is rw {
+        my $self = @args[0];
+        Proxy.new(
+            FETCH   => sub ($) {
+                my $val =  &get($self.WIDGET);
+                my $ret-type = self.signature.returns;
+                if not $ret-type =:= Mu {
+                    if $val !~~ $ret-type {
+                        try {
+                            $val = $ret-type($val);
+                        }
+                    }
+                }
+                $val;
+           },
+           STORE   =>  sub ($, $val is copy ) {
+                my $store-val;
+                if &before.defined {
+                    $store-val = &before($self, $val);
+                }
+                else {
+                    $store-val = $val.value;
+                    CATCH {
+                        default {
+                            $store-val = $val;
+                        }
+                    }
+                }
+                my $rc = &set($self.WIDGET, $store-val);
+                if &after.defined {
+                    &after($self, $rc);
+                }
+            }
+        );
+    }
+}
+
+# the actual trait, not exported as it is of marginal use outside
+multi sub trait_mod:<is> (Method $m, :@gtk-property! (&getter, &setter, &before?, &after?) ) {
+    $m does GTK::Simple::PropertyFacade[&getter, &setter, &before, &after];
+}
+
 class GTK::Simple::ConnectionHandler {
     has $.instance;
     has $.handler;
@@ -161,27 +207,20 @@ role GTK::Simple::Widget {
         $result;
     }
 
-    method sensitive() {
-        Proxy.new:
-            FETCH => { gtk_widget_get_sensitive($!gtk_widget) ?? True !! False },
-            STORE => -> \c, \value {
-                gtk_widget_set_sensitive($!gtk_widget, value.Int)
-            }
-    }
+    method sensitive() 
+        returns Bool 
+        is gtk-property(&gtk_widget_get_sensitive, &gtk_widget_set_sensitive) 
+        { * }
 
-    method tooltip-text() returns Str {
-        Proxy.new:
-            FETCH => { gtk_widget_get_tooltip_text($!gtk_widget) },
-            STORE => -> $, Str() $text { gtk_widget_set_tooltip_text($!gtk_widget, $text) };
-    }
+    method tooltip-text() 
+        returns Str 
+        is gtk-property(&gtk_widget_get_tooltip_text, &gtk_widget_set_tooltip_text)
+        { * }
 
-    method no-show-all() {
-        Proxy.new:
-            FETCH => { gtk_widget_get_no_show_all($!gtk_widget) ?? True !! False },
-            STORE => -> \c, \value {
-                gtk_widget_set_no_show_all($!gtk_widget, value.Int)
-            }
-    }
+    method no-show-all() 
+        returns Bool
+        is gtk-property(&gtk_widget_get_no_show_all, &gtk_widget_set_no_show_all)
+        { * }
 
     method events {
         my $window = self.WINDOW;
@@ -267,11 +306,10 @@ role GTK::Simple::Container {
         gtk_widget_show($widget.WIDGET);
     }
 
-    method border_width {
-        Proxy.new:
-            FETCH => { gtk_container_get_border_width(self.WIDGET) },
-            STORE => -> \c, Cool $w { gtk_container_set_border_width(self.WIDGET, $w.Int) }
-    }
+    method border_width 
+        returns Int
+        is gtk-property(&gtk_container_get_border_width, &gtk_container_set_border_width)
+        { * }
 }
 
 class GTK::Simple::Scheduler does Scheduler {
@@ -402,11 +440,10 @@ role GTK::Simple::Box does GTK::Simple::Container {
         gtk_widget_show($widget.WIDGET);
     }
 
-    method spacing {
-        Proxy.new:
-            FETCH => { gtk_box_get_spacing(self.WIDGET) },
-            STORE => -> \c, Cool $s { gtk_box_set_spacing(self.WIDGET, $s.Int) }
-    }
+    method spacing 
+        returns Int
+        is gtk-property(&gtk_box_get_spacing, &gtk_box_set_spacing)
+        { * }
 }
 
 class GTK::Simple::HBox does GTK::Simple::Widget does GTK::Simple::Box {
@@ -475,13 +512,10 @@ class GTK::Simple::Label does GTK::Simple::Widget {
         $!gtk_widget = gtk_label_new($text);
     }
 
-    method text() {
-        Proxy.new:
-            FETCH => { gtk_label_get_text($!gtk_widget) },
-            STORE => -> \c, \text {
-                gtk_label_set_text($!gtk_widget, text.Str);
-            }
-    }
+    method text() 
+        returns Str
+        is gtk-property(&gtk_label_get_text, &gtk_label_set_text)
+        { * }
 }
 
 # RNH additions 
@@ -509,13 +543,10 @@ class GTK::Simple::MarkUpLabel does GTK::Simple::Widget {
         gtk_label_set_markup($!gtk_widget,$text.Str);
     }
 
-    method text() {
-        Proxy.new:
-            FETCH => { gtk_label_get_text($!gtk_widget) },
-            STORE => -> \c, \text {
-                gtk_label_set_markup($!gtk_widget, text.Str);
-            }
-    }
+    method text() 
+        returns Str 
+        is gtk-property(&gtk_label_get_text, &gtk_label_set_markup)
+        { * }
 }
 
 class GTK::Simple::Scale does GTK::Simple::Widget {
@@ -558,13 +589,10 @@ class GTK::Simple::Scale does GTK::Simple::Widget {
         gtk_range_set_value(self.WIDGET, $value.Num);
     }
 
-    method value() {
-        Proxy.new:
-            FETCH => { gtk_range_get_value($!gtk_widget) },
-            STORE => -> \c, \value {
-                gtk_range_set_value($!gtk_widget, value.Num);
-            }
-    }
+    method value() 
+        returns Num 
+        is gtk-property(&gtk_range_get_value, &gtk_range_set_value) 
+        { * }
 
     has $!changed_supply;
     method value-changed() {
@@ -602,13 +630,10 @@ class GTK::Simple::Entry does GTK::Simple::Widget {
         gtk_entry_set_text(self.WIDGET, $text.Str) if defined $text;
     }
 
-    method text() {
-        Proxy.new:
-            FETCH => { gtk_entry_get_text($!gtk_widget) },
-            STORE => -> \c, \text {
-                gtk_entry_set_text($!gtk_widget, text.Str);
-            }
-    }
+    method text()
+        returns Str 
+        is gtk-property(&gtk_entry_get_text, &gtk_entry_set_text)
+        { * }
 
     has $!changed_supply;
     method changed() {
@@ -661,7 +686,8 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
         $!buffer = gtk_text_view_get_buffer($!gtk_widget);
     }
 
-
+    # this one can't use the trait for the time being as
+    # the functions need an additional argument.
     method text() {
         Proxy.new:
             FETCH => {
@@ -711,10 +737,10 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
         returns int32
         { * }
 
-    method editable() returns Bool {
-        Proxy.new:  FETCH =>                        { Bool(gtk_text_view_get_editable($!gtk_widget)) },
-                    STORE => -> $, Bool $setting    { gtk_text_view_set_editable($!gtk_widget, $setting.value) };
-    }
+    method editable() 
+        returns Bool
+        is gtk-property(&gtk_text_view_get_editable, &gtk_text_view_set_editable)
+        { * }
 
     sub gtk_text_view_set_cursor_visible(GtkWidget $widget, int32 $setting) 
         is native(&gtk-lib)
@@ -725,10 +751,10 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
         returns int32
         { * }
 
-    method cursor-visible() returns Bool {
-        Proxy.new:  FETCH =>                        { Bool(gtk_text_view_get_cursor_visible($!gtk_widget)) },
-                    STORE => -> $, Bool $setting    { gtk_text_view_set_cursor_visible($!gtk_widget, $setting.value) };
-    }
+    method cursor-visible() 
+        returns Bool
+        is gtk-property(&gtk_text_view_get_cursor_visible, &gtk_text_view_set_cursor_visible)
+        { * }
 
 }
 
@@ -751,10 +777,10 @@ class GTK::Simple::Button does GTK::Simple::Widget {
         is native(&gtk-lib)
         { * }
 
-    method label() returns Str {
-        Proxy.new: FETCH => { gtk_button_get_label($!gtk_widget) },
-                   STORE => -> $, Str $label { gtk_button_set_label($!gtk_widget, $label) }
-    }
+    method label() 
+        returns Str
+        is gtk-property(&gtk_button_get_label, &gtk_button_set_label)
+        { * }
 
     has $!clicked_supply;
     method clicked() {
@@ -809,11 +835,10 @@ class GTK::Simple::ToggleButton does GTK::Simple::Widget {
         }
     }
 
-    method status() {
-        Proxy.new:
-            FETCH =>          { gtk_toggle_button_get_active($!gtk_widget) ?? True !! False },
-            STORE => -> $, $v { gtk_toggle_button_set_active($!gtk_widget, (so $v).Int) };
-    }
+    method status()
+        returns Bool 
+        is gtk-property(&gtk_toggle_button_get_active, &gtk_toggle_button_set_active) 
+        { * }
 }
 
 class GTK::Simple::CheckButton is GTK::Simple::ToggleButton {
@@ -848,11 +873,10 @@ class GTK::Simple::Switch is GTK::Simple::ToggleButton {
         }
     }
 
-    method status() {
-        Proxy.new:
-            FETCH =>          { gtk_switch_get_active(self.WIDGET) ?? True !! False },
-            STORE => -> $, $v { gtk_switch_set_active(self.WIDGET, (so $v).Int) };
-    }
+    method status()
+        returns Bool
+        is gtk-property(&gtk_switch_get_active, &gtk_switch_set_active)
+        { * }
 }
 
 class GTK::Simple::DrawingArea does GTK::Simple::Widget {
@@ -972,12 +996,11 @@ class GTK::Simple::ProgressBar does GTK::Simple::Widget {
         returns num64
         { * }
 
-    subset Fraction of Rat where 1.0 >= * >= 0.0;
 
-    method fraction() returns Fraction {
-        Proxy.new: FETCH => { Rat(gtk_progress_bar_get_fraction($!gtk_widget)) },
-                   STORE => -> $, Fraction $fraction { gtk_progress_bar_set_fraction($!gtk_widget, Num($fraction)) }
-    }
+    method fraction() 
+        returns Rat
+        is gtk-property(&gtk_progress_bar_get_fraction, &gtk_progress_bar_set_fraction, -> $, $val { Num($val) })
+        { * }
 }
 
 class GTK::Simple::Frame does GTK::Simple::Widget does GTK::Simple::Container {
@@ -999,10 +1022,10 @@ class GTK::Simple::Frame does GTK::Simple::Widget does GTK::Simple::Container {
         is native(&gtk-lib)
         { * }
 
-    method label() returns Str {
-        Proxy.new: FETCH => { gtk_frame_get_label($!gtk_widget) },
-                   STORE => -> $, Str $label { gtk_frame_set_label($!gtk_widget, $label) }
-    }
+    method label() 
+        returns Str 
+        is gtk-property(&gtk_frame_get_label, &gtk_frame_set_label)
+        { * }
 }
 
 # This is actually a container but most of the interface
