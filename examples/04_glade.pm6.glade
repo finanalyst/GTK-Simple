@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkWindow" id="mainWindow">
+    <property name="can_focus">False</property>
+    <signal name="delete-event" handler="onMainWindowDelete" swapped="no"/>
+    <child>
+      <object class="GtkButton" id="button1">
+        <property name="label" translatable="yes">Click me</property>
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="use_action_appearance">False</property>
+        <signal name="pressed" handler="onButton1Pressed" swapped="no"/>
+      </object>
+    </child>
+  </object>
+</interface>
