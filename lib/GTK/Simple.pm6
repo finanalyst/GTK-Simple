@@ -701,6 +701,35 @@ class GTK::Simple::TextView does GTK::Simple::Widget {
             $s.Supply;
         }
     }
+
+    sub gtk_text_view_set_editable(GtkWidget $widget, int32 $setting) 
+        is native(&gtk-lib)
+        { * }
+
+    sub gtk_text_view_get_editable(GtkWidget $widget) 
+        is native(&gtk-lib)
+        returns int32
+        { * }
+
+    method editable() returns Bool {
+        Proxy.new:  FETCH =>                        { Bool(gtk_text_view_get_editable($!gtk_widget)) },
+                    STORE => -> $, Bool $setting    { gtk_text_view_set_editable($!gtk_widget, $setting.value) };
+    }
+
+    sub gtk_text_view_set_cursor_visible(GtkWidget $widget, int32 $setting) 
+        is native(&gtk-lib)
+        { * }
+
+    sub gtk_text_view_get_cursor_visible(GtkWidget $widget) 
+        is native(&gtk-lib)
+        returns int32
+        { * }
+
+    method cursor-visible() returns Bool {
+        Proxy.new:  FETCH =>                        { Bool(gtk_text_view_get_cursor_visible($!gtk_widget)) },
+                    STORE => -> $, Bool $setting    { gtk_text_view_set_cursor_visible($!gtk_widget, $setting.value) };
+    }
+
 }
 
 class GTK::Simple::Button does GTK::Simple::Widget {
