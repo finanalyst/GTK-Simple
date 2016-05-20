@@ -1246,6 +1246,7 @@ class GTK::Simple::GladeApp {
     method _load {
         $!builder = gtk_builder_new_from_file($*PROGRAM.IO.absolute ~ '.glade');
         $!main-window = gtk_builder_get_object($!builder, "mainWindow");
+        die "Unable to find mainWindow in .glade file" unless $!main-window;
 
         my $signal-supplier = Supplier.new;
         $!signal-supply = $signal-supplier.Supply;
