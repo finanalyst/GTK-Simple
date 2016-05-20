@@ -1183,6 +1183,15 @@ class GtkBuilder is repr('CPointer') { }
 class GObject is repr('CPointer') { }
 
 class GTK::Simple::GladeApp {
+
+    my role SignalSupply[Str $handler] {
+        my Str $.handler-name = $handler;
+    }
+
+    multi sub trait_mod:<is> (Attribute $a, Str :$gtk-signal-handler) is export {
+        $a does SignalSupply[$gtk-signal-handler];
+    }
+
     sub gtk_init(CArray[int32] $argc, CArray[CArray[Str]] $argv)
         is native(&gtk-lib)
         {*}
@@ -1241,10 +1250,21 @@ class GTK::Simple::GladeApp {
         my $signal-supplier = Supplier.new;
         $!signal-supply = $signal-supplier.Supply;
 
+        my %handler-suppliers;
+
+        for self.^attributes.grep(SignalSupply) -> $sig-attr {
+            note "got attribute { $sig-attr.name }";
+            my $supplier = Supplier.new;
+            $sig-attr.set_value(self,$supplier.Supply);
+            %handler-suppliers{$sig-attr.handler-name} = $supplier;
+        }
+
+
         sub conn(GtkBuilder $builder, GObject $object, Str $signal-name, Str $handler-name, GObject $connect-object, int32 $connect-flags, OpaquePointer $user-data) {
             note "Connecting Signals: $builder: $object $signal-name for $handler-name"; # <$connect-object> [$connect-flags] $user-data";
+            my $connect-supplier = %handler-suppliers{$handler-name} // $signal-supplier;
             g_signal_connect_wd($object, $signal-name, -> $, $ {
-               $signal-supplier.emit([$handler-name, $signal-name, $object]); 
+               $connect-supplier.emit([$handler-name, $signal-name, $object]); 
                CATCH { default { note "in signal supply for $handler-name:"; note $_; } }
             }, OpaquePointer, 0); 
         }
