@@ -822,7 +822,9 @@ class GTK::Simple::Button does GTK::Simple::Widget {
         returns GtkWidget
         {*}
 
-    submethod BUILD(:$label!) {
+    multi submethod BUILD(:$!gtk_widget){}
+
+    multi submethod BUILD(:$label!) {
         $!gtk_widget = gtk_button_new_with_label($label);
     }
 
@@ -1260,6 +1262,13 @@ class GTK::Simple::GladeApp {
             %handler-suppliers{$sig-attr.handler-name} = $supplier;
         }
 
+        for self.^attributes -> $sig-attr {
+          my GObject $gobject = gtk_builder_get_object($!builder, $sig-attr.name.subst(/^\$(\.|\!)/,''));
+          if ($gobject) {
+            note ">> found GObject for { $sig-attr.name } attribute, wrapping in GTK::Simple::Button";
+            $sig-attr.set_value(self, GTK::Simple::Button.new(gtk_widget => $gobject ));
+          }
+        }
 
         sub conn(GtkBuilder $builder, GObject $object, Str $signal-name, Str $handler-name, GObject $connect-object, int32 $connect-flags, OpaquePointer $user-data) {
             note "Connecting Signals: $builder: $object $signal-name for $handler-name"; # <$connect-object> [$connect-flags] $user-data";
