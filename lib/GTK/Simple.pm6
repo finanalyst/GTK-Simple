@@ -1197,66 +1197,66 @@ class GTK::Simple::GladeApp {
 
 
 
-  # sub gtk_builder_new_from_string(Str $string, int $length) is native(&gtk-lib) returns GtkBuilder { ... }
-  sub gtk_builder_new_from_file(Str $string) is native(&gtk-lib) returns GtkBuilder { ... }
-  sub gtk_builder_get_object(GtkBuilder $builder, Str $name) is native(&gtk-lib) returns GObject { ... }
-  sub gtk_widget_show_all(GtkWidget $widget) is native(&gtk-lib) { ... }
-  sub gtk_builder_connect_signals_full(
-    GtkBuilder,
-    &GtkBuilderConnectFunc (
-      GtkBuilder $builder,
-      GObject $object,
-      Str $signal-name,
-      Str $handler-name,
-      GObject $connect-object,
-      int32 $connect-flags,
-      OpaquePointer $user-data
-    )
-  ) is native(&gtk-lib) { ... }
+    # sub gtk_builder_new_from_string(Str $string, int $length) is native(&gtk-lib) returns GtkBuilder { ... }
+    sub gtk_builder_new_from_file(Str $string) is native(&gtk-lib) returns GtkBuilder { ... }
+    sub gtk_builder_get_object(GtkBuilder $builder, Str $name) is native(&gtk-lib) returns GObject { ... }
+    sub gtk_widget_show_all(GtkWidget $widget) is native(&gtk-lib) { ... }
 
-  has $!builder;
-  has $!main-window;
+    sub gtk_builder_connect_signals_full( GtkBuilder, &GtkBuilderConnectFunc (
+                                                                                GtkBuilder $builder,
+                                                                                GObject $object,
+                                                                                Str $signal-name,
+                                                                                Str $handler-name,
+                                                                                GObject $connect-object,
+                                                                                int32 $connect-flags,
+                                                                                OpaquePointer $user-data
+                                                                              ) ) 
+        is native(&gtk-lib) 
+        { * }
 
-  submethod BUILD() {
-    _gtk_init();
-    self._load;
-  }
+    has $!builder;
+    has $!main-window;
 
-  sub _gtk_init() {
-    my $arg_arr = CArray[Str].new;
-    $arg_arr[0] = $*PROGRAM.Str;
-    my $argc = CArray[int32].new;
-    $argc[0] = 1;
-    my $argv = CArray[CArray[Str]].new;
-    $argv[0] = $arg_arr;
-    gtk_init($argc, $argv);
-  }
+    has Supply $.signal-supply;
 
-  method _load {
-    $!builder = gtk_builder_new_from_file($*PROGRAM.IO.absolute ~ '.glade');
-    $!main-window = gtk_builder_get_object($!builder, "mainWindow");
-    gtk_builder_connect_signals_full($!builder, sub (
-      GtkBuilder $builder,
-      GObject $object,
-      Str $signal-name,
-      Str $handler-name,
-      GObject $connect-object,
-      int32 $connect-flags,
-      OpaquePointer $user-data
-    ) {
-      note "Connecting Signals: $builder: $object $signal-name for $handler-name "; # <$connect-object> [$connect-flags] $user-data";
-      g_signal_connect_wd($object, $signal-name, -> $, $ {
-        self.handle-signal($handler-name);
-      }, OpaquePointer, 0); 
-    });
+    submethod BUILD() {
+        _gtk_init();
+        self._load;
+    }
 
-    g_signal_connect_wd($!main-window, "delete-event", -> $, $ { gtk_main_quit(); }, OpaquePointer, 0);
-  }
+    sub _gtk_init() {
+        my $arg_arr = CArray[Str].new;
+        $arg_arr[0] = $*PROGRAM.Str;
+        my $argc = CArray[int32].new;
+        $argc[0] = 1;
+        my $argv = CArray[CArray[Str]].new;
+        $argv[0] = $arg_arr;
+        gtk_init($argc, $argv);
+    }
 
-  method run() {
-    gtk_widget_show($!main-window);
-    gtk_main();
-  }
+    method _load {
+        $!builder = gtk_builder_new_from_file($*PROGRAM.IO.absolute ~ '.glade');
+        $!main-window = gtk_builder_get_object($!builder, "mainWindow");
+
+        my $signal-supplier = Supplier.new;
+        $!signal-supply = $signal-supplier.Supply;
+
+        sub conn(GtkBuilder $builder, GObject $object, Str $signal-name, Str $handler-name, GObject $connect-object, int32 $connect-flags, OpaquePointer $user-data) {
+            note "Connecting Signals: $builder: $object $signal-name for $handler-name"; # <$connect-object> [$connect-flags] $user-data";
+            g_signal_connect_wd($object, $signal-name, -> $, $ {
+               $signal-supplier.emit([$handler-name, $signal-name, $object]); 
+               CATCH { default { note "in signal supply for $handler-name:"; note $_; } }
+            }, OpaquePointer, 0); 
+        }
+
+        gtk_builder_connect_signals_full($!builder, &conn);
+        g_signal_connect_wd($!main-window, "delete-event", -> $, $ { gtk_main_quit(); }, OpaquePointer, 0);
+    }
+
+    method run() {
+        gtk_widget_show($!main-window);
+        gtk_main();
+    }
 }
 
 # vi: foldmethod=marker
