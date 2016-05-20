@@ -1280,13 +1280,21 @@ class GTK::Simple::GladeApp {
         }
 
         gtk_builder_connect_signals_full($!builder, &conn);
-        g_signal_connect_wd($!main-window, "delete-event", -> $, $ { gtk_main_quit(); }, OpaquePointer, 0);
+        g_signal_connect_wd($!main-window, "delete-event", -> $, $ {
+          note 'Quitting on main-window delete-event';
+          self.exit;
+        }, OpaquePointer, 0);
     }
 
     method run() {
         gtk_widget_show($!main-window);
         gtk_main();
     }
+
+    method exit() {
+      gtk_main_quit();
+    }
+
 }
 
 # vi: foldmethod=marker
