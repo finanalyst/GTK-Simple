@@ -1164,6 +1164,14 @@ class GTK::Simple::ComboBoxText does GTK::Simple::Widget {
         gtk_combo_box_text_get_active_text($!gtk_widget);
     }
 
+    sub gtk_combo_box_set_active(GtkWidget $widget, int32 $index)
+	is native(&gtk-lib)
+	{ * }
+
+    method set-active( $index ) {
+	gtk_combo_box_set_active($!gtk_widget,$index)
+    }
+
     has $!changed_supply;
     method changed() {
         $!changed_supply //= do {
