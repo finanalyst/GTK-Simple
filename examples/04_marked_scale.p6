@@ -1,6 +1,7 @@
 #!/usr/bin/env perl6
 
 use v6;
+use lib 'lib';
 use GTK::Simple;
 
 my GTK::Simple::App $app .=new( :title( 'More widgets') );
