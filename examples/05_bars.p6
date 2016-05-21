@@ -1,5 +1,7 @@
 #!/usr/bin/env perl6
 
+use v6;
+use lib 'lib';
 use GTK::Simple;
 
 my GTK::Simple::App $app = GTK::Simple::App.new(title => 'Boxes');

@@ -1,5 +1,7 @@
 #!/usr/bin/env perl6
 
+use v6;
+use lib 'lib';
 use GTK::Simple;
 
 my $app = GTK::Simple::App.new(title => "Combo Box");
@@ -21,4 +23,3 @@ $combo.changed.tap({
 $app.set-content(GTK::Simple::VBox.new($label, $combo));
 
 $app.run;
-
