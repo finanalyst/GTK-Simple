@@ -56,10 +56,16 @@ my $hbox = GTK::Simple::HBox.new($button1, $button2);
 my $frame = GTK::Simple::Frame.new(label => "Status");
 $frame.set-content($status);
 
+my $action = GTK::Simple::ActionBar.new;
+$action.tooltip-text = "this is an action bar";
+
+$action.pack-start(GTK::Simple::Button.new(label => 'Action Bar Left'));
+$action.pack-end(GTK::Simple::Button.new(label => 'Action Bar Right'));
 
 my $sep1 = GTK::Simple::Separator.new;
 my $sep2 = GTK::Simple::Separator.new;
-my $vbox = GTK::Simple::VBox.new($hbox,$sep1, $progress, $sep2, $frame);
+my $sep3 = GTK::Simple::Separator.new;
+my $vbox = GTK::Simple::VBox.new($hbox,$sep1, $progress, $sep2, $action, $sep3, $frame);
 
 
 $vbox.spacing = 10;
