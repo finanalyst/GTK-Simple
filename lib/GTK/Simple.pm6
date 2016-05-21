@@ -1224,7 +1224,8 @@ class GTK::Simple::ActionBar does GTK::Simple::Widget {
 
 }
 
-# --- GladeApp ---
+# GladeApp {{{
+
 class GtkBuilder is repr('CPointer') { }
 class GObject is repr('CPointer') { }
 
@@ -1339,7 +1340,8 @@ class GTK::Simple::GladeApp {
       gtk_main_quit();
     }
 }
-# -- /GladeApp --
+# GladeApp }}}
+
 
 # vi: foldmethod=marker
 
