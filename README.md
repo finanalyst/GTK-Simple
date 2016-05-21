@@ -4,7 +4,7 @@ Here be GTK::Simple, the simple GTK 3 bindings using NativeCall.
 
 ## Installation
 
-This modules requires GTK3 library to be installed.
+This module requires the GTK3 library to be installed.
 
 To install it on Debian Linux:
 ```
