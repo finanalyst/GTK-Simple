@@ -13,6 +13,13 @@ use GTK::Simple::ConnectionHandler;
 use GTK::Simple::Widget;
 use GTK::Simple::Container;
 use GTK::Simple::Scheduler;
+use GTK::Simple::Window;
+use GTK::Simple::App;
+use GTK::Simple::Box;
+use GTK::Simple::HBox;
+use GTK::Simple::VBox;
+use GTK::Simple::Grid;
+use GTK::Simple::Label;
 
 my Mu $cairo_t;
 my Mu $Cairo_Context;
@@ -23,189 +30,6 @@ sub gtk_simple_use_cairo() is export {
         $cairo_t := ::('cairo_t');
         $Cairo_Context := ::('Cairo')::('Context');
     }
-}
-
-class GTK::Simple::Window does GTK::Simple::Widget
-                       does GTK::Simple::Container {
-    submethod BUILD(Cool :$title = "Gtk Window") {
-        $!gtk_widget = gtk_window_new(0);
-        gtk_window_set_title($!gtk_widget, $title.Str);
-    }
-}
-
-class GTK::Simple::App does GTK::Simple::Widget
-                       does GTK::Simple::Container {
-    sub gtk_init(CArray[int32] $argc, CArray[CArray[Str]] $argv)
-        is native(&gtk-lib)
-        {*}
-
-    sub gtk_main()
-        is native(&gtk-lib)
-        {*}
-
-    sub gtk_main_quit()
-        is native(&gtk-lib)
-        {*}
-
-    submethod BUILD(:$title, Bool :$exit-on-close = True) {
-        my $arg_arr = CArray[Str].new;
-        $arg_arr[0] = $*PROGRAM.Str;
-        my $argc = CArray[int32].new;
-        $argc[0] = 1;
-        my $argv = CArray[CArray[Str]].new;
-        $argv[0] = $arg_arr;
-        gtk_init($argc, $argv);
-
-        $!gtk_widget = gtk_window_new(0);
-        gtk_window_set_title($!gtk_widget, $title.Str) if defined $title;
-
-        if $exit-on-close {
-            g_signal_connect_wd($!gtk_widget, "delete-event",
-              -> $, $ {
-                  self.exit
-              }, OpaquePointer, 0);
-        }
-    }
-
-    method exit() {
-        gtk_main_quit();
-    }
-
-
-    method run() {
-        self.show();
-        gtk_main();
-    }
-
-    method g-timeout(Cool $usecs) {
-        my $s = Supplier.new;
-        my $starttime = nqp::time_n();
-        my $lasttime  = nqp::time_n();
-        g_timeout_add($usecs.Int,
-            sub (*@) {
-                my $dt = nqp::time_n() - $lasttime;
-                $lasttime = nqp::time_n();
-                $s.emit((nqp::time_n() - $starttime, $dt));
-
-                return 1;
-            }, OpaquePointer);
-        return $s.Supply;
-    }
-
-    method g_timeout(Cool $usecs) {
-        DEPRECATED('g-timeout',Any,'0.3.2');
-        self.g-timeout($usecs);
-    }
-
-
-}
-
-role GTK::Simple::Box does GTK::Simple::Container {
-    sub gtk_box_pack_start(GtkWidget, GtkWidget, int32, int32, int32)
-        is native(&gtk-lib)
-        {*}
-
-    sub gtk_box_get_spacing(GtkWidget $box)
-        returns int32
-        is native(&gtk-lib)
-        {*}
-
-    sub gtk_box_set_spacing(GtkWidget $box, int32 $spacing)
-        is native(&gtk-lib)
-        {*}
-
-    multi method new(*@packees) {
-        my $box = self.bless();
-        $box.pack-start($_) for @packees;
-        $box
-    }
-
-    method pack-start($widget) {
-        gtk_box_pack_start(self.WIDGET, $widget.WIDGET, 1, 1, 0);
-        gtk_widget_show($widget.WIDGET);
-    }
-
-    method pack_start($widget) {
-        DEPRECATED('pack-start',Any,'0.3.2');
-        self.pack-start($widget);
-    }
-
-    method spacing 
-        returns Int
-        is gtk-property(&gtk_box_get_spacing, &gtk_box_set_spacing)
-        { * }
-}
-
-class GTK::Simple::HBox does GTK::Simple::Widget does GTK::Simple::Box {
-    sub gtk_hbox_new(int32, int32)
-        is native(&gtk-lib)
-        returns GtkWidget
-        {*}
-
-    submethod BUILD() {
-        $!gtk_widget = gtk_hbox_new(0, 0);
-    }
-}
-
-class GTK::Simple::VBox does GTK::Simple::Widget does GTK::Simple::Box {
-    sub gtk_vbox_new(int32, int32)
-        is native(&gtk-lib)
-        returns GtkWidget
-        {*}
-
-    submethod BUILD() {
-        $!gtk_widget = gtk_vbox_new(0, 0);
-    }
-}
-
-class GTK::Simple::Grid does GTK::Simple::Widget {
-    sub gtk_grid_new()
-        is native(&gtk-lib)
-        returns GtkWidget
-        {*}
-
-    sub gtk_grid_attach(GtkWidget $grid, GtkWidget $child, int32 $x, int32 $y, int32 $w, int32 $h)
-        is native(&gtk-lib)
-        {*}
-
-    method new(*@pieces) {
-        my $grid = self.bless();
-        for @pieces -> $pair {
-            die "please provide pairs with a 4-tuple of coordinates => the widget" unless +@($pair.key) == 4;
-            gtk_grid_attach($grid.WIDGET, $pair.value.WIDGET, |@($pair.key));
-            gtk_widget_show($pair.value.WIDGET);
-        }
-        $grid;
-    }
-
-    submethod BUILD() {
-        $!gtk_widget = gtk_grid_new();
-    }
-}
-
-class GTK::Simple::Label does GTK::Simple::Widget {
-    sub gtk_label_new(Str $text)
-        is native(&gtk-lib)
-        returns GtkWidget
-        {*}
-
-    sub gtk_label_get_text(GtkWidget $label)
-        is native(&gtk-lib)
-        returns Str
-        {*}
-
-    sub gtk_label_set_text(GtkWidget $label, Str $text)
-        is native(&gtk-lib)
-        {*}
-
-    submethod BUILD(:$text = '') {
-        $!gtk_widget = gtk_label_new($text);
-    }
-
-    method text() 
-        returns Str
-        is gtk-property(&gtk_label_get_text, &gtk_label_set_text)
-        { * }
 }
 
 # RNH additions 
