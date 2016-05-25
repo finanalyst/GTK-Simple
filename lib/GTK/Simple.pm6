@@ -1,11 +1,18 @@
+
+use v6;
+
 use nqp;
 use GTK::NativeLib;
 use NativeCall;
 
 use GTK::GDK;
 use GTK::Simple::Common;
-use GTK::Simple::Widget;
 use GTK::Simple::Raw;
+
+use GTK::Simple::ConnectionHandler;
+use GTK::Simple::Widget;
+use GTK::Simple::Container;
+use GTK::Simple::Scheduler;
 
 my Mu $cairo_t;
 my Mu $Cairo_Context;
@@ -16,82 +23,6 @@ sub gtk_simple_use_cairo() is export {
         $cairo_t := ::('cairo_t');
         $Cairo_Context := ::('Cairo')::('Context');
     }
-}
-
-class GTK::Simple::ConnectionHandler {
-    has $.instance;
-    has $.handler;
-    has $.connected = True;
-
-    method disconnect {
-        if $.connected {
-            g_signal_handler_disconnect($.instance, $.handler);
-            $!connected = False;
-        }
-    }
-}
-
-role GTK::Simple::Container {
-
-    method set-content($widget) {
-        gtk_container_add(self.WIDGET, $widget.WIDGET);
-        gtk_widget_show($widget.WIDGET);
-    }
-
-    method set_content($widget) {
-        DEPRECATED('set-content',Any,'0.3.2');
-        self.set-content($widget);
-    }
-
-    method border-width 
-        returns Int
-        is gtk-property(&gtk_container_get_border_width, &gtk_container_set_border_width)
-        { * }
-
-    method border_width() { 
-        DEPRECATED('border-width',Any,'0.3.2');
-        self.border-width
-    }
-}
-
-class GTK::Simple::Scheduler does Scheduler {
-    my class Queue is repr('ConcBlockingQueue') { }
-    my $queue := nqp::create(Queue);
-
-    my &idle_cb = sub ($a) { GTK::Simple::Scheduler.process-queue; return 0 };
-
-    method cue(&code, :$at, :$in, :$every, :$times, :&catch ) {
-        die "GTK::Simple::Scheduler does not support at" if $at;
-        die "GTK::Simple::Scheduler does not support in" if $in;
-        die "GTK::Simple::Scheduler does not support every" if $every;
-        die "GTK::Simple::Scheduler does not support times" if $times;
-        my &run := &catch
-            ?? -> { code(); CATCH { default { catch($_) } } }
-            !! &code;
-        nqp::push($queue, &run);
-        g_idle_add(&idle_cb, OpaquePointer);
-        return Nil;
-    }
-
-    method process-queue() {
-        my Mu $task := nqp::queuepoll($queue);
-        unless nqp::isnull($task) {
-            if nqp::islist($task) {
-                my Mu $code := nqp::shift($task);
-                $code(|nqp::hllize($task, Any));
-            }
-            else {
-                $task();
-            }
-        }
-    }
-
-    method process_queue() {
-        DEPRECATED('process-queue',Any,'0.3.2');
-        self.process-queue();
-    }
-
-    method loads() { nqp::elems($queue) }
 }
 
 class GTK::Simple::Window does GTK::Simple::Widget
