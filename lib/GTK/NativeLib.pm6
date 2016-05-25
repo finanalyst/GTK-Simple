@@ -1,3 +1,6 @@
+
+use v6;
+
 unit module GTK::NativeLib;
 use NativeCall;
 
