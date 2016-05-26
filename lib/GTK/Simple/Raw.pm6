@@ -224,3 +224,84 @@ sub gtk_button_set_label(GtkWidget $widget, Str $label)
     is native(&gtk-lib)
     is export(:button)
     { * }
+
+#
+# CheckButton
+#
+sub gtk_check_button_new_with_label(Str $label)
+    is native(&gtk-lib)
+    is export(:check-button)
+    returns GtkWidget
+    {*}
+
+#
+# ToggleButton
+#
+sub gtk_toggle_button_new_with_label(Str $label)
+    is native(&gtk-lib)
+    is export(:toggle-button)
+    returns GtkWidget
+    {*}
+
+sub gtk_toggle_button_get_active(GtkWidget $w)
+    is native(&gtk-lib)
+    is export(:toggle-button)
+    returns int32
+    {*}
+
+sub gtk_toggle_button_set_active(GtkWidget $w, int32 $active)
+    is native(&gtk-lib)
+    is export(:toggle-button)
+    returns int32
+    {*}
+
+#
+# ComboBoxText
+#
+sub gtk_combo_box_text_new()
+    is native(&gtk-lib)
+    is export(:combo-box-text)
+    returns GtkWidget
+    { * }
+
+sub gtk_combo_box_text_new_with_entry()
+    is native(&gtk-lib)
+    is export(:combo-box-text)
+    returns GtkWidget
+    { * }
+
+sub gtk_combo_box_text_prepend_text(GtkWidget $widget, Str $text)
+    is native(&gtk-lib)
+    is export(:combo-box-text)
+    { * }
+
+sub gtk_combo_box_text_append_text(GtkWidget $widget, Str $text)
+    is native(&gtk-lib)
+    is export(:combo-box-text)
+    { * }
+
+sub gtk_combo_box_text_insert_text(GtkWidget $widget, int32 $position, Str $text)
+    is native(&gtk-lib)
+    is export(:combo-box-text)
+    { * }
+
+sub gtk_combo_box_set_active(GtkWidget $widget, int32 $index)
+    is native(&gtk-lib)
+    is export(:combo-box-text)
+    { * }
+
+sub gtk_combo_box_text_get_active_text(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:combo-box-text)
+    returns Str
+    { * }
+
+sub gtk_combo_box_text_remove(GtkWidget $widget, int32 $position)
+    is native(&gtk-lib)
+    is export(:combo-box-text)
+    { * }
+
+sub gtk_combo_box_text_remove_all(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:combo-box-text)
+    { * }
