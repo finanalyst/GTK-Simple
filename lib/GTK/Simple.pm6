@@ -2,13 +2,11 @@
 use v6;
 
 use nqp;
-use GTK::NativeLib;
 use NativeCall;
-
+use GTK::NativeLib;
 use GTK::GDK;
 use GTK::Simple::Common;
 use GTK::Simple::Raw;
-
 use GTK::Simple::ConnectionHandler;
 use GTK::Simple::Widget;
 use GTK::Simple::Container;
@@ -36,8 +34,3 @@ use GTK::Simple::Frame;
 use GTK::Simple::ComboBoxText;
 use GTK::Simple::ActionBar;
 use GTK::Simple::Spinner;
-
-# RNH additions 
-# RNH end
-
-# vi: foldmethod=marker

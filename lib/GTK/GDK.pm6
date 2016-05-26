@@ -79,5 +79,3 @@ class GdkEvent {
 }
 
 # GdkEvent datastructure access }}}
-
-# vi: foldmethod=marker
