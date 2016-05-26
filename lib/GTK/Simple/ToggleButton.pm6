@@ -2,26 +2,11 @@
 use v6;
 
 use NativeCall;
-use GTK::NativeLib;
-use GTK::Simple::Raw;
+use GTK::Simple::Raw :toggle-button, :DEFAULT;
 use GTK::Simple::Common;
 use GTK::Simple::Widget;
 
 unit class GTK::Simple::ToggleButton does GTK::Simple::Widget;
-sub gtk_toggle_button_new_with_label(Str $label)
-    is native(&gtk-lib)
-    returns GtkWidget
-    {*}
-
-sub gtk_toggle_button_get_active(GtkWidget $w)
-    is native(&gtk-lib)
-    returns int32
-    {*}
-
-sub gtk_toggle_button_set_active(GtkWidget $w, int32 $active)
-    is native(&gtk-lib)
-    returns int32
-    {*}
 
 method creation-sub {
     &gtk_toggle_button_new_with_label

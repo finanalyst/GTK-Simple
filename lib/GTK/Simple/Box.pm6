@@ -1,29 +1,11 @@
 
 use v6;
 
-use NativeCall;
-use GTK::NativeLib;
-use GTK::Simple::Raw;
+use GTK::Simple::Raw :box, :DEFAULT;
 use GTK::Simple::Common;
 use GTK::Simple::Container;
 
 unit role GTK::Simple::Box does GTK::Simple::Container;
-
-sub gtk_box_pack_start(GtkWidget, GtkWidget, int32, int32, int32)
-    is native(&gtk-lib)
-    is export
-    {*}
-
-sub gtk_box_get_spacing(GtkWidget $box)
-    returns int32
-    is native(&gtk-lib)
-    is export
-    {*}
-
-sub gtk_box_set_spacing(GtkWidget $box, int32 $spacing)
-    is native(&gtk-lib)
-    is export
-    {*}
 
 multi method new(*@packees) {
     my $box = self.bless();

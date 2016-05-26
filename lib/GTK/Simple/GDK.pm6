@@ -1,8 +1,8 @@
 
 use v6;
 
-use GTK::NativeLib;
 use NativeCall;
+use GTK::Simple::NativeLib;
 
 class GdkWindow is repr('CPointer') { }
 
@@ -79,5 +79,3 @@ class GdkEvent {
 }
 
 # GdkEvent datastructure access }}}
-
-# vi: foldmethod=marker
