@@ -1,12 +1,6 @@
 
 use v6;
 
-use nqp;
-use NativeCall;
-use GTK::Simple::NativeLib;
-use GTK::Simple::GDK;
-use GTK::Simple::Common;
-use GTK::Simple::Raw;
 use GTK::Simple::ConnectionHandler;
 use GTK::Simple::Widget;
 use GTK::Simple::Container;
