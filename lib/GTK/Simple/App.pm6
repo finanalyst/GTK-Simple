@@ -3,7 +3,7 @@ use v6;
 
 use nqp;
 use NativeCall;
-use GTK::NativeLib;
+use GTK::Simple::NativeLib;
 use GTK::Simple::Raw;
 use GTK::Simple::Widget;
 use GTK::Simple::Container;

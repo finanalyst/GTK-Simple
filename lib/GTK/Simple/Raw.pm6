@@ -1,7 +1,7 @@
 
 use v6;
 
-use GTK::NativeLib;
+use GTK::Simple::NativeLib;
 use NativeCall;
 
 unit module GTK::Simple::Raw;

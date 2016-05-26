@@ -3,7 +3,7 @@ use v6;
 
 use NativeCall;
 use GTK::Simple::Common;
-use GTK::GDK;
+use GTK::Simple::GDK;
 use GTK::Simple::Raw;
 
 unit role GTK::Simple::Widget;

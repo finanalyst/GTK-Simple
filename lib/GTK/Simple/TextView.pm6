@@ -1,6 +1,6 @@
 
 use NativeCall;
-use GTK::NativeLib;
+use GTK::Simple::NativeLib;
 use GTK::Simple::Raw;
 use GTK::Simple::Common;
 use GTK::Simple::Widget;
