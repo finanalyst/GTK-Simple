@@ -1,21 +1,10 @@
 
 use v6;
 
-use NativeCall;
-use GTK::Simple::NativeLib;
-use GTK::Simple::Raw;
+use GTK::Simple::Raw :grid, :DEFAULT;
 use GTK::Simple::Widget;
 
 unit class GTK::Simple::Grid does GTK::Simple::Widget;
-
-sub gtk_grid_new()
-    is native(&gtk-lib)
-    returns GtkWidget
-    {*}
-
-sub gtk_grid_attach(GtkWidget $grid, GtkWidget $child, int32 $x, int32 $y, int32 $w, int32 $h)
-    is native(&gtk-lib)
-    {*}
 
 method new(*@pieces) {
     my $grid = self.bless();

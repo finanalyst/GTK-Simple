@@ -305,3 +305,59 @@ sub gtk_combo_box_text_remove_all(GtkWidget $widget)
     is native(&gtk-lib)
     is export(:combo-box-text)
     { * }
+
+#
+# Grid
+#
+sub gtk_grid_new()
+    is native(&gtk-lib)
+    is export(:grid)
+    returns GtkWidget
+    {*}
+
+sub gtk_grid_attach(GtkWidget $grid, GtkWidget $child, int32 $x, int32 $y, int32 $w, int32 $h)
+    is native(&gtk-lib)
+    is export(:grid)
+    {*}
+
+#
+# Scale
+#
+sub gtk_scale_new_with_range( int32 $orientation, num64 $min, num64 $max, num64 $step )
+    is native(&gtk-lib)
+    is export(:scale)
+    returns GtkWidget
+    {*}
+
+# orientation:
+# horizontal = 0
+# vertical = 1 , inverts so that big numbers at top.
+sub gtk_scale_set_digits( GtkWidget $scale, int32 $digits )
+    is native( &gtk-lib)
+    is export(:scale)    
+    {*}
+    
+sub gtk_range_get_value( GtkWidget $scale )
+    is native(&gtk-lib)
+    is export(:scale)    
+    returns num64
+    {*}
+    
+sub gtk_range_set_value( GtkWidget $scale, num64 $value )
+    is native(&gtk-lib)
+    is export(:scale)    
+    {*}
+
+sub gtk_range_set_inverted( GtkWidget $scale, Bool $invertOK )
+    is native(&gtk-lib)
+    is export(:scale)    
+    {*}
+
+#
+# Separator
+#
+sub gtk_separator_new(int32 $orientation)
+    is native(&gtk-lib)
+    is export(:separator)
+    returns GtkWidget
+    { * }
