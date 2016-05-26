@@ -361,3 +361,277 @@ sub gtk_separator_new(int32 $orientation)
     is export(:separator)
     returns GtkWidget
     { * }
+
+#
+# ActionBar
+#
+sub gtk_action_bar_new()
+    is native(&gtk-lib)
+    is export(:action-bar)
+    returns GtkWidget
+    { * }
+
+sub gtk_action_bar_pack_start(GtkWidget $widget, GtkWidget $child)
+    is native(&gtk-lib)
+    is export(:action-bar)
+    { * }
+
+sub gtk_action_bar_pack_end(GtkWidget $widget, GtkWidget $child)
+    is native(&gtk-lib)
+    is export(:action-bar)
+    { * }
+
+sub gtk_action_bar_get_center_widget(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:action-bar)
+    returns GtkWidget
+    { * }
+
+sub gtk_action_bar_set_center_widget(GtkWidget $widget, GtkWidget $centre-widget)
+    is native(&gtk-lib)
+    is export(:action-bar)
+    { * }
+
+#
+# Entry
+#
+sub gtk_entry_new()
+    is native(&gtk-lib)
+    is export(:entry)
+    returns GtkWidget
+    {*}
+
+sub gtk_entry_get_text(GtkWidget $entry)
+    is native(&gtk-lib)
+    is export(:entry)
+    returns Str
+    {*}
+
+sub gtk_entry_set_text(GtkWidget $entry, Str $text)
+    is native(&gtk-lib)
+    is export(:entry)
+    {*}
+
+#
+# Frame
+#
+sub gtk_frame_new(Str $label)
+    is native(&gtk-lib)
+    is export(:frame)
+    returns GtkWidget
+    { * }
+
+sub gtk_frame_get_label(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:frame)
+    returns Str
+    { * }
+
+sub gtk_frame_set_label(GtkWidget $widget, Str $label)
+    is native(&gtk-lib)
+    is export(:frame)
+    { * }
+
+#
+# Label
+#
+sub gtk_label_new(Str $text)
+    is native(&gtk-lib)
+    is export(:label)
+    returns GtkWidget
+    {*}
+
+sub gtk_label_get_text(GtkWidget $label)
+    is native(&gtk-lib)
+    is export(:label)
+    returns Str
+    {*}
+
+sub gtk_label_set_text(GtkWidget $label, Str $text)
+    is native(&gtk-lib)
+    is export(:label)
+    {*}
+
+sub gtk_label_set_markup(GtkWidget $label, Str $text)
+    is native(&gtk-lib)
+    is export(:label)
+    {*}
+
+#
+# DrawingArea
+#
+sub gtk_drawing_area_new()
+    is native(&gtk-lib)
+    is export(:drawing-area)
+    returns GtkWidget
+    {*}
+
+#
+# ProgressBar
+#
+sub gtk_progress_bar_new()
+    is native(&gtk-lib)
+    is export(:progress-bar)
+    returns GtkWidget
+    { * }
+
+sub gtk_progress_bar_pulse(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:progress-bar)
+    { * }
+
+sub gtk_progress_bar_set_fraction(GtkWidget $widget, num64 $fractions)
+    is native(&gtk-lib)
+    is export(:progress-bar)
+    { * }
+
+sub gtk_progress_bar_get_fraction(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:progress-bar)
+    returns num64
+    { * }
+
+#
+# Spinner
+#
+sub gtk_spinner_new()
+    is native(&gtk-lib)
+    is export(:spinner)
+    returns GtkWidget
+    { * }
+
+sub gtk_spinner_start(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:spinner)
+    { * }
+
+sub gtk_spinner_stop(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:spinner)
+    { * }
+
+#
+# StatusBar
+#
+sub gtk_statusbar_new()
+    is native(&gtk-lib)
+    is export(:status-bar)
+    returns GtkWidget
+    { * }
+
+sub gtk_statusbar_get_context_id(GtkWidget $widget, Str $description)
+    is native(&gtk-lib)
+    is export(:status-bar)
+    returns uint32
+    { * }
+
+sub gtk_statusbar_push(GtkWidget $widget, uint32 $context_id, Str $text)
+    is native(&gtk-lib)
+    is export(:status-bar)
+    returns uint32
+    { * }
+
+sub gtk_statusbar_pop(GtkWidget $widget, uint32 $context-id)
+    is native(&gtk-lib)
+    is export(:status-bar)
+    { * }
+
+sub gtk_statusbar_remove(GtkWidget $widget, uint32 $context-id, uint32 $message-id)
+    is native(&gtk-lib)
+    is export(:status-bar)
+    { * }
+
+sub gtk_statusbar_remove_all(GtkWidget $widget, uint32 $context-id)
+    is native(&gtk-lib)
+    is export(:status-bar)
+    { * }
+
+#
+# Switch
+#
+sub gtk_switch_new()
+    is native(&gtk-lib)
+    is export(:switch)
+    returns GtkWidget
+    {*}
+
+sub gtk_switch_get_active(GtkWidget $w)
+    is export(:switch)
+    is native(&gtk-lib)
+    returns int32
+    {*}
+
+sub gtk_switch_set_active(GtkWidget $w, int32 $a)
+    is native(&gtk-lib)
+    is export(:switch)
+    {*}
+
+#
+# TextView
+#
+sub gtk_text_view_new()
+    is native(&gtk-lib)
+    is export(:text-view)
+    returns GtkWidget
+    {*}
+
+sub gtk_text_view_get_buffer(GtkWidget $view)
+    is native(&gtk-lib)
+    is export(:text-view)
+    returns OpaquePointer
+    {*}
+
+sub gtk_text_buffer_get_text(OpaquePointer $buffer, CArray[int32] $start,
+        CArray[int32] $end, int32 $show_hidden)
+    is native(&gtk-lib)
+    is export(:text-view)
+    returns Str
+    {*}
+
+sub gtk_text_buffer_get_start_iter(OpaquePointer $buffer, CArray[int32] $i)
+    is native(&gtk-lib)
+    is export(:text-view)
+    {*}
+
+sub gtk_text_buffer_get_end_iter(OpaquePointer $buffer, CArray[int32] $i)
+    is native(&gtk-lib)
+    is export(:text-view)
+    {*}
+
+sub gtk_text_buffer_set_text(OpaquePointer $buffer, Str $text, int32 $len)
+    is native(&gtk-lib)
+    is export(:text-view)
+    {*}
+
+sub gtk_text_view_set_editable(GtkWidget $widget, int32 $setting) 
+    is native(&gtk-lib)
+    is export(:text-view)
+    { * }
+
+sub gtk_text_view_get_editable(GtkWidget $widget) 
+    is native(&gtk-lib)
+    is export(:text-view)
+    returns int32
+    { * }
+
+sub gtk_text_view_set_cursor_visible(GtkWidget $widget, int32 $setting) 
+    is native(&gtk-lib)
+    is export(:text-view)
+    { * }
+
+sub gtk_text_view_get_cursor_visible(GtkWidget $widget) 
+    is native(&gtk-lib)
+    is export(:text-view)
+    returns int32
+    { * }
+
+sub gtk_text_view_get_monospace(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:text-view)
+    returns int32
+    { * }
+
+sub gtk_text_view_set_monospace(GtkWidget $widget, int32 $setting)
+    is native(&gtk-lib)
+    is export(:text-view)
+    { * }

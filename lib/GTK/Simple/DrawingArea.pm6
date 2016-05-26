@@ -3,8 +3,7 @@ use v6;
 
 use nqp;
 use NativeCall;
-use GTK::Simple::NativeLib;
-use GTK::Simple::Raw;
+use GTK::Simple::Raw :drawing-area, :DEFAULT;
 use GTK::Simple::Common;
 use GTK::Simple::Widget;
 
@@ -20,11 +19,6 @@ sub gtk_simple_use_cairo() is export {
 }
 
 unit class GTK::Simple::DrawingArea does GTK::Simple::Widget;
-
-sub gtk_drawing_area_new()
-    is native(&gtk-lib)
-    returns GtkWidget
-    {*}
 
 submethod BUILD() {
     $!gtk_widget = gtk_drawing_area_new();
