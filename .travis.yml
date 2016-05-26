@@ -1,12 +1,20 @@
 language: perl6
 
-perl6:
-    - latest
+os:
+  - linux
+  - osx
 
-install:
-    - rakudobrew build-panda
-    - panda update && panda install LWP::Simple
+perl6:
+  - 2016.05
+  - latest
 
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install libgtk-3-dev
+
+install:
+  - echo $TRAVIS_OS_NAME
+  - rakudobrew build panda
+  - panda installdeps .
+
+script: prove -v -e "perl6 -Ilib" t/
