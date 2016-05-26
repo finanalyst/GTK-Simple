@@ -1,3 +1,6 @@
+
+use v6;
+
 use GTK::NativeLib;
 use NativeCall;
 

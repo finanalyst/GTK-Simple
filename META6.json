@@ -1,6 +1,6 @@
 {
     "name" : "GTK::Simple",
-    "version" : "0.1.0",
+    "version" : "0.1.1",
     "perl"    : "6.c",
     "description" : "Simple GTK 3 binding using NativeCall",
     "depends" : [ "LWP::Simple" ],
