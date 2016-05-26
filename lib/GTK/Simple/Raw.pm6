@@ -149,3 +149,51 @@ sub g_timeout_add(int32 $interval, &Handler (OpaquePointer $h_data, --> int32), 
     is export
     returns int32
     {*}
+
+#
+# Box
+#
+sub gtk_box_pack_start(GtkWidget, GtkWidget, int32, int32, int32)
+    is native(&gtk-lib)
+    is export(:box)
+    {*}
+
+sub gtk_box_get_spacing(GtkWidget $box)
+    returns int32
+    is native(&gtk-lib)
+    is export(:box)
+    {*}
+
+sub gtk_box_set_spacing(GtkWidget $box, int32 $spacing)
+    is native(&gtk-lib)
+    is export(:box)
+    {*}
+
+#
+# VBox
+#
+sub gtk_vbox_new(int32, int32)
+    is native(&gtk-lib)
+    is export(:vbox)
+    returns GtkWidget
+    {*}
+
+#
+# Button
+#
+sub gtk_button_new_with_label(Str $label)
+    is native(&gtk-lib)
+    is export(:button)
+    returns GtkWidget
+    {*}
+
+sub gtk_button_get_label(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:button)
+    returns Str
+    { * }
+
+sub gtk_button_set_label(GtkWidget $widget, Str $label)
+    is native(&gtk-lib)
+    is export(:button)
+    { * }
