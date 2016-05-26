@@ -9,6 +9,7 @@ use GTK::Simple::Raw;
 unit role GTK::Simple::Widget;
 
 has $!gtk_widget;
+has $!deleted_supply;
 
 method WIDGET() {
     $!gtk_widget
@@ -111,7 +112,6 @@ method hide() {
 }
 
 # All widgets get the 'delete-event'
-has $!deleted_supply;
 #| Tap this supply to react to the window being closed
 method deleted() {
     $!deleted_supply //= do {

@@ -151,6 +151,24 @@ sub g_timeout_add(int32 $interval, &Handler (OpaquePointer $h_data, --> int32), 
     {*}
 
 #
+# App
+#
+sub gtk_init(CArray[int32] $argc, CArray[CArray[Str]] $argv)
+    is native(&gtk-lib)
+    is export(:app)
+    {*}
+
+sub gtk_main()
+    is native(&gtk-lib)
+    is export(:app)
+    {*}
+
+sub gtk_main_quit()
+    is native(&gtk-lib)
+    is export(:app)
+    {*}
+
+#
 # Box
 #
 sub gtk_box_pack_start(GtkWidget, GtkWidget, int32, int32, int32)
@@ -167,6 +185,15 @@ sub gtk_box_get_spacing(GtkWidget $box)
 sub gtk_box_set_spacing(GtkWidget $box, int32 $spacing)
     is native(&gtk-lib)
     is export(:box)
+    {*}
+
+#
+# HBox
+#
+sub gtk_hbox_new(int32, int32)
+    is native(&gtk-lib)
+    is export(:hbox)
+    returns GtkWidget
     {*}
 
 #

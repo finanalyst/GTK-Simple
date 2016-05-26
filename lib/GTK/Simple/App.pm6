@@ -3,29 +3,13 @@ use v6;
 
 use nqp;
 use NativeCall;
-use GTK::Simple::NativeLib;
-use GTK::Simple::Raw;
+use GTK::Simple::Raw :app, :DEFAULT;
 use GTK::Simple::Widget;
 use GTK::Simple::Container;
 
 unit class GTK::Simple::App
     does GTK::Simple::Widget
     does GTK::Simple::Container;
-
-sub gtk_init(CArray[int32] $argc, CArray[CArray[Str]] $argv)
-    is native(&gtk-lib)
-    is export
-    {*}
-
-sub gtk_main()
-    is native(&gtk-lib)
-    is export
-    {*}
-
-sub gtk_main_quit()
-    is native(&gtk-lib)
-    is export
-    {*}
 
 submethod BUILD(:$title, Bool :$exit-on-close = True) {
     my $arg_arr = CArray[Str].new;
