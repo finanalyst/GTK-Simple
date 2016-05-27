@@ -5,8 +5,8 @@
     "description" : "Simple GTK 3 binding using NativeCall",
     "depends" : [ "LWP::Simple" ],
     "provides" : {
-        "GTK::GDK"                       : "lib/GTK/GDK.pm6",
-        "GTK::NativeLib"                 : "lib/GTK/NativeLib.pm6",
+        "GTK::Simple::GDK"               : "lib/GTK/Simple/GDK.pm6",
+        "GTK::Simple::NativeLib"         : "lib/GTK/Simple/NativeLib.pm6",
         "GTK::Simple"                    : "lib/GTK/Simple.pm6",
         "GTK::Simple::ActionBar"         : "lib/GTK/Simple/ActionBar.pm6",
         "GTK::Simple::App"               : "lib/GTK/Simple/App.pm6",
