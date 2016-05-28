@@ -290,6 +290,12 @@ sub gtk_combo_box_set_active(GtkWidget $widget, int32 $index)
     is export(:combo-box-text)
     { * }
 
+sub gtk_combo_box_get_active(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:combo-box-text)
+    returns int32
+    { * }
+
 sub gtk_combo_box_text_get_active_text(GtkWidget $widget)
     is native(&gtk-lib)
     is export(:combo-box-text)
