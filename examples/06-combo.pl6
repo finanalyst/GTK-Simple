@@ -25,19 +25,22 @@ $combo.changed.tap({
 =comment preset the active item.
 
 my $pre-set-combo = GTK::Simple::ComboBoxText.new();
-my @items = <zero one two three four five six>;
+my @items = <alpha beta gamma delta epsilon zeta eta theta>;
 
 for @items -> $item {
     $pre-set-combo.append-text( $item )
 }
 
-$pre-set-combo.set-active( 3 );
+my $index = 4;
+$pre-set-combo.set-active( $index );
 =comment
     If the index is 0 > index > @item.end then nothing happens.
 
-my $lbl2 = GTK::Simple::Label.new( text => @items[3] );
+my $lbl2 = GTK::Simple::Label.new( text => @items[$index] );
 
-$pre-set-combo.changed.tap: { $lbl2.text = $pre-set-combo.active-text();  };
+$pre-set-combo.changed.tap: { 
+    $lbl2.text = 'ComboBoxText has selection ' ~ $pre-set-combo.active-text() ~ ', which has index ' ~ $pre-set-combo.get-active(); 
+};
 
 
 $app.set-content(GTK::Simple::VBox.new($label, $combo, $lbl2, $pre-set-combo));

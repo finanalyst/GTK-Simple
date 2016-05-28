@@ -49,6 +49,10 @@ method set-active( $index ) {
     gtk_combo_box_set_active($!gtk_widget,$index)
 }
 
+method get-active() returns Int {
+    gtk_combo_box_get_active($!gtk_widget)
+}
+
 has $!changed_supply;
 method changed() {
     $!changed_supply //= do {
