@@ -1,4 +1,4 @@
-## GTK::Simple [![Build Status](https://travis-ci.org/perl6/gtk-simple.svg?branch=master)](https://travis-ci.org/perl6/gtk-simple) [![Build status](https://ci.appveyor.com/api/projects/status/github/perl6/gtk-simple?svg=true)](https://ci.appveyor.com/project/perl6/gtk-simple/branch/master)
+## GTK::Simple [![Build Status](https://travis-ci.org/perl6/gtk-simple.svg?branch=master)](https://travis-ci.org/perl6/gtk-simple) [![Build status](https://ci.appveyor.com/api/projects/status/github/azawawi/gtk-simple?svg=true)](https://ci.appveyor.com/project/azawawi/gtk-simple/branch/master)
 
 GTK::Simple is a set of simple [GTK 3](http://www.gtk.org/) bindings using
 NativeCall. Only a few GTK widgets are currently implemented. However, these are enough to create a reasonable interactive GUI for an idiomatic Perl 6 program. Widgets are gradually being added. These include the following:
