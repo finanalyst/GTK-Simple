@@ -1,9 +1,9 @@
 {
     "name" : "GTK::Simple",
-    "version" : "0.1.2",
+    "version" : "0.1.3",
     "perl"    : "6.c",
     "description" : "Simple GTK 3 binding using NativeCall",
-    "depends" : [ "LWP::Simple" ],
+    "build-depends" : [ "LWP::Simple", "panda", "Shell::Command" ],
     "provides" : {
         "GTK::Simple::GDK"               : "lib/GTK/Simple/GDK.pm6",
         "GTK::Simple::NativeLib"         : "lib/GTK/Simple/NativeLib.pm6",
