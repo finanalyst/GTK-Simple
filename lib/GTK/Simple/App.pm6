@@ -69,7 +69,3 @@ method g_timeout(Cool $usecs) {
     DEPRECATED('g-timeout',Any,'0.3.2');
     self.g-timeout($usecs);
 }
-
-method show-all() {
-    gtk_widget_show_all($!gtk_widget);
-}

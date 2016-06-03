@@ -125,3 +125,7 @@ method deleted() {
         $s.Supply;
     }
 }
+
+method show-all() {
+    gtk_widget_show_all($!gtk_widget);
+}
