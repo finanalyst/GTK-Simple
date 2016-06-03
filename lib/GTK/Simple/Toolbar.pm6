@@ -3,9 +3,10 @@ use v6;
 use GTK::Simple::Raw :toolbar, :box, :vbox, :DEFAULT;
 use GTK::Simple::VBox;
 use GTK::Simple::Widget;
-use GTK::Simple::MenuToolButton;
 
 unit class GTK::Simple::Toolbar does GTK::Simple::Widget;
+
+use GTK::Simple::MenuToolButton;
 
 has $!item-count = 0;
 
