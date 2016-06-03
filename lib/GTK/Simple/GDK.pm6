@@ -8,7 +8,7 @@ use GTK::Simple::NativeLib;
 
 class GdkWindow is repr('CPointer') { }
 
-enum EVENT_MASK (
+enum EVENT_MASK is export (
   EXPOSURE_MASK => 2,
   POINTER_MOTION_MASK => 4,
   POINTER_MOTION_HINT_MASK => 8,
