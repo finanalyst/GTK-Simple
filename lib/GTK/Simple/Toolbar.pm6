@@ -1,9 +1,9 @@
+
 use v6;
-
-
 use GTK::Simple::Raw :toolbar, :box, :vbox, :DEFAULT;
 use GTK::Simple::VBox;
 use GTK::Simple::Widget;
+use GTK::Simple::MenuToolButton;
 
 class GTK::Simple::Toolbar 
     does GTK::Simple::Widget
@@ -27,11 +27,9 @@ class GTK::Simple::Toolbar
         gtk_toolbar_set_style($!gtk_widget, $style);
     }
 
-    method add-stock-menu-item(Str $icon) {
-        my $button = gtk_tool_button_new_from_stock($icon);
-        gtk_toolbar_insert($!gtk_widget, $button, -1);
+    method add-menu-item(GTK::Simple::MenuToolButton $button) {
+        gtk_toolbar_insert($!gtk_widget, $button.WIDGET, -1);
         $!item-count++;
-        $button;
     }
 
     method add-separator() {
@@ -46,4 +44,5 @@ class GTK::Simple::Toolbar
         gtk_box_pack_start($vbox.WIDGET, $!gtk_widget, 0, 0, $!item-count);
         $vbox;
     }
+
 }
