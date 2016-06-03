@@ -16,6 +16,6 @@ install:
 build: off
 
 test_script:
-  - prove -v -e "perl6 -Ilib" t/
+  - prove -v -e "perl6 -Ilib" t/ && panda install GTK::Simple
 
 shallow_clone: true
