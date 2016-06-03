@@ -1,7 +1,8 @@
 
 use v6;
 
-unit module GTK::NativeLib;
+unit module GTK::Simple::NativeLib;
+
 use NativeCall;
 
 # On any non-windows machine, this just returns the library name

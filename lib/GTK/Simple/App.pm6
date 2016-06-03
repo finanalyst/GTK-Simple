@@ -11,7 +11,12 @@ unit class GTK::Simple::App
     does GTK::Simple::Widget
     does GTK::Simple::Container;
 
-submethod BUILD(:$title, Bool :$exit-on-close = True) {
+submethod BUILD(
+    Str :$title,
+    Bool :$exit-on-close = True,
+    Int :$width = 300, Int :$height = 200,
+    GtkWindowPosition :$position = GTK_WIN_POS_CENTER
+) {
     my $arg_arr = CArray[Str].new;
     $arg_arr[0] = $*PROGRAM.Str;
     my $argc = CArray[int32].new;
@@ -29,6 +34,10 @@ submethod BUILD(:$title, Bool :$exit-on-close = True) {
               self.exit
           }, OpaquePointer, 0);
     }
+
+    # Set window default size and position
+    gtk_window_set_default_size($!gtk_widget, $width, $height);
+    gtk_window_set_position($!gtk_widget, $position);
 }
 
 method exit() {

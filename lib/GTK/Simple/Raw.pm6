@@ -8,6 +8,14 @@ unit module GTK::Simple::Raw;
 
 class GtkWidget is repr('CPointer') is export { }
 
+enum GtkWindowPosition is export (
+    GTK_WIN_POS_NONE               => 0,
+    GTK_WIN_POS_CENTER             => 1,
+    GTK_WIN_POS_MOUSE              => 2,
+    GTK_WIN_POS_CENTER_ALWAYS      => 3,
+    GTK_WIN_POS_CENTER_ON_PARENT   => 4,
+);
+
 # gtk_widget_... {{{
 
 sub gtk_widget_show(GtkWidget $widgetw)
@@ -96,6 +104,16 @@ sub gtk_window_set_title(GtkWidget $w, Str $title)
     is export
     returns GtkWidget
     {*}
+
+sub gtk_window_set_position(GtkWidget $window, int32 $position)
+    is native(&gtk-lib)
+    is export
+    { * }
+
+sub gtk_window_set_default_size(GtkWidget $window, int32 $width, int32 $height)
+    is native(&gtk-lib)
+    is export
+    { * }
 
 # gtk_widget_ ... }}}
 
@@ -640,4 +658,35 @@ sub gtk_text_view_get_monospace(GtkWidget $widget)
 sub gtk_text_view_set_monospace(GtkWidget $widget, int32 $setting)
     is native(&gtk-lib)
     is export(:text-view)
+    { * }
+
+#
+# Toolbar
+#
+sub gtk_toolbar_new()
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:toolbar)
+    { * }
+
+sub gtk_tool_button_new_from_stock(Str)
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:toolbar)
+    { * }
+
+sub gtk_separator_tool_item_new()
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:toolbar)
+    { * }
+
+sub gtk_toolbar_set_style(Pointer $toolbar, int32 $style)
+    is native(&gtk-lib)
+    is export(:toolbar)
+    { * }
+
+sub gtk_toolbar_insert(Pointer $toolbar, Pointer $button, int32)
+    is native(&gtk-lib)
+    is export(:toolbar)
     { * }
