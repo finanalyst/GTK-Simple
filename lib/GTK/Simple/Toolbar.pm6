@@ -5,7 +5,7 @@ use GTK::Simple::VBox;
 use GTK::Simple::Widget;
 use GTK::Simple::MenuToolButton;
 
-class GTK::Simple::Toolbar 
+class GTK::Simple::Toolbar
     does GTK::Simple::Widget
 {
     has $!item-count = 0;

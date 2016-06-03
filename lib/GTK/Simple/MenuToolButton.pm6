@@ -4,7 +4,7 @@ use NativeCall;
 use GTK::Simple::Raw :toolbar, :DEFAULT;
 use GTK::Simple::Widget;
 
-class GTK::Simple::MenuToolButton 
+class GTK::Simple::MenuToolButton
     does GTK::Simple::Widget
 {
     has $!clicked_supply;

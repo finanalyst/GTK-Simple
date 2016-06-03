@@ -28,3 +28,5 @@ require GTK::Simple::Frame;
 require GTK::Simple::ComboBoxText;
 require GTK::Simple::ActionBar;
 require GTK::Simple::Spinner;
+require GTK::Simple::Toolbar;
+require GTK::Simple::MenuToolButton;
