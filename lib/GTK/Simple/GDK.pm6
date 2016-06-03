@@ -1,6 +1,8 @@
 
 use v6;
 
+unit module GTK::Simple::GDK;
+
 use NativeCall;
 use GTK::Simple::NativeLib;
 
