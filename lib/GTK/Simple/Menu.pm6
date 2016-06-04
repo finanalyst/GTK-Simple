@@ -7,9 +7,8 @@ unit class GTK::Simple::Menu does GTK::Simple::Widget;
 
 use GTK::Simple::MenuItem;
 
-submethod BUILD(GTK::Simple::MenuItem :$menu-item) {
+submethod BUILD() {
     $!gtk_widget = gtk_menu_new;
-    gtk_menu_item_set_submenu($menu-item.WIDGET, $!gtk_widget);
 }
 
 method append(GTK::Simple::MenuItem $menu-item) {

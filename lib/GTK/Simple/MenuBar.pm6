@@ -6,14 +6,14 @@ use GTK::Simple::Widget;
 
 unit class GTK::Simple::MenuBar does GTK::Simple::Widget;
 
-use GTK::Simple::Menu;
+use GTK::Simple::MenuItem;
 
 submethod BUILD() {
     $!gtk_widget = gtk_menu_bar_new;
 }
 
-method append(GTK::Simple::Menu $menu) {
-    gtk_menu_shell_append($!gtk_widget, $menu.WIDGET);
+method append(GTK::Simple::MenuItem $menu-item) {
+    gtk_menu_shell_append($!gtk_widget, $menu-item.WIDGET);
 }
 
 method pack() {
