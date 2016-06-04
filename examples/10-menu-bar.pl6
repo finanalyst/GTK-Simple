@@ -26,8 +26,8 @@ $quit-menu-item.activate.tap: {
     $app.exit;
 }
 
-
-$menu-bar.pack;
+my $vbox = $menu-bar.pack;
+$app.set-content( $vbox );
 
 $app.show-all;
 $app.run;
