@@ -690,3 +690,37 @@ sub gtk_toolbar_insert(Pointer $toolbar, Pointer $button, int32)
     is native(&gtk-lib)
     is export(:toolbar)
     { * }
+
+#
+# MenuBar
+#
+sub gtk_menu_bar_new()
+    is native(&gtk-lib)
+    is export(:menu-bar)
+    { * }
+
+#
+# Menu
+#
+sub gtk_menu_new()
+    is native(&gtk-lib)
+    is export(:menu)
+    { * }
+
+sub gtk_menu_shell_append(Pointer $menu, Pointer $menu-item)
+    is native(&gtk-lib)
+    is export(:menu)
+    { * }
+
+#
+# MenuItem
+#
+sub gtk_menu_item_new_with_label(Str $label)
+    is native(&gtk-lib)
+    is export(:menu-item)
+    { * }
+
+sub gtk_menu_item_set_submenu(Pointer $menu-item, Pointer $sub-menu)
+    is native(&gtk-lib)
+    is export(:menu-item)
+    { * }
