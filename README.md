@@ -1,20 +1,27 @@
 ## GTK::Simple [![Build Status](https://travis-ci.org/perl6/gtk-simple.svg?branch=master)](https://travis-ci.org/perl6/gtk-simple) [![Build status](https://ci.appveyor.com/api/projects/status/github/azawawi/gtk-simple?svg=true)](https://ci.appveyor.com/project/azawawi/gtk-simple/branch/master)
 
 GTK::Simple is a set of simple [GTK 3](http://www.gtk.org/) bindings using
-NativeCall. Only a few GTK widgets are currently implemented. However, these are enough to create a reasonable interactive GUI for an idiomatic Perl 6 program. Widgets are gradually being added. These include the following:
+NativeCall. Only a few GTK widgets are currently implemented. However, these are
+enough to create a reasonable interactive GUI for an idiomatic Perl 6 program.
+Widgets are gradually being added. These include the following:
 
-Widget       | Description
------------- | ---------------------------------------------------------------
-Button       | a simple button with a label and a callback
-ComboBoxText | a simple combo box
-Entry        | allows for text to be provided by the user
-Grid         | a table-like container for widgets for window design
-Label        | adds a line of text
-MarkUpLabel  | adds text with GTK mark up (e.g. color and font manipulation)
-Scale        | allows for a number to be provided by the user
-Spinner      | showing something is happening
-TextView     | adds multiple lines of text
-VBox, HBox   | widget containers which enable window layout design
+Widget         | Description
+-------------- | ---------------------------------------------------------------
+Button         | a simple button with a label and a callback
+ComboBoxText   | a simple combo box
+Entry          | allows for text to be provided by the user
+Grid           | a table-like container for widgets for window design
+Label          | adds a line of text
+MarkUpLabel    | adds text with GTK mark up (e.g. color and font manipulation)
+Menu           | A simple menu with a menu item label
+MenuBar        | A simple menu bar that contain one or more menus
+MenuItem       | A simple menu item that can have a sub menu
+MenuToolButton | A menu tool button with a label or an icon
+Scale          | allows for a number to be provided by the user
+Spinner        | showing something is happening
+TextView       | adds multiple lines of text
+Toolbar        | A tool bar that can contain one or more menu tool buttons
+VBox, HBox     | widget containers which enable window layout design
 
 ## Example
 

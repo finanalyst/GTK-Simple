@@ -30,3 +30,6 @@ require GTK::Simple::ActionBar;
 require GTK::Simple::Spinner;
 require GTK::Simple::Toolbar;
 require GTK::Simple::MenuToolButton;
+require GTK::Simple::MenuBar;
+require GTK::Simple::Menu;
+require GTK::Simple::MenuItem;
