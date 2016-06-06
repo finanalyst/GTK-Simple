@@ -10,6 +10,7 @@ Widget         | Description
 Button         | a simple button with a label and a callback
 ComboBoxText   | a simple combo box
 Entry          | allows for text to be provided by the user
+Frame          | A bin with a decorative frame and optional label
 Grid           | a table-like container for widgets for window design
 Label          | adds a line of text
 MarkUpLabel    | adds text with GTK mark up (e.g. color and font manipulation)
@@ -17,6 +18,7 @@ Menu           | A simple menu with a menu item label
 MenuBar        | A simple menu bar that contain one or more menus
 MenuItem       | A simple menu item that can have a sub menu
 MenuToolButton | A menu tool button with a label or an icon
+PlacesSiderBar | Sidebar that displays frequently-used places in the file system
 Scale          | allows for a number to be provided by the user
 Spinner        | showing something is happening
 TextView       | adds multiple lines of text
