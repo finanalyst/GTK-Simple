@@ -9,16 +9,28 @@ unit role GTK::Simple::Box does GTK::Simple::Container;
 
 multi method new(*@packees) {
     my $box = self.bless();
-    $box.pack-start($_) for @packees;
+
+    for @packees {
+        if $_ ~~ Hash {
+            $box.pack-start($_<widget>, $_<expand>, $_<fill>, $_<padding>);
+        } else {
+            $box.pack-start($_);
+        }
+    }
+
     $box
 }
 
-method pack-start($widget) {
-    gtk_box_pack_start(self.WIDGET, $widget.WIDGET, 1, 1, 0);
+multi method pack-start($widget, Int $expand, Int $fill, Int $padding) {
+    gtk_box_pack_start(self.WIDGET, $widget.WIDGET, $expand, $fill, $padding);
     gtk_widget_show($widget.WIDGET);
 }
 
-method pack_start($widget) {
+multi method pack-start($widget) {
+    self.pack-start($widget, 1, 1, 0);
+}
+
+multi method pack_start($widget) {
     DEPRECATED('pack-start',Any,'0.3.2');
     self.pack-start($widget);
 }
