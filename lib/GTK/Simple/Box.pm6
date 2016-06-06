@@ -4,6 +4,7 @@ use v6;
 use GTK::Simple::Raw :box, :DEFAULT;
 use GTK::Simple::Common;
 use GTK::Simple::Container;
+use GTK::Simple::Widget;
 
 unit role GTK::Simple::Box does GTK::Simple::Container;
 
@@ -14,8 +15,8 @@ multi method new(*@packees) {
         if $_ ~~ Hash {
             $box.pack-start(
                 $_<widget>,
-                $_<expand> // 0,
-                $_<fill> // 0,
+                $_<expand>  // True,
+                $_<fill>    // True,
                 $_<padding> // 0
             );
         } else {
@@ -26,13 +27,13 @@ multi method new(*@packees) {
     $box
 }
 
-multi method pack-start($widget, Int $expand, Int $fill, Int $padding) {
+multi method pack-start(GTK::Simple::Widget:D $widget, Bool $expand, Bool $fill, Int $padding) {
     gtk_box_pack_start(self.WIDGET, $widget.WIDGET, $expand, $fill, $padding);
     gtk_widget_show($widget.WIDGET);
 }
 
 multi method pack-start($widget) {
-    self.pack-start($widget, 1, 1, 0);
+    self.pack-start($widget, True, True, 0);
 }
 
 multi method pack_start($widget) {
