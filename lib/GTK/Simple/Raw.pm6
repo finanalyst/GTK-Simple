@@ -778,7 +778,7 @@ sub gtk_file_chooser_set_filename(GtkWidget $file-chooser, Str $file-name)
     { * }
 
 #
-# PlacesSiderBar
+# PlacesSidebar
 #
 sub gtk_places_sidebar_new()
     returns GtkWidget
