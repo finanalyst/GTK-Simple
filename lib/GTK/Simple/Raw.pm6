@@ -776,3 +776,12 @@ sub gtk_file_chooser_set_filename(GtkWidget $file-chooser, Str $file-name)
     is native(&gtk-lib)
     is export(:file-chooser)
     { * }
+
+#
+# PlaceSiderBar
+#
+sub gtk_places_sidebar_new()
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
