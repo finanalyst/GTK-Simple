@@ -12,7 +12,12 @@ multi method new(*@packees) {
 
     for @packees {
         if $_ ~~ Hash {
-            $box.pack-start($_<widget>, $_<expand>, $_<fill>, $_<padding>);
+            $box.pack-start(
+                $_<widget>,
+                $_<expand> // 0,
+                $_<fill> // 0,
+                $_<padding> // 0
+            );
         } else {
             $box.pack-start($_);
         }
