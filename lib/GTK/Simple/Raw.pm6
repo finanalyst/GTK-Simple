@@ -16,6 +16,13 @@ enum GtkWindowPosition is export (
     GTK_WIN_POS_CENTER_ON_PARENT   => 4,
 );
 
+enum GtkFileChooserAction is export(:file-chooser) (
+    GTK_FILE_CHOOSER_ACTION_OPEN           => 0,
+    GTK_FILE_CHOOSER_ACTION_SAVE           => 1,
+    GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER  => 2,
+    GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER  => 3,
+);
+
 # gtk_widget_... {{{
 
 sub gtk_widget_show(GtkWidget $widgetw)
@@ -726,4 +733,46 @@ sub gtk_menu_item_new_with_label(Str $label)
 sub gtk_menu_item_set_submenu(Pointer $menu-item, Pointer $sub-menu)
     is native(&gtk-lib)
     is export(:menu-item)
+    { * }
+
+#
+# FileChooserButton
+#
+sub gtk_file_chooser_button_new(Str $title, int32 $action)
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:file-chooser)
+    { * }
+
+sub gtk_file_chooser_button_get_title(GtkWidget $button)
+    returns Str
+    is native(&gtk-lib)
+    is export(:file-chooser)
+    { * }
+
+sub gtk_file_chooser_button_set_title(GtkWidget $button, Str $title)
+    is native(&gtk-lib)
+    is export(:file-chooser)
+    { * }
+
+sub gtk_file_chooser_button_get_width_chars(GtkWidget $button)
+    returns int32
+    is native(&gtk-lib)
+    is export(:file-chooser)
+    { * }
+
+sub gtk_file_chooser_button_set_width_chars(GtkWidget $button, int32 $n-chars)
+    is native(&gtk-lib)
+    is export(:file-chooser)
+    { * }
+
+sub gtk_file_chooser_get_filename(GtkWidget $file-chooser)
+    returns Str
+    is native(&gtk-lib)
+    is export(:file-chooser)
+    { * }
+
+sub gtk_file_chooser_set_filename(GtkWidget $file-chooser, Str $file-name)
+    is native(&gtk-lib)
+    is export(:file-chooser)
     { * }
