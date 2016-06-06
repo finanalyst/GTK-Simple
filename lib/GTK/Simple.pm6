@@ -33,3 +33,4 @@ require GTK::Simple::MenuToolButton;
 require GTK::Simple::MenuBar;
 require GTK::Simple::Menu;
 require GTK::Simple::MenuItem;
+require GTK::Simple::FileChooserButton;
