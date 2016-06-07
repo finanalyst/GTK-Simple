@@ -13,7 +13,7 @@ my $app             = GTK::Simple::App.new(:title("Places Sidebar Demo"));
 my $places-sidebar  = GTK::Simple::PlacesSidebar.new;
 
 $places-sidebar.open-location.tap: {
-    "open-location".say;
+    "open-location event triggered".say;
     #TODO get the location parameter (https://developer.gnome.org/gtk3/stable/GtkPlacesSidebar.html#GtkPlacesSidebar-open-location)
 }
 
