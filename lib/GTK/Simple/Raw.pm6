@@ -798,6 +798,17 @@ sub gtk_places_sidebar_get_open_flags(GtkWidget $sidebar)
     is export(:places-sidebar)
     { * }
 
+sub gtk_places_sidebar_get_local_only(GtkWidget $sidebar)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+    
+sub gtk_places_sidebar_set_local_only(GtkWidget $sidebar, Bool $local-only)
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
 sub gtk_places_sidebar_set_open_flags(GtkWidget $sidebar, int32 $flags) 
     is native(&gtk-lib)
     is export(:places-sidebar)
@@ -853,18 +864,7 @@ sub gtk_places_sidebar_get_show_trash(GtkWidget $sidebar)
     is export(:places-sidebar)
     { * }
 
-sub gtk_places_sidebar_set_show_trash(GtkWidget $sidebar, Bool $show-desktop)
-    is native(&gtk-lib)
-    is export(:places-sidebar)
-    { * }
-
-sub gtk_places_sidebar_get_local_only(GtkWidget $sidebar)
-    returns Bool
-    is native(&gtk-lib)
-    is export(:places-sidebar)
-    { * }
-
-sub gtk_places_sidebar_set_local_only(GtkWidget $sidebar, Bool $local-only)
+sub gtk_places_sidebar_set_show_trash(GtkWidget $sidebar, Bool $show-trash)
     is native(&gtk-lib)
     is export(:places-sidebar)
     { * }
