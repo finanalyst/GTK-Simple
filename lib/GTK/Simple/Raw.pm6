@@ -871,3 +871,12 @@ sub gtk_places_sidebar_set_show_trash(GtkWidget $sidebar, Bool $show-trash)
     is native(&gtk-lib)
     is export(:places-sidebar)
     { * }
+
+#
+# RadioButton
+#
+sub gtk_radio_button_new_with_label(Pointer $group, Str $label)
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:radio-button)
+    { * }
