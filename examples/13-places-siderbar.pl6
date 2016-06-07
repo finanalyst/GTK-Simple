@@ -9,6 +9,8 @@ use GTK::Simple::PlacesSidebar;
 my $app             = GTK::Simple::App.new(:title("Places Sidebar Demo"));
 my $places-sidebar  = GTK::Simple::PlacesSidebar.new;
 
+$places-sidebar.show-trash(False);
+
 $app.set-content( $places-sidebar );
 $app.border-width = 20;
 
