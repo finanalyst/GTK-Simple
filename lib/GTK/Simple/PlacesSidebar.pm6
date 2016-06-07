@@ -31,7 +31,7 @@ method open-flags()
 
 method show-connect-to-server() 
     returns Bool
-    is gtk-property(&gtk_places_sidebar_get_connect_to_server, &gtk_places_sidebar_set_connect_to_server)
+    is gtk-property(&gtk_places_sidebar_get_show_connect_to_server, &gtk_places_sidebar_set_show_connect_to_server)
     { * }
 
 method show-desktop() 
@@ -47,7 +47,7 @@ method show-desktop()
 
 method show-other-locations()
     returns Bool
-    is gtk-property(&gtk_places_sidebar_get_other_locations, &gtk_places_sidebar_set_other_locations)
+    is gtk-property(&gtk_places_sidebar_get_show_other_locations, &gtk_places_sidebar_set_show_other_locations)
     { * }
 
 method show-recent()

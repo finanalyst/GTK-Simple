@@ -814,13 +814,15 @@ sub gtk_places_sidebar_set_open_flags(GtkWidget $sidebar, int32 $flags)
     is export(:places-sidebar)
     { * }
 
-sub gtk_places_sidebar_get_connect_to_server(GtkWidget $siderbar)
+sub gtk_places_sidebar_get_show_connect_to_server(GtkWidget $siderbar)
     returns int32
     is native(&gtk-lib)
     is export(:places-sidebar)
     { * }
 
-sub gtk_places_sidebar_set_connect_to_server(GtkWidget $sidebar, Bool $connect-to-server)
+sub gtk_places_sidebar_set_show_connect_to_server(
+    GtkWidget $sidebar, 
+    Bool $show-connect-to-server)
     is native(&gtk-lib)
     is export(:places-sidebar)
     { * }
@@ -836,14 +838,15 @@ sub gtk_places_sidebar_set_show_desktop(GtkWidget $sidebar, Bool $show-desktop)
     is export(:places-sidebar)
     { * }
 
-sub gtk_places_sidebar_get_other_locations(GtkWidget $sidebar)
+sub gtk_places_sidebar_get_show_other_locations(GtkWidget $sidebar)
     returns Bool
     is native(&gtk-lib)
     is export(:places-sidebar)
     { * }
 
-sub gtk_places_sidebar_set_other_locations(GtkWidget $sidebar, Bool $show-other-locations)
-    is native(&gtk-lib)
+sub gtk_places_sidebar_set_show_other_locations(
+    GtkWidget $sidebar, Bool $show-other-locations
+)   is native(&gtk-lib)
     is export(:places-sidebar)
     { * }
 
