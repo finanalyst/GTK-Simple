@@ -7,6 +7,6 @@ use GTK::Simple::ToggleButton;
 
 unit class GTK::Simple::CheckButton is GTK::Simple::ToggleButton;
 
-method creation-sub {
-    &gtk_check_button_new_with_label
+submethod BUILD(:$label!) {
+    self.WIDGET( gtk_check_button_new_with_label($label) );
 }

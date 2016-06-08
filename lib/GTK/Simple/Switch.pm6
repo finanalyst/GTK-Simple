@@ -7,10 +7,9 @@ use GTK::Simple::ToggleButton;
 
 unit class GTK::Simple::Switch is GTK::Simple::ToggleButton;
 
-method creation-sub {
-    sub ($) {
-        gtk_switch_new()
-    }
+
+submethod BUILD() {
+    self.WIDGET( gtk_switch_new() );
 }
 
 method status()
