@@ -20,6 +20,7 @@ MenuItem       | A simple menu item that can have a sub menu
 MenuToolButton | A menu tool button with a label or an icon
 PlacesSidebar | Sidebar that displays frequently-used places in the file system
 Scale          | allows for a number to be provided by the user
+RadioButton    | A choice from multiple check buttons
 Spinner        | showing something is happening
 TextView       | adds multiple lines of text
 Toolbar        | A tool bar that can contain one or more menu tool buttons
