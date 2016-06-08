@@ -5,26 +5,27 @@ NativeCall. Only a few GTK widgets are currently implemented. However, these are
 enough to create a reasonable interactive GUI for an idiomatic Perl 6 program.
 Widgets are gradually being added. These include the following:
 
-Widget         | Description
--------------- | ---------------------------------------------------------------
-Button         | a simple button with a label and a callback
-ComboBoxText   | a simple combo box
-Entry          | allows for text to be provided by the user
-Frame          | A bin with a decorative frame and optional label
-Grid           | a table-like container for widgets for window design
-Label          | adds a line of text
-MarkUpLabel    | adds text with GTK mark up (e.g. color and font manipulation)
-Menu           | A simple menu with a menu item label
-MenuBar        | A simple menu bar that contain one or more menus
-MenuItem       | A simple menu item that can have a sub menu
-MenuToolButton | A menu tool button with a label or an icon
-PlacesSidebar | Sidebar that displays frequently-used places in the file system
-Scale          | allows for a number to be provided by the user
-RadioButton    | A choice from multiple check buttons
-Spinner        | showing something is happening
-TextView       | adds multiple lines of text
-Toolbar        | A tool bar that can contain one or more menu tool buttons
-VBox, HBox     | widget containers which enable window layout design
+Widget            | Description
+----------------- | ---------------------------------------------------------------
+Button            | A simple button with a label and a callback
+ComboBoxText      | A simple combo box
+Entry             | Allows for text to be provided by the user
+FileChooserButton | A button that opens a file chooser dialog
+Frame             | A bin with a decorative frame and optional label
+Grid              | A table-like container for widgets for window design
+Label             | Adds a line of text
+MarkUpLabel       | Adds text with GTK mark up (e.g. color and font manipulation)
+Menu              | A simple menu with a menu item label
+MenuBar           | A simple menu bar that contain one or more menus
+MenuItem          | A simple menu item that can have a sub menu
+MenuToolButton    | A menu tool button with a label or an icon
+PlacesSidebar     | Sidebar that displays frequently-used places in the file system
+Scale             | Allows for a number to be provided by the user
+RadioButton       | A choice from multiple check buttons
+Spinner           | Showing that something is happening
+TextView          | Adds multiple lines of text
+Toolbar           | A tool bar that can contain one or more menu tool buttons
+VBox, HBox        | Widget containers which enable window layout design
 
 ## Example
 
