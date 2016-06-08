@@ -14,6 +14,7 @@ FileChooserButton | A button that opens a file chooser dialog
 Frame             | A bin with a decorative frame and optional label
 Grid              | A table-like container for widgets for window design
 Label             | Adds a line of text
+LinkButton        | Create buttons bound to a URL
 MarkUpLabel       | Adds text with GTK mark up (e.g. color and font manipulation)
 Menu              | A simple menu with a menu item label
 MenuBar           | A simple menu bar that contain one or more menus
