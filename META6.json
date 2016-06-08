@@ -24,6 +24,7 @@
         "GTK::Simple::Grid"              : "lib/GTK/Simple/Grid.pm6",
         "GTK::Simple::HBox"              : "lib/GTK/Simple/HBox.pm6",
         "GTK::Simple::Label"             : "lib/GTK/Simple/Label.pm6",
+        "GTK::Simple::LinkButton"        : "lib/GTK/Simple/LinkButton.pm6",
         "GTK::Simple::MarkUpLabel"       : "lib/GTK/Simple/MarkUpLabel.pm6",
         "GTK::Simple::Menu"              : "lib/GTK/Simple/Menu.pm6",
         "GTK::Simple::MenuBar"           : "lib/GTK/Simple/MenuBar.pm6",

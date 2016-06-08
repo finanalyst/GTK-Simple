@@ -885,3 +885,35 @@ sub gtk_radio_button_join_group(GtkWidget $radio-button, GtkWidget $group-source
     is native(&gtk-lib)
     is export(:radio-button)
     { * }
+
+
+#
+# LinkButton
+#
+sub gtk_link_button_new_with_label( Str $uri, Str $label )
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:link-button)
+    { * }
+
+sub gtk_link_button_get_uri(GtkWidget $link-button)
+    returns Str
+    is native(&gtk-lib)
+    is export(:link-button)
+    { * }
+
+sub gtk_link_button_set_uri(GtkWidget $link-button, Str $uri)
+    is native(&gtk-lib)
+    is export(:link-button)
+    { * }
+
+sub gtk_link_button_get_visited(GtkWidget $link-button)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:link-button)
+    { * }
+
+sub gtk_link_button_set_visited(GtkWidget $link-button, Bool $visited)
+    is native(&gtk-lib)
+    is export(:link-button)
+    { * }
