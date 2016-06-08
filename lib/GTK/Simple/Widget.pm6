@@ -11,8 +11,12 @@ unit role GTK::Simple::Widget;
 has $!gtk_widget;
 has $!deleted_supply;
 
-method WIDGET() {
+multi method WIDGET() {
     $!gtk_widget
+}
+
+multi method WIDGET($gtk-widget) {
+    $!gtk_widget = $gtk-widget;
 }
 
 method WINDOW() {

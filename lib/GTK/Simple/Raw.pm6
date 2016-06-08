@@ -23,6 +23,12 @@ enum GtkFileChooserAction is export(:file-chooser) (
     GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER  => 3,
 );
 
+enum GtkPlacesOpenFlags is export(:places-sidebar) (
+    GTK_PLACES_OPEN_NORMAL     => 0,
+    GTK_PLACES_OPEN_NEW_TAB    => 1,
+    GTK_PLACES_OPEN_NEW_WINDOW => 2,
+);
+
 # gtk_widget_... {{{
 
 sub gtk_widget_show(GtkWidget $widgetw)
@@ -784,4 +790,98 @@ sub gtk_places_sidebar_new()
     returns GtkWidget
     is native(&gtk-lib)
     is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_get_open_flags(GtkWidget $sidebar) 
+    returns int32
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_get_local_only(GtkWidget $sidebar)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+    
+sub gtk_places_sidebar_set_local_only(GtkWidget $sidebar, Bool $local-only)
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_set_open_flags(GtkWidget $sidebar, int32 $flags) 
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_get_show_connect_to_server(GtkWidget $siderbar)
+    returns int32
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_set_show_connect_to_server(
+    GtkWidget $sidebar, 
+    Bool $show-connect-to-server)
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_get_show_desktop(GtkWidget $sidebar) 
+    returns Bool
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_set_show_desktop(GtkWidget $sidebar, Bool $show-desktop)
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_get_show_other_locations(GtkWidget $sidebar)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_set_show_other_locations(
+    GtkWidget $sidebar, Bool $show-other-locations
+)   is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_get_show_recent(GtkWidget $sidebar)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_set_show_recent(GtkWidget $sidebar, Bool $show-recent)
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_get_show_trash(GtkWidget $sidebar)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+sub gtk_places_sidebar_set_show_trash(GtkWidget $sidebar, Bool $show-trash)
+    is native(&gtk-lib)
+    is export(:places-sidebar)
+    { * }
+
+#
+# RadioButton
+#
+sub gtk_radio_button_new_with_label(GtkWidget $group, Str $label)
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:radio-button)
+    { * }
+
+sub gtk_radio_button_join_group(GtkWidget $radio-button, GtkWidget $group-source)
+    is native(&gtk-lib)
+    is export(:radio-button)
     { * }
