@@ -29,6 +29,11 @@ enum GtkPlacesOpenFlags is export(:places-sidebar) (
     GTK_PLACES_OPEN_NEW_WINDOW => 2,
 );
 
+enum GtkLevelBarMode is export(:level-bar) (
+    GTK_LEVEL_BAR_MODE_CONTINUOUS => 0,
+    GTK_LEVEL_BAR_MODE_DISCRETE   => 1,
+);
+
 # gtk_widget_... {{{
 
 sub gtk_widget_show(GtkWidget $widgetw)
@@ -916,4 +921,68 @@ sub gtk_link_button_get_visited(GtkWidget $link-button)
 sub gtk_link_button_set_visited(GtkWidget $link-button, Bool $visited)
     is native(&gtk-lib)
     is export(:link-button)
+    { * }
+
+#
+# LevelBar
+#
+sub gtk_level_bar_new()
+    is native(&gtk-lib)
+    is export(:level-bar)
+    returns GtkWidget
+    { * }
+
+sub gtk_level_bar_get_inverted(GtkWidget $level-bar)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:level-bar)
+    { * }
+
+sub gtk_level_bar_set_inverted(GtkWidget $level-bar, Bool $inverted)
+    is native(&gtk-lib)
+    is export(:level-bar)
+    { * }
+
+sub gtk_level_bar_get_max_value(GtkWidget $level-bar)
+    returns num64
+    is native(&gtk-lib)
+    is export(:level-bar)
+    { * }
+
+sub gtk_level_bar_set_max_value(GtkWidget $level-bar, num64 $max-value)
+    is native(&gtk-lib)
+    is export(:level-bar)
+    { * }
+
+sub gtk_level_bar_get_min_value(GtkWidget $level-bar)
+    returns num64
+    is native(&gtk-lib)
+    is export(:level-bar)
+    { * }
+
+sub gtk_level_bar_set_min_value(GtkWidget $level-bar, num64 $min-value)
+    is native(&gtk-lib)
+    is export(:level-bar)
+    { * }
+
+sub gtk_level_bar_get_mode(GtkWidget $level-bar)
+    returns int32
+    is native(&gtk-lib)
+    is export(:level-bar)
+    { * }
+
+sub gtk_level_bar_set_mode(GtkWidget $level-bar, int32 $mode)
+    is native(&gtk-lib)
+    is export(:level-bar)
+    { * }
+
+sub gtk_level_bar_get_value(GtkWidget $level-bar)
+    returns num64
+    is native(&gtk-lib)
+    is export(:level-bar)
+    { * }
+
+sub gtk_level_bar_set_value(GtkWidget $level-bar, num64 $value)
+    is native(&gtk-lib)
+    is export(:level-bar)
     { * }

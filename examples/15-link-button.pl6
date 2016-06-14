@@ -16,12 +16,12 @@ my $link2-button = GTK::Simple::LinkButton.new(:label("Perl 6 Docs"),
 my $text-view   = GTK::Simple::TextView.new;
 
 $link1-button.activate-link.tap: {
-    $text-view.text ~= sprintf("activate-link %s triggerred, visited=%s\n",
+    $text-view.text ~= sprintf("activate-link %s triggered, visited=%s\n",
         $link1-button.uri, $link1-button.visited);
 }
 
 $link2-button.activate-link.tap: {
-    $text-view.text ~= sprintf("activate-link %s triggerred, visited=%s\n",
+    $text-view.text ~= sprintf("activate-link %s triggered, visited=%s\n",
         $link2-button.uri, $link2-button.visited);
 }
 
