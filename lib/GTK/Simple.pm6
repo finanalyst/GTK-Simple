@@ -36,4 +36,5 @@ require GTK::Simple::MenuItem;
 require GTK::Simple::FileChooserButton;
 require GTK::Simple::PlacesSidebar;
 require GTK::Simple::RadioButton;
+require GTK::Simple::LevelBar;
 require GTK::Simple::LinkButton;
