@@ -12,11 +12,13 @@ my %texts = <blue red> Z=>
     '<span foreground="blue" size="x-large">Blue text</span> is <i>cool</i>!',
     '<span foreground="red" size="x-large">Red text</span> is <b>hot</b>!'
 ;
+my $mx = 30;
+my $mn = 2.5;
 
 $app.set-content(
     GTK::Simple::VBox.new( 
         GTK::Simple::HBox.new(
-            GTK::Simple::VBox.new( 
+            my $inner = GTK::Simple::VBox.new( 
                 my $normal-label = GTK::Simple::Label.new(:text("Normal label: %texts<blue>" ) ),
 =comment
     a vanilla label shows up the mark up text as text
@@ -28,10 +30,11 @@ $app.set-content(
 
                 my $bR = GTK::Simple::CheckButton.new(:label('Make Red')),
                 my $bB = GTK::Simple::ToggleButton.new(:label('Make Blue')),
+		my $bSyn = GTK::Simple::ToggleButton.new(:label('Synchronise')),
                 my $label-for-vertical = GTK::Simple::MarkUpLabel.new(:text('Vertical scale value is:')),
 	        my $label-for-horizontal = GTK::Simple::MarkUpLabel.new(:text('Horizontal scale value is:')),
             ),
-            my $scale-vertical = GTK::Simple::Scale.new(:orientation<vertical>, :max(31), :min(2.4), :step(0.3), :value(21) ),
+            my $scale-vertical = GTK::Simple::Scale.new(:orientation<vertical>, :max($mx), :min($mn), :step(0.5), :value(21) ),
 =comment
     A scale widget is used to provide a numerical value
     Here is the vertical form. The maximum value is at the top.
@@ -62,12 +65,19 @@ sub horizontal-changes($b) {
     $label-for-horizontal.text = 'Number is <span foreground="green" size="large">' ~ $scale-horizontal.value ~'</span>';
 }
 
+sub sync($b) {
+    $scale-vertical.adjust: $mn + $scale-horizontal.value * ($mx-$mn)
+}
+
 $bB.toggled.tap: &make-blue;
 $bR.toggled.tap: &make-red;
+$bSyn.toggled.tap: &sync;
 $scale-vertical.value-changed.tap: &vertical-changes;
 =comment
     Note the call-back name is value-changed, not changed for a text entry
 
 $scale-horizontal.value-changed.tap: &horizontal-changes;
 
+$inner.border-width = 20;
+$app.border-width = 20;
 $app.run;
