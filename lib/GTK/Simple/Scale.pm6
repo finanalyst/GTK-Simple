@@ -29,6 +29,10 @@ method value()
     is gtk-property(&gtk_range_get_value, &gtk_range_set_value) 
     { * }
 
+method adjust( $value ) {
+    gtk_range_set_value(self.WIDGET, $value.Num)
+}
+
 method value-changed() {
     $!changed_supply //= do {
         my $s = Supplier.new;
