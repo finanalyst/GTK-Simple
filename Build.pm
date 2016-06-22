@@ -79,7 +79,7 @@ class Build is Panda::Builder {
                           "40F6EDE85DB0A1E2F4BA67693B7DC8B74AFFBFAB3B92B99F6B2CEFACBBF7FF6D",
                           "4F1032F0D7F6F0C2046A96884FD48EC0F7C0A1E22C85E9076057756C4C48E0CB",
                           "5A697F89758B407EE85BAD35376546A80520E1F3092D07F1BC366A490443FAB5");
-            for @files Z @hashes -> $f, $h {
+            for flat @files Z @hashes -> $f, $h {
                 say "Fetching  " ~ $f;
                 my $blob = LWP::Simple.get('http://gtk-dlls.p6c.org/' ~ $f);
                 say "Writing   " ~ $f;
