@@ -1,13 +1,10 @@
-use Panda::Builder;
-
-use Shell::Command;
-use LWP::Simple;
 use NativeCall;
+use Net::HTTP::GET;
 
 # test sub for system library
 sub test() is native('libgtk-3-0.dll') { * }
 
-class Build is Panda::Builder {
+class Build {
     method build($workdir) {
         my $need-copy = False;
 
@@ -30,7 +27,7 @@ class Build is Panda::Builder {
                 $out.lines.grep({$_.chars})[*-1];
             }
             say 'No system gtk library detected. Installing bundled version.';
-            mkdir($workdir ~ '\blib\lib\GTK');
+            mkdir($workdir ~ '/blib/lib/GTK');
             my @files = ("libatk-1.0-0.dll",
                          "libcairo-2.dll",
                          "libcairo-gobject-2.dll",
@@ -81,12 +78,13 @@ class Build is Panda::Builder {
                           "5A697F89758B407EE85BAD35376546A80520E1F3092D07F1BC366A490443FAB5");
             for flat @files Z @hashes -> $f, $h {
                 say "Fetching  " ~ $f;
-                my $blob = LWP::Simple.get('http://gtk-dlls.p6c.org/' ~ $f);
+                my $blob = Net::HTTP::GET('http://gtk-dlls.p6c.org/' ~ $f).body;
                 say "Writing   " ~ $f;
-                spurt($workdir ~ '\blib\lib\GTK\\' ~ $f, $blob);
+                mkdir($workdir ~ '/blib/lib/GTK/');
+                spurt($workdir ~ '/blib/lib/GTK/' ~ $f, $blob);
 
                 say "Verifying " ~ $f;
-                my $hash = ps-hash($workdir ~ '\blib\lib\GTK\\' ~ $f);
+                my $hash = ps-hash($workdir ~ '/blib/lib/GTK/' ~ $f);
                 if ($hash ne $h) {
                     die "Bad download of $f (got: $hash; expected: $h)";
                 }
