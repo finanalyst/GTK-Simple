@@ -30,7 +30,8 @@ class Build is Panda::Builder {
                 $out.lines.grep({$_.chars})[*-1];
             }
             say 'No system gtk library detected. Installing bundled version.';
-            mkdir($workdir ~ '\blib\lib\GTK');
+            my $basedir = $workdir ~ '\resources\blib\lib\GTK';
+            mkdir($basedir);
             my @files = ("libatk-1.0-0.dll",
                          "libcairo-2.dll",
                          "libcairo-gobject-2.dll",
@@ -83,10 +84,10 @@ class Build is Panda::Builder {
                 say "Fetching  " ~ $f;
                 my $blob = LWP::Simple.get('http://gtk-dlls.p6c.org/' ~ $f);
                 say "Writing   " ~ $f;
-                spurt($workdir ~ '\blib\lib\GTK\\' ~ $f, $blob);
+                spurt("$basedir\\" ~ $f, $blob);
 
                 say "Verifying " ~ $f;
-                my $hash = ps-hash($workdir ~ '\blib\lib\GTK\\' ~ $f);
+                my $hash = ps-hash("$basedir\\" ~ $f);
                 if ($hash ne $h) {
                     die "Bad download of $f (got: $hash; expected: $h)";
                 }
