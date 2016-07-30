@@ -2,20 +2,24 @@ os: Visual Studio 2015
 
 platform: x64
 
+environment:
+        matrix:
+        - test_moar: 2016.07
+        - test_moar: '' #latest
+
 install:
   - '"C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" /x64'
   - choco install strawberryperl
   - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;%PATH%
   - git clone https://github.com/tadzik/rakudobrew %USERPROFILE%\rakudobrew
   - SET PATH=%USERPROFILE%\rakudobrew\bin;%PATH%
-  - rakudobrew build moar 2016.05
-  - rakudobrew build panda
+  - rakudobrew build moar %TEST_MOAR%
+  - rakudobrew build zef
   - cd %APPVEYOR_BUILD_FOLDER%
-  - panda installdeps .
 
 build: off
 
 test_script:
-  - prove -v -e "perl6 -Ilib" t/ && panda install .
+  - zef --debug install .
 
 shallow_clone: true
