@@ -81,13 +81,13 @@ class Build is Panda::Builder {
                           "4F1032F0D7F6F0C2046A96884FD48EC0F7C0A1E22C85E9076057756C4C48E0CB",
                           "5A697F89758B407EE85BAD35376546A80520E1F3092D07F1BC366A490443FAB5");
             for flat @files Z @hashes -> $f, $h {
-                say "Fetching  " ~ $f;
-                my $blob = LWP::Simple.get('http://gtk-dlls.p6c.org/' ~ $f);
-                say "Writing   " ~ $f;
-                spurt("$basedir\\" ~ $f, $blob);
+                say "Fetching  $f";
+                my $blob = LWP::Simple.get("http://gtk-dlls.p6c.org/$f");
+                say "Writing   $f";
+                spurt("$basedir\\$f", $blob);
 
-                say "Verifying " ~ $f;
-                my $hash = ps-hash("$basedir\\" ~ $f);
+                say "Verifying $f";
+                my $hash = ps-hash("$basedir\\$f");
                 if ($hash ne $h) {
                     die "Bad download of $f (got: $hash; expected: $h)";
                 }
