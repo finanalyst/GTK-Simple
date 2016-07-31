@@ -92,18 +92,11 @@ sub gobject-lib is export {
 
 sub find-bundled($lib is copy) {
     # if we can't find one, assume there's a system install
-    my $base = "lib/GTK/$lib";
-    for @*INC {
-        if my @files = ($_.files($base) || $_.files("blib/$base")) {
-            my $files = @files[0]<files>;
-            my $tmp = $files{$base} || $files{"blib/$base"};
+    my $base = "blib/lib/GTK/$lib";
 
-            # copy to a temp dir
-            $tmp.IO.copy($*SPEC.tmpdir ~ '\\' ~ $lib);
+    if my $file = %?RESOURCES{$base} {
+            $file.IO.copy($*SPEC.tmpdir ~ '\\' ~ $lib);
             $lib = $*SPEC.tmpdir ~ '\\' ~ $lib;
-
-            last;
-        }
     }
 
     $lib;

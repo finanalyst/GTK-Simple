@@ -50,5 +50,31 @@
         "GTK::Simple::Window"            : "lib/GTK/Simple/Window.pm6"
     },
     "repo-type" : "git",
-    "source-url" : "git://github.com/perl6/gtk-simple.git"
+    "source-url" : "git://github.com/perl6/gtk-simple.git",
+    "resources" : [
+        "blib/lib/GTK/libatk-1.0-0.dll",
+        "blib/lib/GTK/libcairo-2.dll",
+        "blib/lib/GTK/libcairo-gobject-2.dll",
+        "blib/lib/GTK/libffi-6.dll",
+        "blib/lib/GTK/libfontconfig-1.dll",
+        "blib/lib/GTK/libfreetype-6.dll",
+        "blib/lib/GTK/libgdk-3-0.dll",
+        "blib/lib/GTK/libgdk_pixbuf-2.0-0.dll",
+        "blib/lib/GTK/libgio-2.0-0.dll",
+        "blib/lib/GTK/libglib-2.0-0.dll",
+        "blib/lib/GTK/libgmodule-2.0-0.dll",
+        "blib/lib/GTK/libgobject-2.0-0.dll",
+        "blib/lib/GTK/libgtk-3-0.dll",
+        "blib/lib/GTK/libiconv-2.dll",
+        "blib/lib/GTK/libintl-8.dll",
+        "blib/lib/GTK/liblzma-5.dll",
+        "blib/lib/GTK/libpango-1.0-0.dll",
+        "blib/lib/GTK/libpangocairo-1.0-0.dll",
+        "blib/lib/GTK/libpangoft2-1.0-0.dll",
+        "blib/lib/GTK/libpangowin32-1.0-0.dll",
+        "blib/lib/GTK/libpixman-1-0.dll",
+        "blib/lib/GTK/libpng15-15.dll",
+        "blib/lib/GTK/libxml2-2.dll",
+        "blib/lib/GTK/zlib1.dll"
+    ]
 }
