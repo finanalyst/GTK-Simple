@@ -45,7 +45,6 @@ class Build is Panda::Builder {
                      "libpng15-15.dll",
                      "libxml2-2.dll",
                      "zlib1.dll");
-        my $basedir = $workdir ~ '\resources\blib\lib\GTK';
 
         if $need-copy {
             # to avoid a dependency (and because Digest::SHA is too slow), we do a hacked up powershell hash
@@ -56,6 +55,7 @@ class Build is Panda::Builder {
                 $out.lines.grep({$_.chars})[*-1];
             }
             say 'No system gtk library detected. Installing bundled version.';
+            my $basedir = $workdir ~ '\resources\blib\lib\GTK';
             mkdir($basedir);
             my @hashes = ("1FF7464EDA0C7EC9B87D23A075F7486C13D74C02A3B5D83A267AD091424185D9",
                           "E127BF5D01CD9B2F82501E4AD8F867CE9310CE16A33CB71D5ED3F5AB906FD318",
@@ -97,8 +97,11 @@ class Build is Panda::Builder {
         }
         else {
             say 'Found system gtk library.';
+            my $basedir = $workdir ~ '/resources/blib/lib/GTK';
+            mkdir($basedir);
             for @files -> $f {
-                spurt "$basedir\\$f", "";
+                say "writing $f to $basedir/$f";
+                spurt("$basedir/$f", "");
             }
         }
     }
