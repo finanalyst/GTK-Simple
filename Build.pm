@@ -9,10 +9,14 @@ sub test() is native('libgtk-3-0.dll') { * }
 
 class Build is Panda::Builder {
     method build($workdir) {
+
+        # Nothing to do on a non-windows platform
+        return unless $*DISTRO.is-win;
+
         my $need-copy = False;
 
         # we only have .dll files bundled. Non-windows is assumed to have gtk already
-        if $*DISTRO.is-win {
+        {
             test();
             CATCH {
                 default {
