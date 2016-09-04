@@ -91,9 +91,6 @@ sub gobject-lib is export {
 }
 
 sub find-bundled($lib is copy) {
-    # return on a non-windows platform
-    return unless $*DISTRO.is-win;
-
     # if we can't find one, assume there's a system install
     my $base = "blib/lib/GTK/$lib";
 
