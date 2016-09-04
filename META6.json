@@ -47,7 +47,8 @@
         "GTK::Simple::Toolbar"           : "lib/GTK/Simple/Toolbar.pm6",
         "GTK::Simple::VBox"              : "lib/GTK/Simple/VBox.pm6",
         "GTK::Simple::Widget"            : "lib/GTK/Simple/Widget.pm6",
-        "GTK::Simple::Window"            : "lib/GTK/Simple/Window.pm6"
+        "GTK::Simple::Window"            : "lib/GTK/Simple/Window.pm6",
+        "GTK::Simple::ScrolledWindow"    : "lib/GTK/Simple/ScrolledWindow.pm6"
     },
     "repo-type" : "git",
     "source-url" : "git://github.com/perl6/gtk-simple.git",

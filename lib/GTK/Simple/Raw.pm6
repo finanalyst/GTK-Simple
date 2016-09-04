@@ -34,6 +34,18 @@ enum GtkLevelBarMode is export(:level-bar) (
     GTK_LEVEL_BAR_MODE_DISCRETE   => 1,
 );
 
+#Determines how the size should be computed to achieve the one of the visibility mode for the scrollbars.
+enum GtkPolicyType is export(:scrolled-window) (
+    GTK_POLICY_ALWAYS => 0,     #The scrollbar is always visible.
+                                #The view size is independent of the content.
+    GTK_POLICY_AUTOMATIC => 1,  #The scrollbar will appear and disappear as necessary.
+                                #For example, when all of a Gtk::TreeView can not be seen.
+    GTK_POLICY_NEVER => 2,      #The scrollbar should never appear.
+                                #In this mode the content determines the size.
+    GTK_POLICY_EXTERNAL => 3,   #Don't show a scrollbar, but don't force the size to follow the content.
+                                #This can be used e.g. to make multiple scrolled windows share a scrollbar.
+);
+
 # gtk_widget_... {{{
 
 sub gtk_widget_show(GtkWidget $widgetw)
@@ -954,7 +966,7 @@ sub gtk_level_bar_set_max_value(GtkWidget $level-bar, num64 $max-value)
     is export(:level-bar)
     { * }
 
-sub gtk_level_bar_get_min_value(GtkWidget $level-bar)
+sub gtk_level_bar_get_min_value(GtkWidget $GTK_POLICY_AUTOMATIClevel-bar)
     returns num64
     is native(&gtk-lib)
     is export(:level-bar)
@@ -986,3 +998,21 @@ sub gtk_level_bar_set_value(GtkWidget $level-bar, num64 $value)
     is native(&gtk-lib)
     is export(:level-bar)
     { * }
+#
+# Scrolled Window
+#
+sub gtk_scrolled_window_new()
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:scrolled-window)
+    { * }
+    
+sub gtk_scrolled_window_set_policy(GtkWidget $scrolled_window, 
+                                  int32 $h-bar-policy, 
+                                  int32 $v-bar-policy)
+    is native(&gtk-lib)
+    is export(:scrolled-window)
+    { * }
+    
+                                   
+
