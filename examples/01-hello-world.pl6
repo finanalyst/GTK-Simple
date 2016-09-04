@@ -17,7 +17,7 @@ my GTK::Simple::App $app .= new(title => "Hello GTK!");
     to put widgets into its body.
 
     In other GTK tutorials, you'll find that you have to C<gtk_widget_show>
-    all widgets as well as the window. set_content does all of that for us.
+    all widgets as well as the window. set-content does all of that for us.
 =end comment
 
 $app.set-content(
@@ -34,9 +34,9 @@ $app.set-content(
 
 
 =comment
-    Setting the C<border_width> of any C<GTK::Simple::Container> adds
+    Setting the C<border-width> of any C<GTK::Simple::Container> adds
     a B<border around the container>.
-    C<border_width> on a window, however, is special-cased to put
+    C<border-width> on a window, however, is special-cased to put
     a border U<inside> the window instead.
 
 $app.border-width = 20;
