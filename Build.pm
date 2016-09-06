@@ -100,7 +100,7 @@ class Build is Panda::Builder {
             my $basedir = $workdir ~ '/resources/blib/lib/GTK';
             mkdir($basedir);
             for @files -> $f {
-                say "writing $f to $basedir/$f";
+                # Write an empty DLL file for now
                 spurt("$basedir/$f", "");
             }
         }
