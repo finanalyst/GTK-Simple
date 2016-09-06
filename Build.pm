@@ -9,7 +9,6 @@ sub test() is native('libgtk-3-0.dll') { * }
 
 class Build is Panda::Builder {
     method build($workdir) {
-
         my $need-copy = False;
 
         # we only have .dll files bundled. Non-windows is assumed to have gtk already
