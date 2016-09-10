@@ -23,6 +23,7 @@ MenuItem          | A simple menu item that can have a sub menu
 MenuToolButton    | A menu tool button with a label or an icon
 PlacesSidebar     | Sidebar that displays frequently-used places in the file system
 Scale             | Allows for a number to be provided by the user
+ScrolledWindo     | Container for widgets needing scrolling, eg., multiline texts
 RadioButton       | A choice from multiple check buttons
 Spinner           | Showing that something is happening
 TextView          | Adds multiple lines of text
