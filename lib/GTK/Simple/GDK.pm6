@@ -1,12 +1,14 @@
 
 use v6;
 
-use GTK::NativeLib;
+unit module GTK::Simple::GDK;
+
 use NativeCall;
+use GTK::Simple::NativeLib;
 
 class GdkWindow is repr('CPointer') { }
 
-enum EVENT_MASK (
+enum EVENT_MASK is export (
   EXPOSURE_MASK => 2,
   POINTER_MOTION_MASK => 4,
   POINTER_MOTION_HINT_MASK => 8,
@@ -79,5 +81,3 @@ class GdkEvent {
 }
 
 # GdkEvent datastructure access }}}
-
-# vi: foldmethod=marker

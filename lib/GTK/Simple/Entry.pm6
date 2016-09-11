@@ -1,25 +1,13 @@
 use v6;
 
 use NativeCall;
-use GTK::NativeLib;
-use GTK::Simple::Raw;
+use GTK::Simple::Raw :entry, :DEFAULT;
 use GTK::Simple::Common;
 use GTK::Simple::Widget;
 
 unit class GTK::Simple::Entry does GTK::Simple::Widget;
-sub gtk_entry_new()
-    is native(&gtk-lib)
-    returns GtkWidget
-    {*}
 
-sub gtk_entry_get_text(GtkWidget $entry)
-    is native(&gtk-lib)
-    returns Str
-    {*}
-
-sub gtk_entry_set_text(GtkWidget $entry, Str $text)
-    is native(&gtk-lib)
-    {*}
+has $!changed_supply;
 
 submethod BUILD(:$text) {
     $!gtk_widget = gtk_entry_new();
@@ -31,7 +19,6 @@ method text()
     is gtk-property(&gtk_entry_get_text, &gtk_entry_set_text)
     { * }
 
-has $!changed_supply;
 method changed() {
     $!changed_supply //= do {
         my $s = Supplier.new;

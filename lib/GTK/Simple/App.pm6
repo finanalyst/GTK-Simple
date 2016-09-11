@@ -3,8 +3,7 @@ use v6;
 
 use nqp;
 use NativeCall;
-use GTK::NativeLib;
-use GTK::Simple::Raw;
+use GTK::Simple::Raw :app, :DEFAULT;
 use GTK::Simple::Widget;
 use GTK::Simple::Container;
 
@@ -12,22 +11,12 @@ unit class GTK::Simple::App
     does GTK::Simple::Widget
     does GTK::Simple::Container;
 
-sub gtk_init(CArray[int32] $argc, CArray[CArray[Str]] $argv)
-    is native(&gtk-lib)
-    is export
-    {*}
-
-sub gtk_main()
-    is native(&gtk-lib)
-    is export
-    {*}
-
-sub gtk_main_quit()
-    is native(&gtk-lib)
-    is export
-    {*}
-
-submethod BUILD(:$title, Bool :$exit-on-close = True) {
+submethod BUILD(
+    Str :$title,
+    Bool :$exit-on-close = True,
+    Int :$width = 300, Int :$height = 200,
+    GtkWindowPosition :$position = GTK_WIN_POS_CENTER
+) {
     my $arg_arr = CArray[Str].new;
     $arg_arr[0] = $*PROGRAM.Str;
     my $argc = CArray[int32].new;
@@ -45,6 +34,10 @@ submethod BUILD(:$title, Bool :$exit-on-close = True) {
               self.exit
           }, OpaquePointer, 0);
     }
+
+    # Set window default size and position
+    gtk_window_set_default_size($!gtk_widget, $width, $height);
+    gtk_window_set_position($!gtk_widget, $position);
 }
 
 method exit() {

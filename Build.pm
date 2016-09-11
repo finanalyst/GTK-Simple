@@ -21,6 +21,31 @@ class Build is Panda::Builder {
             }
         }
 
+        my @files = ("libatk-1.0-0.dll",
+                     "libcairo-2.dll",
+                     "libcairo-gobject-2.dll",
+                     "libffi-6.dll",
+                     "libfontconfig-1.dll",
+                     "libfreetype-6.dll",
+                     "libgdk-3-0.dll",
+                     "libgdk_pixbuf-2.0-0.dll",
+                     "libgio-2.0-0.dll",
+                     "libglib-2.0-0.dll",
+                     "libgmodule-2.0-0.dll",
+                     "libgobject-2.0-0.dll",
+                     "libgtk-3-0.dll",
+                     "libiconv-2.dll",
+                     "libintl-8.dll",
+                     "liblzma-5.dll",
+                     "libpango-1.0-0.dll",
+                     "libpangocairo-1.0-0.dll",
+                     "libpangoft2-1.0-0.dll",
+                     "libpangowin32-1.0-0.dll",
+                     "libpixman-1-0.dll",
+                     "libpng15-15.dll",
+                     "libxml2-2.dll",
+                     "zlib1.dll");
+
         if $need-copy {
             # to avoid a dependency (and because Digest::SHA is too slow), we do a hacked up powershell hash
             # this should work all the way back to powershell v1
@@ -30,31 +55,8 @@ class Build is Panda::Builder {
                 $out.lines.grep({$_.chars})[*-1];
             }
             say 'No system gtk library detected. Installing bundled version.';
-            mkdir($workdir ~ '\blib\lib\GTK');
-            my @files = ("libatk-1.0-0.dll",
-                         "libcairo-2.dll",
-                         "libcairo-gobject-2.dll",
-                         "libffi-6.dll",
-                         "libfontconfig-1.dll",
-                         "libfreetype-6.dll",
-                         "libgdk-3-0.dll",
-                         "libgdk_pixbuf-2.0-0.dll",
-                         "libgio-2.0-0.dll",
-                         "libglib-2.0-0.dll",
-                         "libgmodule-2.0-0.dll",
-                         "libgobject-2.0-0.dll",
-                         "libgtk-3-0.dll",
-                         "libiconv-2.dll",
-                         "libintl-8.dll",
-                         "liblzma-5.dll",
-                         "libpango-1.0-0.dll",
-                         "libpangocairo-1.0-0.dll",
-                         "libpangoft2-1.0-0.dll",
-                         "libpangowin32-1.0-0.dll",
-                         "libpixman-1-0.dll",
-                         "libpng15-15.dll",
-                         "libxml2-2.dll",
-                         "zlib1.dll");
+            my $basedir = $workdir ~ '\resources\blib\lib\GTK';
+            mkdir($basedir);
             my @hashes = ("1FF7464EDA0C7EC9B87D23A075F7486C13D74C02A3B5D83A267AD091424185D9",
                           "E127BF5D01CD9B2F82501E4AD8F867CE9310CE16A33CB71D5ED3F5AB906FD318",
                           "E963528E4B33A56DE4B6DB491394E56301E5BFA72E592FD39274143FB45DBD80",
@@ -79,14 +81,14 @@ class Build is Panda::Builder {
                           "40F6EDE85DB0A1E2F4BA67693B7DC8B74AFFBFAB3B92B99F6B2CEFACBBF7FF6D",
                           "4F1032F0D7F6F0C2046A96884FD48EC0F7C0A1E22C85E9076057756C4C48E0CB",
                           "5A697F89758B407EE85BAD35376546A80520E1F3092D07F1BC366A490443FAB5");
-            for @files Z @hashes -> $f, $h {
-                say "Fetching  " ~ $f;
-                my $blob = LWP::Simple.get('http://gtk-dlls.p6c.org/' ~ $f);
-                say "Writing   " ~ $f;
-                spurt($workdir ~ '\blib\lib\GTK\\' ~ $f, $blob);
+            for flat @files Z @hashes -> $f, $h {
+                say "Fetching  $f";
+                my $blob = LWP::Simple.get("http://gtk-dlls.p6c.org/$f");
+                say "Writing   $f";
+                spurt("$basedir\\$f", $blob);
 
-                say "Verifying " ~ $f;
-                my $hash = ps-hash($workdir ~ '\blib\lib\GTK\\' ~ $f);
+                say "Verifying $f";
+                my $hash = ps-hash("$basedir\\$f");
                 if ($hash ne $h) {
                     die "Bad download of $f (got: $hash; expected: $h)";
                 }
@@ -95,6 +97,12 @@ class Build is Panda::Builder {
         }
         else {
             say 'Found system gtk library.';
+            my $basedir = $workdir ~ '/resources/blib/lib/GTK';
+            mkdir($basedir);
+            for @files -> $f {
+                say "writing $f to $basedir/$f";
+                spurt("$basedir/$f", "");
+            }
         }
     }
 }

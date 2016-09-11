@@ -3,15 +3,20 @@ use v6;
 
 use NativeCall;
 use GTK::Simple::Common;
-use GTK::GDK;
+use GTK::Simple::GDK;
 use GTK::Simple::Raw;
 
 unit role GTK::Simple::Widget;
 
 has $!gtk_widget;
+has $!deleted_supply;
 
-method WIDGET() {
+multi method WIDGET() {
     $!gtk_widget
+}
+
+multi method WIDGET($gtk-widget) {
+    $!gtk_widget = $gtk-widget;
 }
 
 method WINDOW() {
@@ -111,7 +116,6 @@ method hide() {
 }
 
 # All widgets get the 'delete-event'
-has $!deleted_supply;
 #| Tap this supply to react to the window being closed
 method deleted() {
     $!deleted_supply //= do {
@@ -124,4 +128,8 @@ method deleted() {
             OpaquePointer, 0);
         $s.Supply;
     }
+}
+
+method show-all() {
+    gtk_widget_show_all($!gtk_widget);
 }

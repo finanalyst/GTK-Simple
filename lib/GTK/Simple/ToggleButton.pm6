@@ -2,40 +2,22 @@
 use v6;
 
 use NativeCall;
-use GTK::NativeLib;
-use GTK::Simple::Raw;
+use GTK::Simple::Raw :toggle-button, :DEFAULT;
 use GTK::Simple::Common;
-use GTK::Simple::Widget;
+use GTK::Simple::Button;
 
-unit class GTK::Simple::ToggleButton does GTK::Simple::Widget;
-sub gtk_toggle_button_new_with_label(Str $label)
-    is native(&gtk-lib)
-    returns GtkWidget
-    {*}
-
-sub gtk_toggle_button_get_active(GtkWidget $w)
-    is native(&gtk-lib)
-    returns int32
-    {*}
-
-sub gtk_toggle_button_set_active(GtkWidget $w, int32 $active)
-    is native(&gtk-lib)
-    returns int32
-    {*}
-
-method creation-sub {
-    &gtk_toggle_button_new_with_label
-}
-
-submethod BUILD(:$label!) {
-    $!gtk_widget = self.creation-sub.($label);
-}
+unit class GTK::Simple::ToggleButton is GTK::Simple::Button;
 
 has $!toggled_supply;
+
+submethod BUILD(:$label!) {
+    self.WIDGET( gtk_toggle_button_new_with_label($label) );
+}
+
 method toggled() {
     $!toggled_supply //= do {
         my $s = Supplier.new;
-        g_signal_connect_wd($!gtk_widget, "toggled",
+        g_signal_connect_wd(self.WIDGET, "toggled",
             -> $, $ {
                 $s.emit(self);
                 CATCH { default { note $_; } }

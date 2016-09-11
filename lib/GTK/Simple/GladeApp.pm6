@@ -2,7 +2,7 @@
 use v6;
 
 use NativeCall;
-use GTK::NativeLib;
+use GTK::Simple::NativeLib;
 use GTK::Simple::Raw;
 use GTK::Simple::Button;
 
