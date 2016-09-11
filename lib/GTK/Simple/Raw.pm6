@@ -7,6 +7,7 @@ use NativeCall;
 unit module GTK::Simple::Raw;
 
 class GtkWidget is repr('CPointer') is export { }
+class GObject   is repr('CPointer') is export { }
 
 enum GtkWindowPosition is export (
     GTK_WIN_POS_NONE               => 0,
@@ -1014,5 +1015,33 @@ sub gtk_scrolled_window_set_policy(GtkWidget $scrolled_window,
     is export(:scrolled-window)
     { * }
     
-                                   
+#
+# GTK Builder (Glade)
+#
+class GtkBuilder is repr('CPointer') is export(:builder) { }
 
+# sub gtk_builder_new_from_string(Str $string, int $length) is native(&gtk-lib) returns GtkBuilder { ... }
+sub gtk_builder_new_from_file(Str $string)
+    returns GtkBuilder
+    is native(&gtk-lib)
+    is export(:builder)
+    { * }
+
+sub gtk_builder_get_object(GtkBuilder $builder, Str $name)
+    returns GObject
+    is native(&gtk-lib)
+    is export(:builder)
+    { * }
+
+sub gtk_builder_connect_signals_full( GtkBuilder, &GtkBuilderConnectFunc (
+                                                                            GtkBuilder $builder,
+                                                                            GObject $object,
+                                                                            Str $signal-name,
+                                                                            Str $handler-name,
+                                                                            GObject $connect-object,
+                                                                            int32 $connect-flags,
+                                                                            OpaquePointer $user-data
+                                                                          ) )
+    is native(&gtk-lib)
+    is export(:builder)
+    { * }

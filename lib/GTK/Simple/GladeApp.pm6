@@ -3,14 +3,10 @@ use v6;
 
 use NativeCall;
 use GTK::Simple::NativeLib;
-use GTK::Simple::Raw;
+use GTK::Simple::Raw :app, :builder, :DEFAULT;
 use GTK::Simple::Button;
 
 unit class GTK::Simple::GladeApp;
-
-class GtkBuilder is repr('CPointer') { }
-class GObject is repr('CPointer') { }
-
 
 my role SignalSupply[Str $handler] {
     my Str $.handler-name = $handler;
@@ -19,37 +15,6 @@ my role SignalSupply[Str $handler] {
 multi sub trait_mod:<is> (Attribute $a, Str :$gtk-signal-handler) is export {
     $a does SignalSupply[$gtk-signal-handler];
 }
-
-sub gtk_init(CArray[int32] $argc, CArray[CArray[Str]] $argv)
-    is native(&gtk-lib)
-    {*}
-
-sub gtk_main()
-    is native(&gtk-lib)
-    {*}
-
-sub gtk_main_quit()
-    is native(&gtk-lib)
-    {*}
-
-
-
-# sub gtk_builder_new_from_string(Str $string, int $length) is native(&gtk-lib) returns GtkBuilder { ... }
-sub gtk_builder_new_from_file(Str $string) is native(&gtk-lib) returns GtkBuilder { ... }
-sub gtk_builder_get_object(GtkBuilder $builder, Str $name) is native(&gtk-lib) returns GObject { ... }
-sub gtk_widget_show_all(GtkWidget $widget) is native(&gtk-lib) { ... }
-
-sub gtk_builder_connect_signals_full( GtkBuilder, &GtkBuilderConnectFunc (
-                                                                            GtkBuilder $builder,
-                                                                            GObject $object,
-                                                                            Str $signal-name,
-                                                                            Str $handler-name,
-                                                                            GObject $connect-object,
-                                                                            int32 $connect-flags,
-                                                                            OpaquePointer $user-data
-                                                                          ) )
-    is native(&gtk-lib)
-    { * }
 
 has $!builder;
 has $!main-window;
