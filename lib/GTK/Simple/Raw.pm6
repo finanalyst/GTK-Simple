@@ -1001,7 +1001,7 @@ sub gtk_level_bar_set_value(GtkWidget $level-bar, num64 $value)
 #
 # Scrolled Window
 #
-sub gtk_scrolled_window_new()
+sub gtk_scrolled_window_new(Pointer $h-adjustment, Pointer $v-adjustment)
     returns GtkWidget
     is native(&gtk-lib)
     is export(:scrolled-window)
