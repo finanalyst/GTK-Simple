@@ -112,7 +112,7 @@ method show() {
 }
 
 method hide() {
-    gtk_widget_show($!gtk_widget);
+    gtk_widget_hide($!gtk_widget);
 }
 
 # All widgets get the 'delete-event'
