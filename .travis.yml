@@ -5,7 +5,7 @@ os:
   - osx
 
 perl6:
-  - 2016.05
+  - 2016.08.1
   - latest
 
 before_install:
