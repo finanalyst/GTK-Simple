@@ -6,6 +6,7 @@ use NativeCall;
 use GTK::Simple::Raw :drawing-area, :DEFAULT;
 use GTK::Simple::Common;
 use GTK::Simple::Widget;
+need GTK::Simple::ConnectionHandler;
 
 my Mu $cairo_t;
 my Mu $Cairo_Context;
