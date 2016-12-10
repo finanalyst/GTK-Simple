@@ -2,6 +2,8 @@
 use v6;
 use Test;
 use GTK::Simple;
+use GTK::Simple::App;
+use GTK::Simple::Scheduler;
 
 plan *;
 
