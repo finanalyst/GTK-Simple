@@ -31,7 +31,6 @@
         "GTK::Simple::MenuBar"           : "lib/GTK/Simple/MenuBar.pm6",
         "GTK::Simple::MenuItem"          : "lib/GTK/Simple/MenuItem.pm6",
         "GTK::Simple::MenuToolButton"    : "lib/GTK/Simple/MenuToolButton.pm6",
-        "GTK::Simple::Paned"             : "lib/GTK/Simple/Paned.pm6",
         "GTK::Simple::PlacesSidebar"     : "lib/GTK/Simple/PlacesSidebar.pm6",
         "GTK::Simple::ProgressBar"       : "lib/GTK/Simple/ProgressBar.pm6",
         "GTK::Simple::PropertyFacade"    : "lib/GTK/Simple/PropertyFacade.pm6",
