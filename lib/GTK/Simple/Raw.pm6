@@ -1006,42 +1006,13 @@ sub gtk_scrolled_window_new(Pointer $h-adjustment, Pointer $v-adjustment)
     is native(&gtk-lib)
     is export(:scrolled-window)
     { * }
-
+    
 sub gtk_scrolled_window_set_policy(GtkWidget $scrolled_window, 
                                   int32 $h-bar-policy, 
                                   int32 $v-bar-policy)
     is native(&gtk-lib)
     is export(:scrolled-window)
     { * }
-#
-# Pane
-#
-sub gtk_paned_new( int32 $orientation )
-    returns GtkWidget
-    is native(&gtk-lib)
-    is export(:paned)
-    { * }
     
-sub gtk_paned_add1( GtkWidget $pane, GtkWidget $child )
-    is native(&gtk-lib)
-    is export(:paned)
-    { * }
+                                   
 
-sub gtk_paned_add2( GtkWidget $pane, GtkWidget $child )
-    is native(&gtk-lib)
-    is export(:paned)
-    { * }
-
-sub gtk_paned_pack1(GtkWidget $pane, GtkWidget $child, Bool $resize, Bool $shrink)
-    is native(&gtk-lib)
-    is export(:paned)
-    { * }
-
-sub gtk_paned_pack2(GtkWidget $pane, GtkWidget $child, Bool $resize, Bool $shrink)
-    is native(&gtk-lib)
-    is export(:paned)
-    { * }
-sub gtk_paned_set_position(GtkWidget $pane, int32 $position )
-    is native( &gtk-lib )
-    is export(:paned)
-    { * }
