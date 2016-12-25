@@ -21,6 +21,7 @@ Menu              | A simple menu with a menu item label
 MenuBar           | A simple menu bar that contain one or more menus
 MenuItem          | A simple menu item that can have a sub menu
 MenuToolButton    | A menu tool button with a label or an icon
+Pane              | Split window into 2 panes (vert or hori) with movable separator
 PlacesSidebar     | Sidebar that displays frequently-used places in the file system
 Scale             | Allows for a number to be provided by the user
 ScrolledWindow    | Container for widgets needing scrolling, eg., multiline texts

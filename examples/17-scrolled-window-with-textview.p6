@@ -5,7 +5,7 @@ use lib 'lib';
 use GTK::Simple;
 
 my $app = GTK::Simple::App.new(title=> 'Example 17');
-my $send-history = GTK::Simple::TextView.new(text=>'Old stuff');
+my $send-history = GTK::Simple::TextView.new;
 my $flood-data = GTK::Simple::ToggleButton.new(label=>'Flood with stuff');
 my $exit-b = GTK::Simple::ToggleButton.new(label=>'Exit');
 

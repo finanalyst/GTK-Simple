@@ -23,6 +23,7 @@ need GTK::Simple::DrawingArea;
 need GTK::Simple::Switch;
 need GTK::Simple::StatusBar;
 need GTK::Simple::Separator;
+need GTK::Simple::Paned;
 need GTK::Simple::ProgressBar;
 need GTK::Simple::Frame;
 need GTK::Simple::ComboBoxText;
