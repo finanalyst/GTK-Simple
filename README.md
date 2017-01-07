@@ -32,9 +32,10 @@ VBox, HBox        | Widget containers which enable window layout design
 
 ## Example
 
-```Perl6
-use v6;
+```perl6
+use v6.c;
 use GTK::Simple;
+use GTK::Simple::App;
 
 my $app = GTK::Simple::App.new(title => "Hello GTK!");
 
