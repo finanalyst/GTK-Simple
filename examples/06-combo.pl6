@@ -3,8 +3,9 @@
 use v6;
 use lib 'lib';
 use GTK::Simple;
+use GTK::Simple::App;
 
-my $app = GTK::Simple::App.new(title => "Combo Box");
+my GTK::Simple::App $app = GTK::Simple::App.new(title => "Combo Box");
 $app.size-request(300,100);
 
 my $combo = GTK::Simple::ComboBoxText.new();

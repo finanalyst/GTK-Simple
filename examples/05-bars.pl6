@@ -3,6 +3,7 @@
 use v6;
 use lib 'lib';
 use GTK::Simple;
+use GTK::Simple::App;
 
 my GTK::Simple::App $app = GTK::Simple::App.new(title => 'Boxes');
 

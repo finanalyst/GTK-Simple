@@ -3,6 +3,7 @@
 use v6;
 use lib 'lib';
 use GTK::Simple;
+use GTK::Simple::App;
 
 =comment
     Using C<GTK::Simple> allows you to get a U<single window> for your app

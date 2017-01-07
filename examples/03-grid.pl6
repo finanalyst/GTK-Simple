@@ -3,6 +3,7 @@
 use v6;
 use lib 'lib';
 use GTK::Simple;
+use GTK::Simple::App;
 
 my GTK::Simple::App $app .= new(title => "Grid layouts!");
 

@@ -3,6 +3,7 @@
 use v6;
 use lib 'lib';
 use GTK::Simple;
+use GTK::Simple::App;
 
 =comment
     Like every GTK::Simple application, we begin by

@@ -3,6 +3,7 @@
 use v6.c;
 use lib 'lib';
 use GTK::Simple;
+use GTK::Simple::App;
 
 my $app = GTK::Simple::App.new(title=> 'Example 17');
 my $send-history = GTK::Simple::TextView.new(text=>'Old stuff');
