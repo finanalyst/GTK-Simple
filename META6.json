@@ -1,9 +1,10 @@
 {
-    "name" : "GTK::Simple",
-    "version" : "0.1.4",
-    "perl"    : "6.c",
-    "description" : "Simple GTK 3 binding using NativeCall",
-    "build-depends" : [ "LWP::Simple", "panda", "Shell::Command" ],
+    "name"          : "GTK::Simple",
+    "version"       : "0.1.5",
+    "perl"          : "6.c",
+    "description"   : "Simple GTK 3 binding using NativeCall",
+    "build-depends" : [ "LWP::Simple", "Shell::Command" ],
+    "test-depends"  : [ "Test" ],
     "provides" : {
         "GTK::Simple::GDK"               : "lib/GTK/Simple/GDK.pm6",
         "GTK::Simple::NativeLib"         : "lib/GTK/Simple/NativeLib.pm6",
@@ -50,9 +51,9 @@
         "GTK::Simple::Window"            : "lib/GTK/Simple/Window.pm6",
         "GTK::Simple::ScrolledWindow"    : "lib/GTK/Simple/ScrolledWindow.pm6"
     },
-    "repo-type" : "git",
+    "repo-type"  : "git",
     "source-url" : "git://github.com/perl6/gtk-simple.git",
-    "resources" : [
+    "resources"  : [
         "blib/lib/GTK/libatk-1.0-0.dll",
         "blib/lib/GTK/libcairo-2.dll",
         "blib/lib/GTK/libcairo-gobject-2.dll",
