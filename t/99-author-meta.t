@@ -5,7 +5,7 @@ use Test;
 
 plan 1;
 
-if ?%*ENV<TEST_AUTHOR> { 
+if ?%*ENV<AUTHOR_TESTING> {
     require Test::META <&meta-ok>;
     meta-ok;
     done-testing;

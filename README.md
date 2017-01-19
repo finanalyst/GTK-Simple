@@ -103,7 +103,7 @@ $ prove -e "perl6 -Ilib"
 [Test::Meta](https://github.com/jonathanstowe/Test-META) is installed):
 ```
 $ zef install Test::META
-$ TEST_AUTHOR=1 prove -e "perl6 -Ilib"
+$ AUTHOR_TESTING=1 prove -e "perl6 -Ilib"
 ```
 
 ## Author

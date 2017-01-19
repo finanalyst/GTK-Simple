@@ -23,7 +23,7 @@ install:
 build: off
 
 test_script:
-  - set TEST_AUTHOR=1 && prove -ve "perl6 -Ilib"
+  - set AUTHOR_TESTING=1 && prove -ve "perl6 -Ilib"
   - zef --debug install .
 
 shallow_clone: true

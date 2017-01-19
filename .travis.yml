@@ -25,5 +25,5 @@ install:
   - zef build .
 
 script:
-  - TEST_AUTHOR=1 prove -ve "perl6 -Ilib"
+  - AUTHOR_TESTING=1 prove -ve "perl6 -Ilib"
   - zef --debug install .
