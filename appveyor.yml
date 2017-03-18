@@ -16,6 +16,8 @@ install:
   - rakudobrew build moar %TEST_MOAR%
   - rakudobrew build zef
   - cd %APPVEYOR_BUILD_FOLDER%
+  - echo "installing SSL so we can download the dll files"
+  - zef install IO::Socket::SSL
   - zef --depsonly install .
   - zef install Test::META
   - zef build .
