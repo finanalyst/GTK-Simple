@@ -1,5 +1,6 @@
 {
     "name"          : "GTK::Simple",
+    "license"       : "Artistic-2.0",
     "version"       : "0.1.5",
     "perl"          : "6.c",
     "description"   : "Simple GTK 3 binding using NativeCall",
