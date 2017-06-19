@@ -14,7 +14,7 @@ my Mu $Cairo_Context;
 sub gtk_simple_use_cairo() is export {
     try {
         require Cairo;
-        $cairo_t := ::('cairo_t');
+        $cairo_t := ::('Cairo')::('cairo_t');
         $Cairo_Context := ::('Cairo')::('Context');
     }
 }
