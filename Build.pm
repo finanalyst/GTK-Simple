@@ -49,10 +49,20 @@ method build($workdir) {
     if $need-copy {
         # to avoid a dependency (and because Digest::SHA is too slow), we do a hacked up powershell hash
         # this should work all the way back to powershell v1
+        # Otherwise we try to run CertUtil.exe which seems to be built into windowses.
         my &ps-hash = -> $path {
-            my $fn = 'function get-sha256 { param($file);[system.bitconverter]::tostring([System.Security.Cryptography.sha256]::create().computehash([system.io.file]::openread((resolve-path $file)))) -replace \"-\",\"\" } ';
-            my $out = qqx/powershell -noprofile -Command "$fn get-sha256 $path"/;
-            $out.lines.grep({$_.chars})[*-1];
+            my $hash;
+            try {
+                my $fn = 'function get-sha256 { param($file);[system.bitconverter]::tostring([System.Security.Cryptography.sha256]::create().computehash([system.io.file]::openread((resolve-path $file)))) -replace \"-\",\"\" } ';
+                my $out = qqx/powershell -noprofile -Command "$fn get-sha256 $path"/;
+                $hash = $out.lines.grep({$_.chars})[*-1];
+            }
+            without $hash {
+                $hash = run("CertUtil.exe", "-hashfile", $path, "SHA256", :out)\
+                    .out.slurp(:close).subst(" ", "", :g)\
+                    .first(/<xdigit> ** 64/);
+            }
+            $hash
         }
         say 'No system gtk library detected. Installing bundled version.';
         my $basedir = $workdir ~ '\resources\blib\lib\GTK';
