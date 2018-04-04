@@ -54,8 +54,9 @@ method build($workdir) {
             my $hash;
             try {
                 my $fn = 'function get-sha256 { param($file);[system.bitconverter]::tostring([System.Security.Cryptography.sha256]::create().computehash([system.io.file]::openread((resolve-path $file)))) -replace \"-\",\"\" } ';
-                my $out = qqx/powershell -noprofile -Command "$fn get-sha256 $path"/;
-                $hash = $out.lines.grep({$_.chars})[*-1];
+                $hash = shell(
+                    :!err, :out, qq/powershell -noprofile -Command "$fn get-sha256 $path"/
+                ).out.lines(:close).grep({$_.chars})[*-1];
             }
             without $hash {
                 $hash = run("CertUtil.exe", "-hashfile", $path, "SHA256", :out)\
