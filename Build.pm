@@ -56,12 +56,12 @@ method build($workdir) {
                 my $fn = 'function get-sha256 { param($file);[system.bitconverter]::tostring([System.Security.Cryptography.sha256]::create().computehash([system.io.file]::openread((resolve-path $file)))) -replace \"-\",\"\" } ';
                 $hash = shell(
                     :!err, :out, qq/powershell -noprofile -Command "$fn get-sha256 $path"/
-                ).out.lines(:close).grep({$_.chars})[*-1];
+                ).out.lines(:close).grep({$_.chars})[*-1].uc;
             }
             without $hash {
                 $hash = run("CertUtil.exe", "-hashfile", $path, "SHA256", :out)\
                     .out.slurp(:close).subst(" ", "", :g)\
-                    .first(/<xdigit> ** 64/);
+                    .first(/<xdigit> ** 64/).uc;
             }
             $hash
         }
