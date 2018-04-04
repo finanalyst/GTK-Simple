@@ -59,9 +59,9 @@ method build($workdir) {
                 ).out.lines(:close).grep({$_.chars})[*-1].uc;
             }
             without $hash {
-                $hash = run("CertUtil.exe", "-hashfile", $path, "SHA256", :out)\
-                    .out.slurp(:close).subst(" ", "", :g)\
-                    .first(/<xdigit> ** 64/).uc;
+                $hash = run("CertUtil.exe", "-hashfile", $path, "SHA256", :out)
+                    .out.slurp(:close).subst(" ", "", :g)
+                    .lines.first(/^ <xdigit>**64 $/).uc;
             }
             $hash
         }
