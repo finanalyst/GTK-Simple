@@ -118,6 +118,8 @@ method build($workdir) {
             spurt("$basedir/$f", "");
         }
     }
+    
+    return True;
 }
 
 # only needed for older versions of panda
