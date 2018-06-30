@@ -45,7 +45,7 @@ sub update_label($b) {
     Now all we need to do is to connect the C<update_label> sub to the
     C<toggled> supply of the buttons.
 
-$check_button\.toggled.tap: &update_label;
+$check_button .toggled.tap: &update_label;
 $toggle_button.toggled.tap: &update_label;
 
 
