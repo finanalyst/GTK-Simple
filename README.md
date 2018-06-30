@@ -33,7 +33,6 @@ VBox, HBox        | Widget containers which enable window layout design
 ## Example
 
 ```perl6
-use v6.c;
 use GTK::Simple;
 use GTK::Simple::App;
 
