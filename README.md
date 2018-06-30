@@ -57,7 +57,7 @@ system works. For more examples, please see the [examples](examples) folder.
 
 ## Limitations
 
-The full functionality of [GTK 3](http://www.gtk.org/) is not accessed in
+The full functionality of [GTK 3](http://www.gtk.org/) is not available in
 this module.
 
 ## Prerequisites
