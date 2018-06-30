@@ -14,10 +14,10 @@ my GTK::Simple::App $app .= new(title => "Hello GTK!");
 
 =begin comment
     Anything that does the C<GTK::Simple::Container> role, like
-    C<GTK::Simple::App> for example, lets you use B<set_content>
+    C<GTK::Simple::App> for example, lets you use B<set-content>
     to put widgets into its body.
 
-    In other GTK tutorials, you'll find that you have to C<gtk_widget_show>
+    In other GTK tutorials, you'll find that you have to C<gtk-widget-show>
     all widgets as well as the window. set-content does all of that for us.
 =end comment
 
