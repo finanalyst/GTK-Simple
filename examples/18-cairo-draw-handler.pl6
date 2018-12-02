@@ -2,6 +2,7 @@
 
 =comment
    The Cairo module needs to be installed, for this example to work
+   This can be installed by running - zef install Cairo
 
 use v6.c;
 use lib 'lib';
