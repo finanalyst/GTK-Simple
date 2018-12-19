@@ -15,7 +15,7 @@ submethod BUILD() {
 
 # this one can't use the trait for the time being as
 # the functions need an additional argument.
-method text() {
+method text() is rw {
     Proxy.new:
         FETCH => {
             gtk_text_buffer_get_text($!buffer, self!start-iter(),
@@ -55,12 +55,12 @@ method changed() {
     }
 }
 
-method editable() 
+method editable()
     returns Bool
     is gtk-property(&gtk_text_view_get_editable, &gtk_text_view_set_editable)
     { * }
 
-method cursor-visible() 
+method cursor-visible()
     returns Bool
     is gtk-property(&gtk_text_view_get_cursor_visible, &gtk_text_view_set_cursor_visible)
     { * }
