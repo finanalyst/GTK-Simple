@@ -4,7 +4,7 @@ platform: x64
 
 environment:
         matrix:
-        - test_moar: 2017.07
+        - test_moar: '2018.06'
         - test_moar: '' #latest
 
 install:
