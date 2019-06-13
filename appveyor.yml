@@ -3,7 +3,10 @@ os: Visual Studio 2017
 platform: x64
 
 install:
-    vcpkg install liblzma:x64-windows libxml2:x64-windows zstd:x64-windows
+    - vcpkg install libxml2:x64-windows
+
+build:
+    - echo "success"
 
 shallow_clone: true
 
