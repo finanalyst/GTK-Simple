@@ -5,7 +5,7 @@ platform: x64
 install:
     - vcpkg install libxml2:x64-windows
 
-build:
+build_script:
     - echo "success"
 
 shallow_clone: true
