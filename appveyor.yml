@@ -3,7 +3,7 @@ os: Visual Studio 2017
 platform: x64
 
 install:
-    - vcpkg install libxml2:x64-windows
+    - vcpkg install gtk:x64-windows liblzma:x64-windows libxml2:x64-windows zstd:x64-windows
 
 build_script:
     - echo "success"
