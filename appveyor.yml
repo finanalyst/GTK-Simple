@@ -12,3 +12,4 @@ shallow_clone: true
 
 on_finish:
     - 7z a C:/dlls_packaged.zip C:/Tools/vcpkg/installed/x64-windows/bin/*.dll C:/Tools/vcpkg/installed/x64-windows/bin/*.pdb
+    - appveyor PushArtifact C:/dlls_packaged.zip
