@@ -3,9 +3,10 @@ os: Visual Studio 2017
 platform: x64
 
 install:
-    vcpkg install gtk:x64-windows liblzma:x64-windows libxml2:x64-windows
+    vcpkg install gtk:x64-windows liblzma:x64-windows libxml2:x64-windows zstd:x64-windows
 
 shallow_clone: true
 
 on_finish:
+    - 7z a C:/dlls_packaged.zip C:/Tools/vcpkg/installed/x64-windows/bin/*.dll C:/Tools/vcpkg/installed/x64-windows/bin/*.pdb
     - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
