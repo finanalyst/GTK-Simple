@@ -235,6 +235,17 @@ sub gtk_box_set_spacing(GtkWidget $box, int32 $spacing)
     is export(:box)
     {*}
 
+sub gtk_box_get_homogeneous(GtkWidget $box)
+	returns Bool
+	is native(&gtk-lib)
+	is export(:box)
+	{*}
+
+sub gtk_box_set_homogeneous(GtkWidget $box, Bool $homogeneous)
+	is native(&gtk-lib)
+	is export(:box)
+	{*}
+
 #
 # HBox
 #
