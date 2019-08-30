@@ -9,6 +9,6 @@ unit class GTK::Simple::HBox
     does GTK::Simple::Widget
     does GTK::Simple::Box;
 
-submethod BUILD() {
-    $!gtk_widget = gtk_hbox_new(0, 0);
+submethod BUILD(Bool :$homogeneous, Int :$spacing) {
+    $!gtk_widget = gtk_hbox_new($homogeneous, $spacing);
 }

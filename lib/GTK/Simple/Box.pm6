@@ -8,8 +8,8 @@ use GTK::Simple::Widget;
 
 unit role GTK::Simple::Box does GTK::Simple::Container;
 
-multi method new(*@packees) {
-    my $box = self.bless();
+multi method new(*@packees, Bool :$homogeneous = False, Int :$spacing = 0) {
+    my $box = self.bless(:$homogeneous, :$spacing);
 
     for @packees {
         if $_ ~~ Hash {
@@ -45,3 +45,8 @@ method spacing
     returns Int
     is gtk-property(&gtk_box_get_spacing, &gtk_box_set_spacing)
     { * }
+
+method homogeneous
+	returns Bool
+	is gtk-property(&gtk_box_get_homogeneous, &gtk_box_set_homogeneous)
+	{ * }
