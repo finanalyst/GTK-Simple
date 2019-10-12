@@ -7,35 +7,31 @@ use GTK::Simple::App;
 
 my $app = GTK::Simple::App.new(title => 'Progress Bar');
 my $percent = GTK::Simple::Label.new(text => "0%");
-my $probar = GTK::Simple::ProgressBar.new;
-my $probar-pulse = GTK::Simple::ProgressBar.new;
-
+my $progress-bar = GTK::Simple::ProgressBar.new;
+my $progress-bar-pulse = GTK::Simple::ProgressBar.new;
 my $start-button = GTK::Simple::Button.new(label => "Click to increment progress..");
+
 $start-button.clicked.tap({
-    
-    $probar.fraction += 0.01; 
-    $percent.text = Str($probar.fraction * 100) ~ "%";
+    my $increase-fraction = 0.01;
+    $progress-bar.fraction += $increase-fraction;
 
-    $probar-pulse.pulse;
+    my $by-percentage = 100;
+    $percent.text = Str($progress-bar.fraction * $by-percentage) ~ "%";
+    $progress-bar-pulse.pulse;
 
-    if $probar.fraction == 1.0 {
+    my $full = 1.0;
+    if $progress-bar.fraction == $full {
         $start-button.label = "Done";
-
-        $start-button.clicked.tap({
-            $app.exit;
-        });
+        $start-button.clicked.tap({$app.exit});
     }
 });
 
-my $vbox = GTK::Simple::VBox.new(
-    $percent,
-    $probar,
-    $probar-pulse,
-    $start-button
+my $grid = GTK::Simple::Grid.new(
+    [0, 0, 1, 1] => $percent,
+    [0, 1, 1, 1] => $progress-bar,
+    [0, 2, 1, 1] => $progress-bar-pulse,
+    [0, 3, 1, 1] => $start-button
 );
-$vbox.spacing = 10;
 
-$app.set-content($vbox);
-$app.border-width = 20;
+$app.set-content($grid);
 $app.run;
-
