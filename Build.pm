@@ -59,17 +59,17 @@ method build($workdir) {
                 ).out.lines(:close).grep({$_.chars})[*-1].uc;
             }
             without $hash {
-				$hash = run("CertUtil.exe", "-hashfile", $path, "SHA256", :out).out
-					
-					.slurp(:close, :bin) # specifying slurp(:close: :enc("utf8-c8")) does not work for some reason
-					
-					.decode("utf8-c8")   # on some non-English versions of Windows (for example German),
-					                     # the "command xy executed" trailing line has non UTF-8 chars.
-										 # The proper way to handle this would be to either use one of
-										 # the Windows code pages or inspect what code page is used, but
-										 # since we're not doing anything with this line, we can just use utf8-c8
-					
-					.subst(" ", "", :g).lines.first(/^ <xdigit>**64 $/).uc;
+                $hash = run("CertUtil.exe", "-hashfile", $path, "SHA256", :out).out
+
+                    .slurp(:close, :bin) # specifying slurp(:close: :enc("utf8-c8")) does not work for some reason
+
+                    .decode("utf8-c8")  # on some non-English versions of Windows (for example German),
+                                        # the "command xy executed" trailing line has non UTF-8 chars.
+                                        # The proper way to handle this would be to either use one of
+                                        # the Windows code pages or inspect what code page is used, but
+                                        # since we're not doing anything with this line, we can just use utf8-c8
+
+                    .subst(" ", "", :g).lines.first(/^ <xdigit>**64 $/).uc;
             }
             $hash
         }
