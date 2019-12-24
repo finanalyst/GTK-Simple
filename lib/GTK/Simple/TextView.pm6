@@ -27,15 +27,15 @@ method text() is rw {
 }
 
 method !start-iter() {
-    my $iter_mem = CArray[int32].new;
-    $iter_mem[31] = 0; # Just need a blob of memory.
+    my $iter_mem = CArray[int8].new;
+    $iter_mem[80] = 0; # Just need a blob of memory.
     gtk_text_buffer_get_start_iter($!buffer, $iter_mem);
     $iter_mem
 }
 
 method !end-iter() {
-    my $iter_mem = CArray[int32].new;
-    $iter_mem[16] = 0;
+    my $iter_mem = CArray[int8].new;
+    $iter_mem[80] = 0;
     gtk_text_buffer_get_end_iter($!buffer, $iter_mem);
     $iter_mem
 }
