@@ -27,6 +27,6 @@ method row-spacing($spacing)
     {*}
 
 method column-spacing($spacing)
-        returns int32
-        is gtk-property(&gtk_grid_get_column_spacing, &gtk_grid_set_column_spacing)
-        {*}
+    returns int32
+    is gtk-property(&gtk_grid_get_column_spacing, &gtk_grid_set_column_spacing)
+    {*}
