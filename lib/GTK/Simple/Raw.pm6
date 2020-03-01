@@ -8,6 +8,8 @@ unit module GTK::Simple::Raw;
 
 class GtkWidget is repr('CPointer') is export { }
 
+class GDateTime is repr('CPointer') is export(:calendar) { }
+
 enum GtkWindowPosition is export (
     GTK_WIN_POS_NONE               => 0,
     GTK_WIN_POS_CENTER             => 1,
@@ -1024,6 +1026,44 @@ sub gtk_scrolled_window_set_policy(GtkWidget $scrolled_window,
     is native(&gtk-lib)
     is export(:scrolled-window)
     { * }
-    
-                                   
 
+#
+# Calendar
+#
+sub gtk_calendar_new()
+	returns GtkWidget
+	is native(&gtk-lib)
+	is export(:calendar)
+	{ * }
+
+sub gtk_calendar_get_date(GtkWidget $calendar)
+	returns GDateTime
+	is native(&gtk-lib)
+	is export(:calendar)
+	{ * }
+
+sub gtk_calendar_select_day(GtkWidget $calendar, GDateTime $date)
+	is native(&gtk-lib)
+	is export(:calendar)
+	{ * }
+
+
+class GTimeZone is repr('CPointer') is export(:calendar) {}
+
+sub g_date_time_new(GTimeZone $tz,
+                 int32 $year,
+                 int32 $month,
+                 int32 $day,
+                 int32 $hour,
+                 int32 $minute,
+                 num64 $seconds)
+	returns GDateTime
+	is native(&gtk-lib)
+	is export(:calendar)
+	{ * }
+
+sub g_time_zone_new (Str $rfc-offset-str)
+	returns GTimeZone
+		is native(&gtk-lib)
+		is export(:calendar)
+	{ * }
