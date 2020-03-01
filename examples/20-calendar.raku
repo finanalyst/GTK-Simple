@@ -4,11 +4,17 @@ use GTK::Simple::App;
 
 my $app = GTK::Simple::App.new(title => 'Calendar', height => 300, width => 600);
 my $calendar = GTK::Simple::Calendar.new;
-my $month-entry = GTK::Simple::Entry.new();
-my $year-entry = GTK::Simple::Entry.new();
-my $day-entry = GTK::Simple::Entry.new();
 
+dd $calendar.DateTime;
+my $month-entry = GTK::Simple::Entry.new(text => $calendar.month.Int.Str);
+my $year-entry = GTK::Simple::Entry.new(text => $calendar.year.Int.Str);
+my $day-entry = GTK::Simple::Entry.new(text => $calendar.day.Int.Str);
 
+$calendar.day-selected.tap: {
+    $year-entry.text    = .year.Int.Str;
+    $month-entry.text   = .month.Int.Str;
+    $day-entry.text     = .day.Int.Str;
+};
 #my $date-entry = GTK::Simple::HBox.new(
 #        GTK::Simple::Label.new(text => "Day"),
 #        $day-entry,
@@ -31,14 +37,21 @@ $date-entry.column-spacing = 8;
 
 my $structure = GTK::Simple::HBox.new(
             $calendar,
-            GTK::Simple::VBox.new(
+            my $side = GTK::Simple::VBox.new(
                 GTK::Simple::Label.new(text => "Select your date below: "),
-                $date-entry, spacing => 2
+                $date-entry
             )
         );
 
 $app.set-content($structure);
+
+$side.border-width = 16;
+
 ($day-entry, $month-entry).map: { $_.width = 2 };
 $year-entry.width = 4;
 ($day-entry, $month-entry).map: *.width.say;
+$date-entry.size-request(300, 120);
+
+$calendar.size-request(300,300);
+
 $app.run;

@@ -9,6 +9,7 @@ unit module GTK::Simple::Raw;
 class GtkWidget is repr('CPointer') is export { }
 
 class GDateTime is repr('CPointer') is export(:calendar) { }
+class GTimeZone is repr('CPointer') is export(:calendar) { }
 
 enum GtkWindowPosition is export (
     GTK_WIN_POS_NONE               => 0,
@@ -1071,19 +1072,15 @@ sub gtk_calendar_new()
 	is export(:calendar)
 	{ * }
 
-sub gtk_calendar_get_date(GtkWidget $calendar)
-	returns GDateTime
-	is native(&gtk-lib)
-	is export(:calendar)
-	{ * }
+sub gtk_calendar_get_date(GtkWidget $calendar, int32 $year is rw, int32 $month is rw, int32 $day is rw)
+		is native(&gtk-lib)
+		is export(:calendar)
+		{ * }
 
 sub gtk_calendar_select_day(GtkWidget $calendar, GDateTime $date)
 	is native(&gtk-lib)
 	is export(:calendar)
 	{ * }
-
-
-class GTimeZone is repr('CPointer') is export(:calendar) {}
 
 sub g_date_time_new(GTimeZone $tz,
                  int32 $year,
@@ -1096,6 +1093,12 @@ sub g_date_time_new(GTimeZone $tz,
 	is native(&gtk-lib)
 	is export(:calendar)
 	{ * }
+
+sub g_date_time_get_year(GDateTime $gdt)
+		is native(&gtk-lib)
+		is export(:calendar)
+		returns int32
+		{ * }
 
 sub g_time_zone_new (Str $rfc-offset-str)
 	returns GTimeZone
