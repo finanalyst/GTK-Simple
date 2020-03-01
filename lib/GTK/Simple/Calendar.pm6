@@ -40,5 +40,5 @@ method DateTime() {
 
 method !refresh-date() {
     gtk_calendar_get_date(self.WIDGET, $!year, $!month, $!day);
-    $!month++;  # Returned as zero indexed for some reason, I guess for lookups in an array somewhere
+    $!month++;  # Returned as zero indexed
 }
