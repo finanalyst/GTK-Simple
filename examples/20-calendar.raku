@@ -15,7 +15,7 @@ $calendar.day-selected.tap: {
     $day-entry.text     = .day.Str;
 };
 
-my $date-entry = GTK::Simple::Grid.new(
+my $date-view = GTK::Simple::Grid.new(
     [0, 0, 1, 1] => GTK::Simple::Label.new(text => "Day"),
     [1, 0, 1, 1] => $day-entry,
     [2, 0, 1, 1,] => GTK::Simple::Label.new(text => "Month"),
@@ -24,13 +24,12 @@ my $date-entry = GTK::Simple::Grid.new(
     [5, 0, 1, 1] => $year-entry
 );
 
-$date-entry.column-spacing = 8;
+$date-view.column-spacing = 8;
 
 my $structure = GTK::Simple::HBox.new(
     $calendar,
     my $side = GTK::Simple::VBox.new(
-        GTK::Simple::Label.new(text => "Select your date below: "),
-        $date-entry
+        $date-view
     )
 );
 
@@ -41,7 +40,7 @@ $side.border-width = 16;
 ($day-entry, $month-entry).map: { .width-chars = 2 };
 $year-entry.width-chars = 4;
 
-$date-entry.size-request(300, 120);
+$date-view.size-request(300, 120);
 $calendar.size-request(300,300);
 
 $app.run;
