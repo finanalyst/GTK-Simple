@@ -1,7 +1,6 @@
 
 use v6;
 
-#use NativeCall;
 use GTK::Simple::Raw :grid, :DEFAULT;
 use GTK::Simple::Widget;
 use GTK::Simple::Common;
