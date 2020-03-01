@@ -6,14 +6,18 @@ use NativeCall;
 
 unit class GTK::Simple::Calendar does GTK::Simple::Widget is export;
 
-has int32 $.year;
-has int32 $.month;
-has int32 $.day;
+has int32 $!year;
+has int32 $!month;
+has int32 $!day;
 
 has Supply $!selection-supply;
 
 submethod BUILD() {
     $!gtk_widget = gtk_calendar_new();
+}
+
+submethod TWEAK() {
+    self!refresh-date;
 }
 
 method day-selected() {
@@ -33,12 +37,24 @@ method day-selected() {
 method DateTime() {
     self!refresh-date;
     DateTime.new:
-            :$!year,
-            :$!month,
-            :$!day;
+        :$!year,
+        :$!month,
+        :$!day;
 }
 
 method !refresh-date() {
     gtk_calendar_get_date(self.WIDGET, $!year, $!month, $!day);
     $!month++;  # Returned as zero indexed
+}
+
+method year() {
+    $!year.Int
+}
+
+method month() {
+    $!month.Int
+}
+
+method day() {
+    $!day.Int
 }

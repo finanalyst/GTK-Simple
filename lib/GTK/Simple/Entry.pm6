@@ -19,7 +19,7 @@ method text()
     is gtk-property(&gtk_entry_get_text, &gtk_entry_set_text)
     { * }
 
-method width($num-chars)
+method width-chars($num-chars)
     returns int32
     is gtk-property(&gtk_entry_get_width_chars, &gtk_entry_set_width_chars)
     { * }
