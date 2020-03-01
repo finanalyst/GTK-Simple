@@ -15,6 +15,7 @@
         "GTK::Simple::App"               : "lib/GTK/Simple/App.pm6",
         "GTK::Simple::Box"               : "lib/GTK/Simple/Box.pm6",
         "GTK::Simple::Button"            : "lib/GTK/Simple/Button.pm6",
+	"GTK::Simple::Calendar"		 : "lib/GTK/Simple/Calendar.pm6",
         "GTK::Simple::CheckButton"       : "lib/GTK/Simple/CheckButton.pm6",
         "GTK::Simple::ComboBoxText"      : "lib/GTK/Simple/ComboBoxText.pm6",
         "GTK::Simple::Common"            : "lib/GTK/Simple/Common.pm6",
