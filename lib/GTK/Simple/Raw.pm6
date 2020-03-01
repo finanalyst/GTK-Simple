@@ -387,6 +387,29 @@ sub gtk_grid_attach(GtkWidget $grid, GtkWidget $child, int32 $x, int32 $y, int32
     is export(:grid)
     {*}
 
+sub gtk_grid_get_row_spacing(GtkWidget $grid)
+	is native(&gtk-lib)
+	is export(:grid)
+	returns int32
+	{*}
+
+sub gtk_grid_set_row_spacing(GtkWidget $grid, int32 $spacing)
+	is native(&gtk-lib)
+	is export(:grid)
+	{*}
+
+
+sub gtk_grid_get_column_spacing(GtkWidget $grid)
+		is native(&gtk-lib)
+		is export(:grid)
+		returns int32
+		{*}
+
+sub gtk_grid_set_column_spacing(GtkWidget $grid, int32 $spacing)
+		is native(&gtk-lib)
+		is export(:grid)
+		{*}
+
 #
 # Scale
 #
@@ -478,6 +501,18 @@ sub gtk_entry_set_text(GtkWidget $entry, Str $text)
     is native(&gtk-lib)
     is export(:entry)
     {*}
+
+sub gtk_entry_get_width_chars(GtkWidget $entry)
+	is native(&gtk-lib)
+	is export(:entry)
+	returns int32
+	{*}
+
+sub gtk_entry_set_width_chars(GtkWidget $entry, int32 $num-chars)
+	is native(&gtk-lib)
+	is export(:entry)
+	{*}
+
 
 #
 # Frame

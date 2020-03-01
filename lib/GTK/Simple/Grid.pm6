@@ -1,8 +1,10 @@
 
 use v6;
 
+#use NativeCall;
 use GTK::Simple::Raw :grid, :DEFAULT;
 use GTK::Simple::Widget;
+use GTK::Simple::Common;
 
 unit class GTK::Simple::Grid does GTK::Simple::Widget;
 
@@ -19,3 +21,13 @@ method new(*@pieces) {
 submethod BUILD() {
     $!gtk_widget = gtk_grid_new();
 }
+
+method row-spacing($spacing)
+    returns int32
+    is gtk-property(&gtk_grid_get_row_spacing, &gtk_grid_set_row_spacing)
+    {*}
+
+method column-spacing($spacing)
+        returns int32
+        is gtk-property(&gtk_grid_get_column_spacing, &gtk_grid_set_column_spacing)
+        {*}

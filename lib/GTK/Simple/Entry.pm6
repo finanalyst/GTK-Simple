@@ -19,6 +19,11 @@ method text()
     is gtk-property(&gtk_entry_get_text, &gtk_entry_set_text)
     { * }
 
+method width($num-chars)
+    returns int32
+    is gtk-property(&gtk_entry_get_width_chars, &gtk_entry_set_width_chars)
+    { * }
+
 method changed() {
     $!changed_supply //= do {
         my $s = Supplier.new;
