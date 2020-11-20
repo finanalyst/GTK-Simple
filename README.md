@@ -2,7 +2,7 @@
 
 GTK::Simple is a set of simple [GTK 3](http://www.gtk.org/) bindings using
 NativeCall. Only a few GTK widgets are currently implemented. However, these are
-enough to create a reasonable interactive GUI for an idiomatic Perl 6 program.
+enough to create a reasonable interactive GUI for an idiomatic Raku program.
 Widgets are gradually being added. These include the following:
 
 Widget            | Description
@@ -32,7 +32,7 @@ VBox, HBox        | Widget containers which enable window layout design
 
 ## Example
 
-```perl6
+```raku
 use GTK::Simple;
 use GTK::Simple::App;
 
@@ -111,7 +111,7 @@ Jonathan Worthington, jnthn on #perl6, https://github.com/jnthn/
 
 ## Contributors
 
-The Perl 6 team
+The Raku team
 
 ## License
 
