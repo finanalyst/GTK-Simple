@@ -55,7 +55,7 @@
         "GTK::Simple::ScrolledWindow"    : "lib/GTK/Simple/ScrolledWindow.pm6"
     },
     "repo-type"  : "git",
-    "source-url" : "git://github.com/perl6/gtk-simple.git",
+    "source-url" : "git://github.com/perl6/GTK-Simple.git",
     "resources"  : [
         "blib/lib/GTK/libatk-1.0-0.dll",
         "blib/lib/GTK/libcairo-2.dll",
