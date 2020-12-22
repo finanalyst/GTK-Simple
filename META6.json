@@ -3,7 +3,13 @@
     "license"       : "Artistic-2.0",
     "version"       : "0.1.14",
     "perl"          : "6.d",
-    "authors"       : [ "Jonathan Worthington", "Richard Hainsworth"],
+    "authors"       : [
+        "Moritz Lenz",
+        "Timmo Paulssen",
+        "Ahmad M. Zawawi",
+        "Jonathan Worthington",
+        "Richard Hainsworth"
+    ],
     "description"   : "Simple GTK 3 binding using NativeCall",
     "build-depends" : [ "LWP::Simple", "Shell::Command" ],
     "test-depends"  : [ "Test", "Test::META"],
