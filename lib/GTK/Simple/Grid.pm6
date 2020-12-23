@@ -17,6 +17,14 @@ method new(*@pieces) {
     $grid;
 }
 
+method attach(*@pieces) {
+    for @pieces -> $pair {
+        die "please provide pairs with a 4-tuple of coordinates => the widget" unless +@($pair.key) == 4;
+        gtk_grid_attach($!gtk_widget, $pair.value.WIDGET, |@($pair.key));
+        gtk_widget_show($pair.value.WIDGET);
+    }
+}
+
 submethod BUILD() {
     $!gtk_widget = gtk_grid_new();
 }

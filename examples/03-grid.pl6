@@ -11,7 +11,7 @@ my GTK::Simple::App $app .= new(title => "Grid layouts!");
     The interesting bit of this example is the grid constructor.
 
 $app.set-content(
-    GTK::Simple::Grid.new(
+    my $grid = GTK::Simple::Grid.new(
 =comment
         As you can see, you pass pairs with a coordinate and size on the left
         and the widget on the right. Once again we're free to directly define
@@ -51,5 +51,11 @@ $app.set-content(
     This allows for some pretty complex layouts to be created.
 
 $app.border-width = 20;
+
+=comment
+    Perhaps later, say in response to an action by another widget, you want to add to the grid.
+    Use the attach method and provide a list of pairs exactly as for C<new>
+
+$grid.attach( [3, 0, 1, 1] => GTK::Simple::Label.new(text => "I got added later"), );
 
 $app.run;
