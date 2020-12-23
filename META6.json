@@ -5,10 +5,14 @@
     "perl"          : "6.d",
     "authors"       : [
         "Moritz Lenz",
-        "Timmo Paulssen",
+        "Timo Paulssen",
         "Ahmad M. Zawawi",
-        "Jonathan Worthington",
-        "Richard Hainsworth"
+        "Jonathan Stowe",
+        "ab5tract",
+        "momozor",
+        "Zoffix Znet",
+        "Nick Logan",
+        "finanalyst aka Richard Hainsworth"
     ],
     "description"   : "Simple GTK 3 binding using NativeCall",
     "build-depends" : [ "LWP::Simple", "Shell::Command" ],
