@@ -219,6 +219,12 @@ sub gtk_main_quit()
 #
 # Box
 #
+sub gtk_box_new(int32 $gtk-orientation,int32 $spacing)
+    is native(&gtk-lib)
+    is export(:box :vbox :hbox)
+    returns GtkWidget
+    {*}
+
 sub gtk_box_pack_start(GtkWidget, GtkWidget, int32, int32, int32)
     is native(&gtk-lib)
     is export(:box)
@@ -252,6 +258,7 @@ sub gtk_box_set_homogeneous(GtkWidget $box, Bool $homogeneous)
 sub gtk_hbox_new(int32, int32)
     is native(&gtk-lib)
     is export(:hbox)
+    is DEPRECATED('use box and orientation 0')
     returns GtkWidget
     {*}
 
@@ -261,6 +268,7 @@ sub gtk_hbox_new(int32, int32)
 sub gtk_vbox_new(int32, int32)
     is native(&gtk-lib)
     is export(:vbox)
+    is DEPRECATED('use box and orientation 1')
     returns GtkWidget
     {*}
 

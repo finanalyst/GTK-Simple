@@ -10,5 +10,6 @@ unit class GTK::Simple::VBox
     does GTK::Simple::Box;
 
 submethod BUILD(Bool :$homogeneous, Int :$spacing) {
-    $!gtk_widget = gtk_vbox_new($homogeneous, $spacing);
+#    $!gtk_widget = gtk_vbox_new($homogeneous, $spacing);
+    $!gtk_widget = gtk_box_new(1, $spacing);
 }
