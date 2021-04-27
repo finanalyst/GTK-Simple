@@ -30,7 +30,7 @@ method process-queue() {
     unless nqp::isnull($task) {
         if nqp::islist($task) {
             my Mu $code := nqp::shift($task);
-            $code(|nqp::hllize($task, Any));
+            $code(|nqp::hllize($task));
         }
         else {
             $task();
