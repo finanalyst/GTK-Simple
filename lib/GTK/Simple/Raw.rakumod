@@ -519,6 +519,17 @@ sub gtk_entry_set_width_chars(GtkWidget $entry, int32 $num-chars)
 	is export(:entry)
 	{*}
 
+sub gtk_entry_get_placeholder_text(GtkWidget $entry)
+        is native(&gtk-lib)
+        is export(:entry)
+        returns int32
+{*}
+
+sub gtk_entry_set_placeholder_text(GtkWidget $entry, Str $text)
+        is native(&gtk-lib)
+        is export(:entry)
+{*}
+
 
 #
 # Frame

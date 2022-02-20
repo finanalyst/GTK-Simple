@@ -1,0 +1,75 @@
+=begin pod
+=TITLE Migrating from GTK 3 to GTK 4
+
+The main L<migration source|https://developer.gnome.org/gtk4/unstable/gtk-migrating-3-to-4.html>
+suggests three stages, changing the GTK3 code to make migration easier,
+then changing, then steps after the migration.
+
+Steps before Migration
+[_] Verified not to exist in GTK::Simple
+[X] GTL::Simple ammended
+[?] GTK::Simple has problems, or not known for certain
+
+=item [X] Do not use deprecated symbols
+=item [_]  Enable diagnostic warnings
+=item [_]  Do not use GTK-specific command line arguments
+=item [_] Do not use widget style properties
+=item [_]  Review your window creation flags
+=item [?] Stop using direct access to GdkEvent structs
+    Seems to be OK
+
+=item [_]  Stop using gdk_pointer_warp()
+=item [_]  Stop using non-RGBA visuals
+=item [?] Stop using GtkBox padding, fill and expand child properties
+=item [_] Stop using the state argument of GtkStyleContext getters
+=item [?] Stop using gdk_pixbuf_get_from_window() and gdk_cairo_set_source_surface()
+=item [?] Stop using GtkWidget event signals
+=item [?] Set a proper application ID
+=item [?] Stop using gtk_main() and related APIs
+=item [?] Reduce the use of gtk_widget_destroy()
+=item [?] Reduce the use of generic container APIs
+=item [?] Review your use of icon resources
+
+=head2 Remove deprecated widgets
+
+=item GtkSymbolicColor | Symbolic colors
+=item2 GtkGradient | Gradients
+=item2 Resource Files | Deprecated routines for handling resource files
+=item GtkStyle | Deprecated object that holds style information for widgets
+=item GtkHScale | A horizontal slider widget for selecting a value from a range
+=item GtkVScale | A vertical slider widget for selecting a value from a range
+=item GtkTearoffMenuItem | A menu item used to tear off and reattach its menu
+=item GtkColorSelection | Deprecated widget used to select a color
+=item GtkColorSelectionDialog | Deprecated dialog box for selecting a color
+=item GtkHSV | A “color wheel” widget
+=item GtkFontSelection | Deprecated widget for selecting fonts
+=item GtkFontSelectionDialog | Deprecated dialog box for selecting fonts
+=item GtkHBox | A horizontal container box
+=item GtkVBox | A vertical container box
+=item GtkHButtonBox | A container for arranging buttons horizontally
+=item GtkVButtonBox | A container for arranging buttons vertically
+=item GtkHPaned | A container with two panes arranged horizontally
+=item GtkVPaned | A container with two panes arranged vertically
+=item GtkTable | Pack widgets in regular patterns
+=item GtkHSeparator | A horizontal separator
+=item GtkVSeparator | A vertical separator
+=item GtkHScrollbar | A horizontal scrollbar
+=item GtkVScrollbar | A vertical scrollbar
+=item GtkUIManager | Constructing menus and toolbars from an XML description
+=item GtkActionGroup | A group of actions
+=item GtkAction | A deprecated action which can be triggered by a menu or toolbar item
+=item GtkToggleAction | An action which can be toggled between two states
+=item GtkRadioAction | An action of which only one in a group can be active
+=item GtkRecentAction | An action of which represents a list of recently used files
+=item GtkActivatable | An interface for activatable widgets
+=item GtkImageMenuItem | A deprecated widget for a menu item with an icon
+=item GtkMisc | Base class for widgets with alignments and padding
+=item Stock Items | Prebuilt common menu/toolbar items and corresponding icons
+=item Themeable Stock Images | Manipulating stock icons
+=item GtkNumerableIcon | A GIcon that allows numbered emblems
+=item GtkArrow | Displays an arrow
+=item GtkStatusIcon | Display an icon in the system tray
+=item GtkThemingEngine | Theming renderers
+=item GtkAlignment | A widget which controls the alignment and size of its child
+
+=end pod

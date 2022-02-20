@@ -1,0 +1,7 @@
+lib/GTK/Simple/HBox.pm6
+	    $!gtk_widget = gtk_hbox_new($homogeneous, $spacing);
+lib/GTK/Simple/Raw.pm6
+	sub gtk_hbox_new(int32, int32)
+	sub gtk_vbox_new(int32, int32)
+lib/GTK/Simple/VBox.pm6
+	    $!gtk_widget = gtk_vbox_new($homogeneous, $spacing);

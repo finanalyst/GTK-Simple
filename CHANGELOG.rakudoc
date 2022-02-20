@@ -1,0 +1,14 @@
+=begin pod
+
+=head1 2022-02-20 v0.2.0
+=item add CHANGELOG.rakudoc
+=item add link to offical GTK explanation for adding GTK to a Windows system
+=item2 remove the BUILD step and the *.dll files in the resources
+=item2 Rationale: a) the Windows build process did not work; b) GTK now has a recommended
+way to do this.
+=item Rename all modules / files to new Raku versions
+=item Add placeholder method for Entry
+=item Modify README to reflect these changes
+=item change CI to github actions
+
+=end pod

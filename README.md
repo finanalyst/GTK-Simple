@@ -1,9 +1,10 @@
-## GTK::Simple [![Build Status](https://travis-ci.org/perl6/gtk-simple.svg?branch=master)](https://travis-ci.org/perl6/gtk-simple) [![Build status](https://ci.appveyor.com/api/projects/status/github/azawawi/gtk-simple?svg=true)](https://ci.appveyor.com/project/azawawi/gtk-simple/branch/master)
+![badge](https://github.com/finanalyst/GTK-Simple/actions/workflows/test.yaml/badge.svg)
+## GTK::Simple 
 
 GTK::Simple is a set of simple [GTK 3](http://www.gtk.org/) bindings using
-NativeCall. Only a few GTK widgets are currently implemented. However, these are
+NativeCall. Only some GTK widgets are currently implemented. However, these are
 enough to create a reasonable interactive GUI for an idiomatic Raku program.
-Widgets are gradually being added. These include the following:
+The GTK Widgets in this distribution include the following:
 
 Widget            | Description
 ----------------- | ---------------------------------------------------------------
@@ -52,8 +53,14 @@ $second.clicked.tap({ $app.exit; });
 $app.run;
 ```
 
-The first three or four examples were written as mini tutorials to show how the
-system works. For more examples, please see the [examples](examples) folder.
+The first four examples were written as mini tutorials to show how the
+system works:
+- [Hello world](https://github.com/finanalyst/GTK-Simple/blob/master/examples/01-hello-world.raku)
+- [Toggles](https://github.com/finanalyst/GTK-Simple/blob/master/examples/02-toggles.raku)
+- [A simple grid](https://github.com/finanalyst/GTK-Simple/blob/master/examples/03-grid.raku)
+- [Marked Scales](https://github.com/finanalyst/GTK-Simple/blob/master/examples/04-marked-scale.raku)
+
+For more examples, please see the `examples/` folder.
 
 ## Limitations
 
@@ -80,34 +87,20 @@ brew install gtk+3
 
 ## Windows
 
-Precompiled GTK3 DLLs are installed automatically with module installation.
+The GTK team describes how to do this for Windows at
+[Setting up GTK for Window](https://www.gtk.org/docs/installations/windows/)
 
-## Installation
+## Installation and sanity tests
 
-To install it using [zef](https://github.com/ugexe/zef) (a module management
-tool bundled with Rakudo Star):
+Use the zef package manager
 
 ```
 $ zef install GTK::Simple
 ```
 
-## Testing
-
-- To run tests:
-```
-$ prove -e "perl6 -Ilib"
-```
-
-- To run all tests including author tests (Please make sure
-[Test::Meta](https://github.com/jonathanstowe/Test-META) is installed):
-```
-$ zef install Test::META
-$ AUTHOR_TESTING=1 prove -e "perl6 -Ilib"
-```
-
 ## Author
 
-Jonathan Worthington, jnthn on #perl6, https://github.com/jnthn/
+Jonathan Worthington, jnthn on #raku, https://github.com/jnthn/
 
 ## Contributors
 

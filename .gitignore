@@ -1,2 +1,4 @@
 .precomp
 resources
+/raku-gtk-simple.iml
+/.idea/.gitignore

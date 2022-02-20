@@ -1,0 +1,16 @@
+name: "Raku tests"
+on: [ push, pull_request ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
+    container:
+      image: ghcr.io/jj/raku-zef-gha
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install modules
+        run: zef install .
+      - name: Test
+        run: zef --debug test .
