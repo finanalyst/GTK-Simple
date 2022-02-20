@@ -9,9 +9,10 @@ unit class GTK::Simple::Entry does GTK::Simple::Widget;
 
 has $!changed_supply;
 
-submethod BUILD(:$text) {
+submethod BUILD(:$text, :$placeholder-text) {
     $!gtk_widget = gtk_entry_new();
-    gtk_entry_set_text(self.WIDGET, $text.Str) if defined $text;
+    gtk_entry_set_text(self.WIDGET, $text.Str) with $text;
+    gtk_entry_set_placeholder_text(self.WIDGET, $placeholder-text.Str) with $placeholder-text;
 }
 
 method text()
