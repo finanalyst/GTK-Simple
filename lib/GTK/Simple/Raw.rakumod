@@ -860,11 +860,46 @@ sub gtk_file_chooser_get_filename(GtkWidget $file-chooser)
     is export(:file-chooser)
     { * }
 
-sub gtk_file_chooser_set_filename(GtkWidget $file-chooser, Str $file-name)
+# start of support for other widgets that do Filechooser.
+# file-chooser-button does not support multiple file selection
+sub g_slist_length(Pointer $list)
+    returns int32
+    is native(&glib-lib)
+    is export(:file-chooser)
+    { * }
+
+sub g_slist_nth_data(Pointer $list, int32 $n)
+    returns Str
+    is native(&glib-lib)
+    is export(:file-chooser)
+    { * }
+
+sub g_slist_free(Pointer $list)
+    is native(&glib-lib)
+    is export(:file-chooser)
+    { * }
+
+sub gtk_file_chooser_set_filename(GtkWidget $file-chooser)
     is native(&gtk-lib)
     is export(:file-chooser)
     { * }
 
+sub gtk_file_chooser_get_filenames(GtkWidget $file-chooser)
+    returns Pointer
+    is native(&gtk-lib)
+    is export(:file-chooser)
+    { * }
+
+sub gtk_file_chooser_get_select_multiple(GtkWidget $file-chooser)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:file-chooser)
+    { * }
+
+sub gtk_file_chooser_set_select_multiple(GtkWidget $file-chooser, Bool $multiple )
+    is native(&gtk-lib)
+    is export(:file-chooser)
+    { * }
 #
 # PlacesSidebar
 #

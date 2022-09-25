@@ -13,11 +13,9 @@ my $text-view            = GTK::Simple::TextView.new;
 my $file-chooser-button  = GTK::Simple::FileChooserButton.new(
     :title("Please Select a File")
 );
-
 $file-chooser-button.file-set.tap: {
-    $text-view.text ~= $file-chooser-button.file-name ~ "\n";
+    $text-view.text ~= 'One file:' ~ $file-chooser-button.file-name ~ "\n";
 }
-
 $app.set-content(
     GTK::Simple::VBox.new([
         { :widget($file-chooser-button), :expand(False) },

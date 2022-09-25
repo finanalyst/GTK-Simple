@@ -1,7 +1,7 @@
 {
   "name": "GTK::Simple",
   "description": "Simple GTK 3 binding using NativeCall",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "perl": "6.d",
   "authors": [
     "Jonathan Worthington",
@@ -15,6 +15,8 @@
     "Nick Logan",
     "finanalyst aka Richard Hainsworth"
   ],
+  "auth": "zef:finanalyst",
+  "depends": [],
   "test-depends": [
     "Test"
   ],

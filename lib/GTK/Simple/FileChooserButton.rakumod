@@ -38,6 +38,27 @@ method file-name()
     )
     { * }
 
+method select-multiple()
+    returns Bool
+    is gtk-property(
+        &gtk_file_chooser_get_select_multiple,
+        &gtk_file_chooser_set_select_multiple
+    )
+    { * }
+
+method file-names()
+    returns Array
+    {
+    my Pointer $p = gtk_file_chooser_get_filenames( self.WIDGET );
+    my $n = g_slist_length($p);
+    my @fns;
+    for ^$n {
+        @fns.append: g_slist_nth_data( $p, $n );
+    }
+    g_slist_free( $p );
+    @fns
+}
+
 method file-set() {
     $!file-set-supply //= do {
         my $s = Supplier.new;
