@@ -755,6 +755,17 @@ sub gtk_text_view_set_monospace(GtkWidget $widget, int32 $setting)
     is export(:text-view)
     { * }
 
+sub gtk_text_view_get_justification(GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:text-view)
+    returns int32
+    { * }
+
+sub gtk_text_view_set_justification(GtkWidget $widget, int32 $setting)
+    is native(&gtk-lib)
+    is export(:text-view)
+    { * }
+
 #
 # Toolbar
 #

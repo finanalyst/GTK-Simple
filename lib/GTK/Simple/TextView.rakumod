@@ -8,6 +8,8 @@ unit class GTK::Simple::TextView does GTK::Simple::Widget;
 
 has $!buffer;
 
+enum Justification is export <LEFT RIGHT CENTER FILL>;
+
 submethod BUILD() {
     $!gtk_widget = gtk_text_view_new();
     $!buffer = gtk_text_view_get_buffer($!gtk_widget);
@@ -68,4 +70,10 @@ method cursor-visible()
 method monospace()
     returns Bool
     is gtk-property(&gtk_text_view_get_monospace, &gtk_text_view_set_monospace)
+    { * }
+
+#| sets/gets Justification with values LEFT RIGHT CENTER FILL
+method alignment()
+    returns Justification
+    is gtk-property(&gtk_text_view_get_justification, &gtk_text_view_set_justification)
     { * }
