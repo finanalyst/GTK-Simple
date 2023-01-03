@@ -34,6 +34,13 @@ enum GtkLevelBarMode is export(:level-bar) (
     GTK_LEVEL_BAR_MODE_DISCRETE   => 1,
 );
 
+enum GtkSelectionMode is export(:list-box) (
+    GTK_SELECTION_NONE      => 0,
+    GTK_SELECTION_SINGLE    => 1,
+    GTK_SELECTION_BROWSE    => 2,
+    GTK_SELECTION_MULTIPLE  => 3,
+);
+
 #Determines how the size should be computed to achieve the one of the visibility mode for the scrollbars.
 enum GtkPolicyType is export(:scrolled-window) (
     GTK_POLICY_ALWAYS => 0,     #The scrollbar is always visible.
@@ -1138,3 +1145,84 @@ sub gtk_calendar_get_date(GtkWidget $calendar, int32 $year is rw, int32 $month i
 		is native(&gtk-lib)
 		is export(:calendar)
 		{ * }
+
+#
+# ListBox
+#
+
+sub gtk_list_box_new()
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:list-box)
+    { * }
+
+sub gtk_list_box_get_activate_on_single_click(GtkWidget $listbox)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:list-box)
+    { * }
+
+sub gtk_list_box_set_activate_on_single_click(GtkWidget $listbox, Bool $activate)
+    is native(&gtk-lib)
+    is export(:list-box)
+    { * }
+
+sub gtk_list_box_get_selection_mode(GtkWidget $listbox)
+    returns int32
+    is native(&gtk-lib)
+    is export(:list-box)
+    { * }
+
+sub gtk_list_box_set_selection_mode(GtkWidget $listbox, int32 $mode)
+    is native(&gtk-lib)
+    is export(:list-box)
+    { * }
+
+sub gtk_list_box_prepend(GtkWidget $listbox, GtkWidget $widget)
+    is native(&gtk-lib)
+    is export(:list-box)
+    { * }
+
+#
+# ListBox::Row
+#
+
+sub gtk_list_box_row_new()
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:list-box-row)
+    { * }
+
+sub gtk_list_box_row_get_activatable(GtkWidget $row)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:list-box-row)
+    { * }
+
+sub gtk_list_box_row_set_activatable(GtkWidget $row, Bool $activatable)
+    is native(&gtk-lib)
+    is export(:list-box-row)
+    returns Bool
+    { * }
+
+sub gtk_list_box_row_get_selectable(GtkWidget $row)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:list-box-row)
+    { * }
+
+sub gtk_list_box_row_set_selectable(GtkWidget $row, Bool $selectable)
+    is native(&gtk-lib)
+    is export(:list-box-row)
+    { * }
+
+sub gtk_list_box_row_is_selected(GtkWidget $row)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:list-box-row)
+    { * }
+
+sub gtk_list_box_row_changed(GtkWidget $row)
+    is native(&gtk-lib)
+    is export(:list-box-row)
+    { * }

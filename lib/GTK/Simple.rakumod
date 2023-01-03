@@ -40,3 +40,4 @@ need GTK::Simple::LevelBar;
 need GTK::Simple::LinkButton;
 need GTK::Simple::ScrolledWindow;
 need GTK::Simple::Calendar;
+need GTK::Simple::ListBox;

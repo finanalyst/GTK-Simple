@@ -1,7 +1,7 @@
 {
   "name": "GTK::Simple",
   "description": "Simple GTK 3 binding using NativeCall",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "perl": "6.d",
   "authors": [
     "Jonathan Worthington",
@@ -42,6 +42,7 @@
     "GTK::Simple::Label": "lib/GTK/Simple/Label.rakumod",
     "GTK::Simple::LevelBar": "lib/GTK/Simple/LevelBar.rakumod",
     "GTK::Simple::LinkButton": "lib/GTK/Simple/LinkButton.rakumod",
+    "GTK::Simple::ListBox": "lib/GTK/Simple/ListBox.rakumod",
     "GTK::Simple::MarkUpLabel": "lib/GTK/Simple/MarkUpLabel.rakumod",
     "GTK::Simple::Menu": "lib/GTK/Simple/Menu.rakumod",
     "GTK::Simple::MenuBar": "lib/GTK/Simple/MenuBar.rakumod",
