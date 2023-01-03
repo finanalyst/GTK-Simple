@@ -34,13 +34,6 @@ enum GtkLevelBarMode is export(:level-bar) (
     GTK_LEVEL_BAR_MODE_DISCRETE   => 1,
 );
 
-enum GtkSelectionMode is export(:list-box) (
-    GTK_SELECTION_NONE      => 0,
-    GTK_SELECTION_SINGLE    => 1,
-    GTK_SELECTION_BROWSE    => 2,
-    GTK_SELECTION_MULTIPLE  => 3,
-);
-
 #Determines how the size should be computed to achieve the one of the visibility mode for the scrollbars.
 enum GtkPolicyType is export(:scrolled-window) (
     GTK_POLICY_ALWAYS => 0,     #The scrollbar is always visible.

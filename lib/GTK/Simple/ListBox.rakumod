@@ -9,7 +9,14 @@ use NativeCall;
 
 unit class GTK::Simple::ListBox does GTK::Simple::Widget;
 
+has $!selection-supplier;
+has @!rows;
+
+enum SelectionMode <NONE SINGLE BROWSE MULTIPLE>;
+
 class Row does GTK::Simple::Widget does GTK::Simple::Container {
+    has @.children;
+
     submethod BUILD() {
         self.WIDGET(gtk_list_box_row_new);
     }
@@ -31,6 +38,11 @@ class Row does GTK::Simple::Widget does GTK::Simple::Container {
     method changed() {
         gtk_list_box_row_changed(self.WIDGET)
     }
+
+    method add-child($widget) {
+        self.set-content($widget);
+        @!children.push($widget);
+    }
 }
 
 submethod BUILD() {
@@ -43,13 +55,14 @@ method single-click()
     { * }
 
 method selection-mode()
-    returns GtkSelectionMode
+    returns SelectionMode
     is gtk-property(&gtk_list_box_get_selection_mode, &gtk_list_box_set_selection_mode)
     { * }
 
 method prepend(GTK::Simple::Widget $row) {
     gtk_list_box_prepend(self.WIDGET, $row.WIDGET);
     gtk_widget_show($row.WIDGET);
+    @!rows.push($row);
 }
 
 method add-label-row($text, :$selectable = True, :$activatable = True) {
@@ -57,6 +70,26 @@ method add-label-row($text, :$selectable = True, :$activatable = True) {
     $row.activatable = $activatable;
     $row.selectable = $selectable;
     my $label-widget = GTK::Simple::Label.new(:$text);
-    $row.set-content($label-widget);
+    $row.add-child($label-widget);
     self.prepend($row);
+}
+
+method selected() {
+    if self.selection-mode == SINGLE {
+        @!rows.first({ $_.selected })
+    } else {
+        @!rows.grep({ $_.selected })
+    }
+}
+
+method row-selected() {
+    $!selection-supplier //= do {
+        my $s = Supplier.new;
+        g_signal_connect_wd(self.WIDGET, "row-selected",
+            -> $,$ {
+                $s.emit(self);
+                CATCH { default { note $_; } }
+            }, OpaquePointer, 0);
+        $s.Supply;
+    }
 }
