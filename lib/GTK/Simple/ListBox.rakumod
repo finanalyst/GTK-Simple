@@ -10,7 +10,7 @@ use NativeCall;
 unit class GTK::Simple::ListBox does GTK::Simple::Widget;
 
 has $!selection-supplier;
-has @!rows;
+has @.rows;
 
 enum SelectionMode <NONE SINGLE BROWSE MULTIPLE>;
 
@@ -92,4 +92,16 @@ method row-selected() {
             }, OpaquePointer, 0);
         $s.Supply;
     }
+}
+
+method select-row(Row $row) {
+    gtk_list_box_select_row(self.WIDGET, $row.WIDGET);
+}
+
+method unselect-row(Row $row) {
+    gtk_list_box_unselect_row(self.WIDGET, $row.WIDGET);
+}
+
+method unselect-all() {
+    gtk_list_box_unselect_all(self.WIDGET);
 }

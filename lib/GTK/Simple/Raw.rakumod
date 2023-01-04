@@ -1176,6 +1176,21 @@ sub gtk_list_box_prepend(GtkWidget $listbox, GtkWidget $widget)
     is export(:list-box)
     { * }
 
+sub gtk_list_box_select_row(GtkWidget $listbox, GtkWidget $row)
+    is native(&gtk-lib)
+    is export(:list-box)
+    { * }
+
+sub gtk_list_box_unselect_row(GtkWidget $listbox, GtkWidget $row)
+    is native(&gtk-lib)
+    is export(:list-box)
+    { * }
+
+sub gtk_list_box_unselect_all(GtkWidget $listbox)
+    is native(&gtk-lib)
+    is export(:list-box)
+    { * }
+
 #
 # ListBox::Row
 #
