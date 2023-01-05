@@ -38,3 +38,9 @@ method column-spacing()
     returns int32
     is gtk-property(&gtk_grid_get_column_spacing, &gtk_grid_set_column_spacing)
     {*}
+
+# or is it better to just `does GTK::Simple::Container` ?
+method border-width
+    returns Int
+    is gtk-property(&gtk_container_get_border_width, &gtk_container_set_border_width)
+    {*}
