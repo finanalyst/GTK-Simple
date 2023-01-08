@@ -17,6 +17,7 @@ Grid              | A table-like container for widgets for window design
 Label             | Adds a line of text
 LevelBar          | A bar that can used as a level indicator
 LinkButton        | Create buttons bound to a URL
+ListBox           | A vertical listbox where each row is selectable
 MarkUpLabel       | Adds text with GTK mark up (e.g. color and font manipulation)
 Menu              | A simple menu with a menu item label
 MenuBar           | A simple menu bar that contain one or more menus

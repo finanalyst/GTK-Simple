@@ -12,7 +12,7 @@ unit class GTK::Simple::ListBox does GTK::Simple::Widget;
 has $!selection-supplier;
 has @.rows;
 
-enum SelectionMode <NONE SINGLE BROWSE MULTIPLE>;
+enum SelectionMode is export <NONE SINGLE BROWSE MULTIPLE>;
 
 class Row does GTK::Simple::Widget does GTK::Simple::Container {
     has @.children;

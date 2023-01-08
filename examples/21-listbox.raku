@@ -3,13 +3,16 @@ use v6.d;
 
 use GTK::Simple;
 use GTK::Simple::App;
+use GTK::Simple::ListBox;   # To access the SelectionMode enum more easily,
+                            # otherwise GTK::Simple::ListBox is available via `use GTK::Simple`
 
 my $app = GTK::Simple::App.new(title => 'ListBox');
 
 # Note: There is a bug which prevents single-click mode from working well with SelectionMode::MULTIPLE
-#           (see https://gitlab.gnome.org/GNOME/gtk/-/issues/552). So for this example we will not use single-click mode.
+#           (see https://gitlab.gnome.org/GNOME/gtk/-/issues/552). For this example we will not use the default
+#           single-click mode.
 
-my $list-box = GTK::Simple::ListBox.new(:!single-click, selection-mode => GTK::Simple::ListBox::SelectionMode::SINGLE);
+my $list-box = GTK::Simple::ListBox.new(:!single-click, selection-mode => SelectionMode::SINGLE);
 
 my $text = GTK::Simple::TextView.new();
 $text.editable = False;
@@ -23,7 +26,7 @@ $list-box.add-label-row("Test Row 1");
 
 $list-box.row-selected.tap: {
     if $list-box.selected {
-        if $list-box.selection-mode ~~ GTK::Simple::ListBox::SelectionMode::SINGLE {
+        if $list-box.selection-mode ~~ SelectionMode::SINGLE {
             $text.text = "Row selected: " ~ $list-box.selected.children.first.text;
         } else {
             $text.text = "Rows selected:\n" ~ $list-box.selected.map({ .children.first.text }).join("\n");
@@ -45,10 +48,10 @@ $new-row-button.clicked.tap: {
 my $multi-button = GTK::Simple::CheckButton.new(label => 'Multi selection?');
 $multi-button.toggled.tap: {
     if $multi-button.status {
-        $list-box.selection-mode = GTK::Simple::ListBox::SelectionMode::MULTIPLE;
+        $list-box.selection-mode = SelectionMode::MULTIPLE;
     } else {
         $list-box.unselect-all;
-        $list-box.selection-mode = GTK::Simple::ListBox::SelectionMode::SINGLE;
+        $list-box.selection-mode = SelectionMode::SINGLE;
     }
 }
 
