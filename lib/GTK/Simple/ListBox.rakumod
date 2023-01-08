@@ -22,14 +22,14 @@ class Row does GTK::Simple::Widget does GTK::Simple::Container {
     }
 
     method activatable()
-        returns Bool
-        is gtk-property(&gtk_list_box_row_get_activatable, &gtk_list_box_row_set_activatable)
-        { * }
+            returns Bool
+            is gtk-property(&gtk_list_box_row_get_activatable, &gtk_list_box_row_set_activatable)
+    {*}
 
     method selectable()
-        returns Bool
-        is gtk-property(&gtk_list_box_row_get_selectable, &gtk_list_box_row_set_selectable)
-        { * }
+            returns Bool
+            is gtk-property(&gtk_list_box_row_get_selectable, &gtk_list_box_row_set_selectable)
+    {*}
 
     method selected() {
         gtk_list_box_row_is_selected(self.WIDGET)
@@ -45,19 +45,21 @@ class Row does GTK::Simple::Widget does GTK::Simple::Container {
     }
 }
 
-submethod BUILD() {
+submethod BUILD(Bool :$single-click = True, SelectionMode :$selection-mode = SINGLE) {
     self.WIDGET(gtk_list_box_new);
+    gtk_list_box_set_activate_on_single_click(self.WIDGET, $single-click);
+    gtk_list_box_set_selection_mode(self.WIDGET, $selection-mode);
 }
 
 method single-click()
-    returns Bool
-    is gtk-property(&gtk_list_box_get_activate_on_single_click, &gtk_list_box_set_activate_on_single_click)
-    { * }
+        returns Bool
+        is gtk-property(&gtk_list_box_get_activate_on_single_click, &gtk_list_box_set_activate_on_single_click)
+{*}
 
 method selection-mode()
-    returns SelectionMode
-    is gtk-property(&gtk_list_box_get_selection_mode, &gtk_list_box_set_selection_mode)
-    { * }
+        returns SelectionMode
+        is gtk-property(&gtk_list_box_get_selection_mode, &gtk_list_box_set_selection_mode)
+{*}
 
 method prepend(GTK::Simple::Widget $row) {
     gtk_list_box_prepend(self.WIDGET, $row.WIDGET);
@@ -78,7 +80,7 @@ method selected() {
     if self.selection-mode == SINGLE {
         @!rows.first({ $_.selected })
     } else {
-        @!rows.grep({ $_.selected })
+        @!rows.grep({ $_.selected }).reverse # Because we have 'prepend' semantics, the row order is reversed
     }
 }
 
@@ -86,16 +88,18 @@ method row-selected() {
     $!selection-supplier //= do {
         my $s = Supplier.new;
         g_signal_connect_wd(self.WIDGET, "row-selected",
-            -> $,$ {
-                $s.emit(self);
-                CATCH { default { note $_; } }
-            }, OpaquePointer, 0);
+                -> $,$ {
+                    $s.emit(self);
+                    CATCH { default { note $_; } }
+                }, OpaquePointer, 0);
         $s.Supply;
     }
 }
 
 method select-row(Row $row) {
-    gtk_list_box_select_row(self.WIDGET, $row.WIDGET);
+    if ($row.selectable) {
+        gtk_list_box_select_row(self.WIDGET, $row.WIDGET);
+    }
 }
 
 method unselect-row(Row $row) {
