@@ -15,7 +15,7 @@ has @.rows;
 enum SelectionMode is export <NONE SINGLE BROWSE MULTIPLE>;
 
 class Row does GTK::Simple::Widget does GTK::Simple::Container {
-    has @.children;
+    has GTK::Simple::Widget $.child;
 
     submethod BUILD() {
         self.WIDGET(gtk_list_box_row_new);
@@ -41,7 +41,7 @@ class Row does GTK::Simple::Widget does GTK::Simple::Container {
 
     method add-child($widget) {
         self.set-content($widget);
-        @!children.push($widget);
+        $!child = $widget;
     }
 }
 
@@ -52,16 +52,16 @@ submethod BUILD(Bool :$single-click = True, SelectionMode :$selection-mode = SIN
 }
 
 method single-click()
-        returns Bool
-        is gtk-property(&gtk_list_box_get_activate_on_single_click, &gtk_list_box_set_activate_on_single_click)
-{*}
+    returns Bool
+    is gtk-property(&gtk_list_box_get_activate_on_single_click, &gtk_list_box_set_activate_on_single_click)
+    {*}
 
 method selection-mode()
-        returns SelectionMode
-        is gtk-property(&gtk_list_box_get_selection_mode, &gtk_list_box_set_selection_mode)
-{*}
+    returns SelectionMode
+    is gtk-property(&gtk_list_box_get_selection_mode, &gtk_list_box_set_selection_mode)
+    {*}
 
-method prepend(GTK::Simple::Widget $row) {
+method prepend-row(GTK::Simple::Widget $row) {
     gtk_list_box_prepend(self.WIDGET, $row.WIDGET);
     gtk_widget_show($row.WIDGET);
     @!rows.push($row);
@@ -73,27 +73,17 @@ method add-label-row($text, :$selectable = True, :$activatable = True) {
     $row.selectable = $selectable;
     my $label-widget = GTK::Simple::Label.new(:$text);
     $row.add-child($label-widget);
-    self.prepend($row);
+    self.prepend-row($row);
 }
 
-method selected() {
-    if self.selection-mode == SINGLE {
-        @!rows.first({ $_.selected })
-    } else {
-        @!rows.grep({ $_.selected }).reverse # Because we have 'prepend' semantics, the row order is reversed
-    }
+method selected-rows() {
+    self.selection-mode == SINGLE
+        ?? |@!rows.grep({ $_.selected })
+        !! |@!rows.grep({ $_.selected }).reverse # Because we have 'prepend' semantics, the row order is reversed
 }
 
-method row-selected() {
-    $!selection-supplier //= do {
-        my $s = Supplier.new;
-        g_signal_connect_wd(self.WIDGET, "row-selected",
-                -> $,$ {
-                    $s.emit(self);
-                    CATCH { default { note $_; } }
-                }, OpaquePointer, 0);
-        $s.Supply;
-    }
+method selection {
+    $!selection-supplier //= do self.signal-supply("row-selected");
 }
 
 method select-row(Row $row) {

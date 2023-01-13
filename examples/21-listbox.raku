@@ -24,12 +24,12 @@ $list-box.add-label-row("Unselectable", :!selectable);
 $list-box.add-label-row("Test Row 2");
 $list-box.add-label-row("Test Row 1");
 
-$list-box.row-selected.tap: {
-    if $list-box.selected {
+$list-box.selection.tap: {
+    if my @selected = $list-box.selected-rows {
         if $list-box.selection-mode ~~ SelectionMode::SINGLE {
-            $text.text = "Row selected: " ~ $list-box.selected.children.first.text;
+            $text.text = "Row selected: " ~ @selected.first.child.text;
         } else {
-            $text.text = "Rows selected:\n" ~ $list-box.selected.map({ .children.first.text }).join("\n");
+            $text.text = "Rows selected:\n" ~ @selected.map({ .child.text }).join("\n");
         }
     } else {
         $text.text = "Select a row...";
