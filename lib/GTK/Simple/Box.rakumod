@@ -8,7 +8,7 @@ use GTK::Simple::Widget;
 
 unit role GTK::Simple::Box does GTK::Simple::Container;
 
-multi method new(*@packees, Bool :$homogeneous = False, Int :$spacing = 0) {
+multi method new(**@packees, Bool :$homogeneous = False, Int :$spacing = 0) {
     my $box = self.bless(:$homogeneous, :$spacing);
 
     for @packees {

@@ -31,6 +31,8 @@ my $structure = GTK::Simple::Grid.new(
     [1, 0, 1, 1] => $date-view
 );
 
+$structure.column-spacing = 16;
+
 $app.set-content($structure);
 
 ($day-entry, $month-entry).map: { .width-chars = 2 };
