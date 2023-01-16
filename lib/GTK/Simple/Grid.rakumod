@@ -29,12 +29,12 @@ submethod BUILD() {
     $!gtk_widget = gtk_grid_new();
 }
 
-method row-spacing($spacing)
+method row-spacing()
     returns int32
     is gtk-property(&gtk_grid_get_row_spacing, &gtk_grid_set_row_spacing)
     {*}
 
-method column-spacing($spacing)
+method column-spacing()
     returns int32
     is gtk-property(&gtk_grid_get_column_spacing, &gtk_grid_set_column_spacing)
     {*}

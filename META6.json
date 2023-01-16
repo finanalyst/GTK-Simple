@@ -1,7 +1,7 @@
 {
   "name": "GTK::Simple",
   "description": "Simple GTK 3 binding using NativeCall",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "perl": "6.d",
   "authors": [
     "Jonathan Worthington",
