@@ -7,6 +7,7 @@ use GTK::Simple::App;
 use GTK::Simple::MenuBar;
 use GTK::Simple::Menu;
 use GTK::Simple::MenuItem;
+use GTK::Simple::CheckMenuItem;
 use GTK::Simple::Label;
 
 
@@ -17,7 +18,7 @@ $file-menu-item.set-sub-menu(
     my $file-menu = GTK::Simple::Menu.new
 );
 
-my $option-menu-item = GTK::Simple::MenuItem::Check.new(:label("Check option"));
+my $option-menu-item = GTK::Simple::CheckMenuItem.new(:label("Check option"));
 $file-menu.append($option-menu-item);
 
 my $quit-menu-item = GTK::Simple::MenuItem.new(:label("Quit"));

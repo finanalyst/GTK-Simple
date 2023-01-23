@@ -28,6 +28,7 @@
     "GTK::Simple::Button": "lib/GTK/Simple/Button.rakumod",
     "GTK::Simple::Calendar": "lib/GTK/Simple/Calendar.rakumod",
     "GTK::Simple::CheckButton": "lib/GTK/Simple/CheckButton.rakumod",
+    "GTK::Simple::CheckMenuItem": "lib/GTK/Simple/CheckMenuItem.rakumod",
     "GTK::Simple::ComboBoxText": "lib/GTK/Simple/ComboBoxText.rakumod",
     "GTK::Simple::Common": "lib/GTK/Simple/Common.rakumod",
     "GTK::Simple::ConnectionHandler": "lib/GTK/Simple/ConnectionHandler.rakumod",
