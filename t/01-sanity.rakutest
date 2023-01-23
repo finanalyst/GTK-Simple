@@ -1,16 +1,15 @@
 use v6;
 use Test;
 use GTK::Simple;
-use GTK::Simple::App;
 use GTK::Simple::Scheduler;
 
 plan *;
 
 if %*ENV<DISPLAY> or $*DISTRO.is-win {
     my $g;
-    lives-ok {$g = GTK::Simple::App.new}
-    lives-ok {GTK::Simple::Scheduler.new.cue: {$g.exit}}
-    lives-ok {$g.run}
+    lives-ok {$g = GTK::Simple::App.new}, "Can create a GTK::Simple::App object";
+    lives-ok {GTK::Simple::Scheduler.new.cue: {$g.exit}}, "Cane cue app exit via a GTK::Simple::Scheduler";
+    lives-ok {$g.run}, "Can call .run on the GTK::Simple::App object";
 }
 
 done-testing;
