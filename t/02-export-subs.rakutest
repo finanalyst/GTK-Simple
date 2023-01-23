@@ -1,0 +1,12 @@
+use v6.d;
+use Test;
+
+plan *;
+
+use GTK::Simple :subs;
+
+my $app;
+lives-ok { $app = app }, "There is a subroutine in scope called 'app'";
+ok $app ~~ GTK::Simple::App, "'app' returns a GTK::Simple::App object";
+
+done-testing;

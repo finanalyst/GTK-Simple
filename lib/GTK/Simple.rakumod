@@ -1,6 +1,8 @@
 
 use v6;
 
+unit module GTK::Simple;
+
 need GTK::Simple::ConnectionHandler;
 need GTK::Simple::Widget;
 need GTK::Simple::Container;
@@ -42,3 +44,11 @@ need GTK::Simple::ScrolledWindow;
 need GTK::Simple::Calendar;
 need GTK::Simple::ListBox;
 need GTK::Simple::CheckMenuItem;
+
+# Exports above class constructors, ex. level-bar => GTK::Simple::LevelBar.new
+my module EXPORT::subs {
+    for GTK::Simple::.kv -> $name, $class {
+        my $sub-name = '&' ~ ($name ~~ / (<:Lu><:Ll>*)* /).values.map({ .Str.lc }).join("-");
+        OUR::{ $sub-name } := -> |c { $class.new(|c) };
+    }
+}
