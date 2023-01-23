@@ -7,9 +7,14 @@ enough to create a reasonable interactive GUI for an idiomatic Raku program.
 The GTK Widgets in this distribution include the following:
 
 Widget            | Description
------------------ | ---------------------------------------------------------------
+----------------- | -------------------------------------------------------------------
+ActionBar         | Group multiple buttons and arrange in 'left', 'middle', and 'right'
 Button            | A simple button with a label and a callback
+Calendar          | A calendar for selecting a date
+CheckButton       | A check button with a label
+CheckMenuItem     | A checkable menu item
 ComboBoxText      | A simple combo box
+DrawingArea       | A drawing area (requires the 'Cairo' module)
 Entry             | Allows for text to be provided by the user
 FileChooserButton | A button that opens a file chooser dialog
 Frame             | A bin with a decorative frame and optional label
@@ -24,11 +29,13 @@ MenuBar           | A simple menu bar that contain one or more menus
 MenuItem          | A simple menu item that can have a sub menu
 MenuToolButton    | A menu tool button with a label or an icon
 PlacesSidebar     | Sidebar that displays frequently-used places in the file system
+ProgressBar       | Show progress via a filling bar
 Scale             | Allows for a number to be provided by the user
 ScrolledWindow    | Container for widgets needing scrolling, eg., multiline texts
-RadioButton       | A choice from multiple check buttons
+RadioButton       | A choice from multiple radio buttons
 Spinner           | Showing that something is happening
 TextView          | Adds multiple lines of text
+ToggleButton      | A toggle-able button
 Toolbar           | A tool bar that can contain one or more menu tool buttons
 VBox, HBox        | Widget containers which enable window layout design
 
@@ -61,7 +68,7 @@ system works:
 - [A simple grid](https://github.com/finanalyst/GTK-Simple/blob/master/examples/03-grid.raku)
 - [Marked Scales](https://github.com/finanalyst/GTK-Simple/blob/master/examples/04-marked-scale.raku)
 
-For more examples, please see the `examples/` folder.
+For more examples, please see the [`examples/`](https://github.com/finanalyst/GTK-Simple/blob/master/examples) folder.
 
 ## Limitations
 
