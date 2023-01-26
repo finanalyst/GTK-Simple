@@ -1,6 +1,7 @@
 
 use v6;
 use NativeCall;
+use GTK::Simple::Common;
 use GTK::Simple::Raw :menu-item, :DEFAULT;
 use GTK::Simple::Widget;
 
@@ -20,11 +21,11 @@ method activate() {
     $!activate_supply //= do {
         my $s = Supplier.new;
         g_signal_connect_wd($!gtk_widget, "activate",
-            -> $, $ {
-                $s.emit(self);
-                CATCH { default { note $_; } }
-            },
-            OpaquePointer, 0);
+                -> $, $ {
+                    $s.emit(self);
+                    CATCH { default { note $_; } }
+                },
+                OpaquePointer, 0);
         $s.Supply;
     }
 }
