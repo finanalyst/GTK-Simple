@@ -49,6 +49,6 @@ need GTK::Simple::CheckMenuItem;
 my module EXPORT::subs {
     for GTK::Simple::.kv -> $name, $class {
         my $sub-name = '&' ~ ($name ~~ / (<:Lu><:Ll>*)* /).values.map({ .Str.lc }).join("-");
-        OUR::{ $sub-name } := -> |c { $class.new(|c) };
+        OUR::{ $sub-name } := sub (|c) { $class.new(|c) };
     }
 }
