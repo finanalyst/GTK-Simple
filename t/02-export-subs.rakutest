@@ -5,24 +5,27 @@ plan *;
 
 use GTK::Simple :subs;
 
-# We need to create app first
-my $app;
-lives-ok { $app = app }, "There is a subroutine in scope called 'app'";
-ok $app ~~ GTK::Simple::App, "'app' returns a GTK::Simple::App object";
+if %*ENV<DISPLAY> or $*DISTRO.is-win {
+    # We need to create app first
+    my $app;
+    lives-ok { $app = app }, "There is a subroutine in scope called 'app'";
+    ok $app ~~ GTK::Simple::App, "'app' returns a GTK::Simple::App object";
 
-# Other modules are pulled into GTK::Simple namespace by now that we do not want to test
-sub skip-test($name) {
-    state $skip-set = set '&' X~ <app simple raw native-lib g-d-k common property-facade>;
-    $name (elem) $skip-set
-}
+    # Other modules are pulled into GTK::Simple namespace by now that we do not want to test
+    sub skip-test($name) {
+        state $skip-set = set '&' X~ <app simple raw native-lib g-d-k common property-facade>;
+        $name (elem) $skip-set
+    }
 
-for GTK::Simple::.kv -> $name, $class {
-    my $sub-name = '&' ~ ($name ~~ / (<:Lu><:Ll>*)* /).values.map({ .Str.lc }).join("-");
-    next if skip-test($sub-name);
+    for GTK::Simple::.kv -> $name, $class {
+        my $sub-name = '&' ~ ($name ~~ / (<:Lu><:Ll>*)* /).values.map({ .Str.lc }).join("-");
+        next if skip-test($sub-name);
 
-    my $widget;
-    lives-ok { $widget = ::{$sub-name}(:label("For Button(s)"), :uri("For LinkButton")) }, "There is a subroutine in scope called '$sub-name'";
-    ok $widget ~~ $class, "'$sub-name' returns a {$class.^name} object";
+        my $widget;
+        lives-ok { $widget = ::{$sub-name}(:label("For Button(s)"), :uri("For LinkButton")) },
+        "There is a subroutine in scope called '$sub-name'";
+        ok $widget ~~ $class, "'$sub-name' returns a { $class.^name } object";
+    }
 }
 
 done-testing;
