@@ -41,3 +41,4 @@ need GTK::Simple::LinkButton;
 need GTK::Simple::ScrolledWindow;
 need GTK::Simple::Calendar;
 need GTK::Simple::ListBox;
+need GTK::Simple::CheckMenuItem;

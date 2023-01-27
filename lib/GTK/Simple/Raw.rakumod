@@ -835,6 +835,26 @@ sub gtk_menu_item_set_submenu(Pointer $menu-item, Pointer $sub-menu)
     { * }
 
 #
+# MenuItem::Check
+#
+sub gtk_check_menu_item_new_with_label(Str $label)
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:menu-item)
+    { * }
+
+sub gtk_check_menu_item_get_active(GtkWidget $check-menu-item)
+    returns Bool
+    is native(&gtk-lib)
+    is export(:menu-item)
+    { * }
+
+sub gtk_check_menu_item_set_active(GtkWidget $check-menu-item, Bool $active)
+    is native(&gtk-lib)
+    is export(:menu-item)
+    { * }
+
+#
 # FileChooserButton
 #
 sub gtk_file_chooser_button_new(Str $title, int32 $action)

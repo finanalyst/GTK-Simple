@@ -1,7 +1,7 @@
 {
   "name": "GTK::Simple",
   "description": "Simple GTK 3 binding using NativeCall",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "perl": "6.d",
   "authors": [
     "Jonathan Worthington",
@@ -28,6 +28,7 @@
     "GTK::Simple::Button": "lib/GTK/Simple/Button.rakumod",
     "GTK::Simple::Calendar": "lib/GTK/Simple/Calendar.rakumod",
     "GTK::Simple::CheckButton": "lib/GTK/Simple/CheckButton.rakumod",
+    "GTK::Simple::CheckMenuItem": "lib/GTK/Simple/CheckMenuItem.rakumod",
     "GTK::Simple::ComboBoxText": "lib/GTK/Simple/ComboBoxText.rakumod",
     "GTK::Simple::Common": "lib/GTK/Simple/Common.rakumod",
     "GTK::Simple::ConnectionHandler": "lib/GTK/Simple/ConnectionHandler.rakumod",
