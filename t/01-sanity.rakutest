@@ -8,9 +8,9 @@ plan *;
 
 if %*ENV<DISPLAY> or $*DISTRO.is-win {
     my $g;
-    lives-ok {$g = GTK::Simple::App.new}
-    lives-ok {GTK::Simple::Scheduler.new.cue: {$g.exit}}
-    lives-ok {$g.run}
+    lives-ok {$g = GTK::Simple::App.new}, "Can create GTK::Simple::App instance.";
+    lives-ok {GTK::Simple::Scheduler.new.cue: {$g.exit}}, "Can use GTK::Simple::Scheduler to cue app exit.";
+    lives-ok {$g.run}, "Running the app works.";
 }
 
 done-testing;
