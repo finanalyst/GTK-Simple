@@ -4,6 +4,7 @@
 GTK::Simple is a set of simple [GTK 3](http://www.gtk.org/) bindings using
 NativeCall. Only some GTK widgets are currently implemented. However, these are
 enough to create a reasonable interactive GUI for an idiomatic Raku program.
+
 The GTK Widgets in this distribution include the following:
 
 Widget            | Description
