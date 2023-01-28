@@ -1,16 +1,40 @@
 name: "Raku tests"
 on: [ push, pull_request ]
+
 jobs:
   test:
     runs-on: ubuntu-latest
     permissions:
       packages: read
-    container:
-      image: ghcr.io/jj/raku-zef-gha
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install modules
-        run: zef install .
+      - uses: actions/checkout@v3
+      - uses: Raku/setup-raku@v1
+        with:
+          raku-version: latest
+
+      - name: Install dependencies (apt-get)
+        run: sudo apt-get install libgtk-3-dev xvfb
+
+#      - name: Cache Rakudo
+#        id: cache-rakudo
+#        uses: actions/cache@v3
+#        with:
+#          path: /opt/hostedtoolcache/rakudo
+#          key: ${{ runner.os }}-rakudo-and-zef
+#
+#      - name: Install zef
+#        if: steps.cache-rakudo.outputs.cache-hit != 'true'
+#        run: |
+#          pushd .
+#          cd ~/work
+#          git clone https://github.com/ugexe/zef.git
+#          cd zef
+#          raku -I. bin/zef --/test install .
+#          which zef
+#          popd
+
       - name: Test
-        run: zef --debug test .
+        run: xvfb-run --auto-servernum prove -v --nocolor --exec 'raku -I.' ./t/*.rakutest
+
+#      - name: Install modules
+#        run: xvfb-run --auto-servernum zef --/test install .
