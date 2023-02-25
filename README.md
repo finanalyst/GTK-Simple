@@ -4,6 +4,7 @@
 GTK::Simple is a set of simple [GTK 3](http://www.gtk.org/) bindings using
 NativeCall. Only some GTK widgets are currently implemented. However, these are
 enough to create a reasonable interactive GUI for an idiomatic Raku program.
+
 The GTK Widgets in this distribution include the following:
 
 Widget            | Description
@@ -43,7 +44,6 @@ VBox, HBox        | Widget containers which enable window layout design
 
 ```raku
 use GTK::Simple;
-use GTK::Simple::App;
 
 my $app = GTK::Simple::App.new( title => "Hello GTK!" );
 
@@ -61,6 +61,32 @@ $second.clicked.tap({ $app.exit; });
 $app.run;
 ```
 
+### Using :subs option
+
+Another approach is to specify `:subs` on import. This provides subroutine aliases for the constructors
+of all of the available `GTK::Simple` widgets, converted from CamelCase to kebab-case.
+
+`GTK::Simple::MenuToolButton` becomes `menu-tool-button`, `GTK::Simple::ProgressBar` becomes `progress-bar`, etc.
+
+The above example can be equivalently written as:
+
+```raku
+use GTK::Simple :subs;
+
+my $app = app(title => "Hello GTK!");
+
+$app.set-content(
+    v-box(
+        my $button1 = button(label => "Hello World"),
+        my $button2 = button(label => "Goodbye!")
+    )
+);
+
+# ...
+```
+
+### Further examples
+
 The first four examples were written as mini tutorials to show how the
 system works:
 - [Hello world](https://github.com/finanalyst/GTK-Simple/blob/master/examples/01-hello-world.raku)
@@ -68,7 +94,7 @@ system works:
 - [A simple grid](https://github.com/finanalyst/GTK-Simple/blob/master/examples/03-grid.raku)
 - [Marked Scales](https://github.com/finanalyst/GTK-Simple/blob/master/examples/04-marked-scale.raku)
 
-For more examples, please see the [`examples/`](https://github.com/finanalyst/GTK-Simple/blob/master/examples) folder.
+For more examples, please see the [examples/](https://github.com/finanalyst/GTK-Simple/blob/master/examples) folder.
 
 ## Limitations
 
