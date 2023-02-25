@@ -39,10 +39,10 @@ $app.set-content(
         [1, 2, 1, 1] => my $brb = GTK::Simple::ToggleButton.new(label => "bottom right"),
 
 =comment
-        And for no good reason we put a label to the right that spans the
+        And for no good reason we put a label (Lx10) to the right that spans the
         whole height of our grid.
 
-        [2, 0, 1, 3] => my $sdl = GTK::Simple::Label.new(text => ".\n" x 10),
+        [2, 0, 1, 3] => my $sdl = GTK::Simple::Label.new(text => "L\n" x 10),
     )
 );
 
@@ -57,5 +57,12 @@ $app.border-width = 20;
     Use the attach method and provide a list of pairs exactly as for C<new>
 
 $grid.attach( [3, 0, 1, 1] => GTK::Simple::Label.new(text => "I got added later"), );
+
+=comment
+   Then we put another Label into the grid, but we want the text in that text
+   to be length for that column
+
+$grid.attach( [1, 3, 1, 1] => GTK::Simple::Entry.new(text => "try expanding"), );
+$grid.baseline-row: 4;
 
 $app.run;

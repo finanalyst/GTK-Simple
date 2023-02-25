@@ -38,6 +38,12 @@ method column-spacing()
     returns int32
     is gtk-property(&gtk_grid_get_column_spacing, &gtk_grid_set_column_spacing)
     {*}
+#| select the row that is the base-line for the whole grid
+method baseline-row()
+    returns int32
+    is gtk-property(&gtk_grid_get_baseline_row, &gtk_grid_set_baseline_row)
+    {*}
+
 
 # or is it better to just `does GTK::Simple::Container` ?
 method border-width

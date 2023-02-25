@@ -404,7 +404,6 @@ sub gtk_grid_set_row_spacing(GtkWidget $grid, int32 $spacing)
 	is export(:grid)
 	{*}
 
-
 sub gtk_grid_get_column_spacing(GtkWidget $grid)
 		is native(&gtk-lib)
 		is export(:grid)
@@ -412,6 +411,17 @@ sub gtk_grid_get_column_spacing(GtkWidget $grid)
 		{*}
 
 sub gtk_grid_set_column_spacing(GtkWidget $grid, int32 $spacing)
+		is native(&gtk-lib)
+		is export(:grid)
+		{*}
+
+sub gtk_grid_get_baseline_row(GtkWidget $grid)
+		is native(&gtk-lib)
+		is export(:grid)
+		returns int32
+		{*}
+
+sub gtk_grid_set_baseline_row(GtkWidget $grid, int32 $spacing)
 		is native(&gtk-lib)
 		is export(:grid)
 		{*}
