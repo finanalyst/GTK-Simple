@@ -44,6 +44,7 @@ need GTK::Simple::ScrolledWindow;
 need GTK::Simple::Calendar;
 need GTK::Simple::ListBox;
 need GTK::Simple::CheckMenuItem;
+need GTK::Simple::Image;
 
 # Exports above class constructors, ex. level-bar => GTK::Simple::LevelBar.new
 my module EXPORT::subs {
