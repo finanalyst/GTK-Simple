@@ -66,8 +66,12 @@
         "GTK::Simple::Toolbar": "lib/GTK/Simple/Toolbar.rakumod",
         "GTK::Simple::VBox": "lib/GTK/Simple/VBox.rakumod",
         "GTK::Simple::Widget": "lib/GTK/Simple/Widget.rakumod",
-        "GTK::Simple::Window": "lib/GTK/Simple/Window.rakumod"
+        "GTK::Simple::Window": "lib/GTK/Simple/Window.rakumod",
+        "GTK::Simple::Distro::Resources": "lib/GTK/Simple/Distro/Resources.rakumod"
     },
+    "resources": [
+        "camelia-logo.png"
+    ],
     "support": {
         "email": "rnhainsworth@gmail.com",
         "bugtracker": "https://github.com/finanalyst/GTK-Simple/issues",
