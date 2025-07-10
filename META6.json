@@ -15,6 +15,9 @@
         "finanalyst aka Richard Hainsworth"
     ],
     "auth": "zef:finanalyst",
+    "depends": [
+        "MacOS::NativeLib:ver<0.0.5>:auth<zef:lizmat>"
+    ],
     "test-depends": [
         "Test"
     ],
