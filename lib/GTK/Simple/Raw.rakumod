@@ -1264,3 +1264,40 @@ sub gtk_list_box_row_changed(GtkWidget $row)
     is native(&gtk-lib)
     is export(:list-box-row)
     { * }
+
+## Image
+## These could live in GDK, but then we would need to import the GDK module into this one
+class GError is repr('CPointer') is export(:image) {}
+class GdkPixbuf is repr('CPointer') is export(:image) {}
+
+sub gdk_pixbuf_new_from_file(Str $file-path, GError $error)
+    returns GdkPixbuf
+    is native(&gdk-lib)
+    is export(:image)
+    { * }
+
+sub gdk_pixbuf_new_from_file_at_size(Str $file-path, int32 $width, int32 $height,  GError $error)
+    returns GdkPixbuf
+    is native(&gdk-lib)
+    is export(:image)
+    { * }
+
+
+sub gtk_image_new_from_file(Str $file-path)
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:image)
+    { * }
+
+sub gtk_image_new_from_resource(Str $resource-path)
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:image)
+    { * }
+
+sub gtk_image_new_from_pixbuf(GdkPixbuf $pixbuf)
+    returns GtkWidget
+    is native(&gtk-lib)
+    is export(:image)
+    { * }
+

@@ -36,6 +36,7 @@ sub gtk-lib is export {
             try load-pangowin32-lib;
             $lib = find-bundled('libgtk-3-0.dll');
         } else {
+            try 'use MacOS::NativeLib <gtk-3>'.EVAL;
             $lib = $*VM.platform-library-name('gtk-3'.IO).Str;
         }
     }
@@ -57,6 +58,7 @@ sub gdk-lib is export {
             try load-pangocairo-lib;
             $lib = find-bundled('libgdk-3-0.dll');
         } else {
+            try 'use MacOS::NativeLib <gdk-3>'.EVAL;
             $lib = $*VM.platform-library-name('gdk-3'.IO).Str;
         }
     }
@@ -70,6 +72,7 @@ sub glib-lib is export {
             try load-intl-lib;
             $lib = find-bundled('libglib-2.0-0.dll');
         } else {
+            try 'use MacOS::NativeLib <glib-2.0>'.EVAL;
             $lib = $*VM.platform-library-name('glib-2.0'.IO).Str;
         }
     }
@@ -84,6 +87,7 @@ sub gobject-lib is export {
             try load-ffi-lib;
             $lib = find-bundled('libgobject-2.0-0.dll');
         } else {
+            try 'use MacOS::NativeLib <gobject-2.0>'.EVAL;
             $lib = $*VM.platform-library-name('gobject-2.0'.IO).Str;
         }
     }
