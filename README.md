@@ -20,6 +20,7 @@ Entry             | Allows for text to be provided by the user
 FileChooserButton | A button that opens a file chooser dialog
 Frame             | A bin with a decorative frame and optional label
 Grid              | A table-like container for widgets for window design
+Image             | An image widget
 Label             | Adds a line of text
 LevelBar          | A bar that can used as a level indicator
 LinkButton        | Create buttons bound to a URL
