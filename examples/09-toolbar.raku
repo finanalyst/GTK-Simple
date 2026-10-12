@@ -31,10 +31,8 @@ my $bottom-button = GTK::Simple::Button.new(:label("Bottom space")),
 
 $app.set-content(
     GTK::Simple::VBox.new(
-        [
             { :widget($toolbar-vbox), :expand(False) },
             $bottom-button
-        ]
     )
 );
 
