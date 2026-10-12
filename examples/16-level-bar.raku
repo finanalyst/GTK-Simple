@@ -48,11 +48,11 @@ $level-bar.offset-changed.tap: {
 update-status;
 
 $app.set-content(
-    GTK::Simple::VBox.new([
+    GTK::Simple::VBox.new(
         GTK::Simple::HBox.new($inc-button, $dec-button, $inverted-button),
         $level-bar,
         $text-view,
-    ])
+    )
 );
 
 $app.border-width = 20;

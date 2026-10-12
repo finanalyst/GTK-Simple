@@ -17,10 +17,10 @@ $file-chooser-button.file-set.tap: {
     $text-view.text ~= 'One file:' ~ $file-chooser-button.file-name ~ "\n";
 }
 $app.set-content(
-    GTK::Simple::VBox.new([
+    GTK::Simple::VBox.new(
         { :widget($file-chooser-button), :expand(False) },
-        $text-view,
-    ])
+        # $text-view,
+    )
 );
 
 $app.show;

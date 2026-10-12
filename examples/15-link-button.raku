@@ -26,11 +26,11 @@ $link2-button.activate-link.tap: {
 }
 
 $app.set-content(
-    GTK::Simple::VBox.new([
+    GTK::Simple::VBox.new(
         { :widget($link1-button), :expand(False) },
         { :widget($link2-button), :expand(False) },
         $text-view,
-    ])
+    )
 );
 
 $app.border-width = 20;
